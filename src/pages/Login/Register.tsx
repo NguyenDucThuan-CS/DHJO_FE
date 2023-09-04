@@ -1,24 +1,13 @@
-import { Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography, Stack } from '@mui/material'
+import { Avatar, Button, CssBaseline, TextField, Link, Paper, Grid, Typography, Stack } from '@mui/material'
 import { LockOutlined } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
 import { useForm } from 'react-hook-form'
 import { rules } from '../../utils/rules'
+
 interface FormData {
   email: string
   password: string
-}
-
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link color='inherit' href=''>
-        DHJO
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  )
+  confirm_password: string
 }
 
 const useStyles = makeStyles(() => ({
@@ -43,7 +32,6 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: '5px',
-    width: '100%'
   },
   avatar: {},
   form: {
@@ -55,12 +43,13 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-export default function Login() {
+export default function Register() {
   const classes = useStyles()
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    getValues
   } = useForm<FormData>()
 
   const onSubmit = handleSubmit((data) => {
@@ -76,7 +65,7 @@ export default function Login() {
             <LockOutlined />
           </Avatar>
           <Typography component='h1' variant='h5'>
-            Đăng nhập
+            Đăng ký
           </Typography>
           <form className={classes.form} noValidate onSubmit={onSubmit}>
             <TextField
@@ -108,22 +97,43 @@ export default function Login() {
                 }
               })}
             />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              label='Confirm password'
+              type='password'
+              id='confirm_password'
+              autoComplete='current-password'
+              error={errors.confirm_password?.message ? true : false}
+              helperText={errors.confirm_password?.message}
+              {...register('confirm_password', {
+                required: {
+                  value: true,
+                  message: 'Confirm password không được để trống'
+                },
+                validate: (value) => {
+                  if (value === getValues('password')) {
+                    return true
+                  }
+                  return 'Nhập lại email không chính xác'
+                }
+              })}
+            />
             <Stack direction='row' justifyContent='center' alignItems='center' mb={1} mt={1}>
               <Button type='submit' variant='contained' color='primary' className={classes.submit}>
-                Đăng nhập
+                Đăng ký
               </Button>
             </Stack>
 
             <Grid container>
               <Grid item>
                 <Link href='#' variant='body2'>
-                  {'Bạn chưa có tài khoản? Đăng ký'}
+                  {'Bạn đã có tài khoản? Đăng nhập'}
                 </Link>
               </Grid>
             </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
           </form>
         </div>
       </Grid>
