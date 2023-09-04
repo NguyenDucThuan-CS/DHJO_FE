@@ -1,12 +1,12 @@
 import './App.css'
+import Login from './pages/Login/Login.tsx'
+import { Route, Routes } from 'react-router-dom'
 
 function App() {
- 
-
   return (
-    <div className='bg-red-500'>
-        jkjskjdksdksdk
-    </div>
+    <Routes>
+      <Route path='/' element={<Login />} />
+    </Routes>
   )
 }
 
