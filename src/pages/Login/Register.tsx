@@ -1,9 +1,26 @@
-import { Avatar, Button, CssBaseline, TextField, Link, Paper, Grid, Typography, Stack } from '@mui/material'
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Paper,
+  Grid,
+  Typography,
+  Stack,
+  Radio,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel
+} from '@mui/material'
 import { LockOutlined } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
 import { useForm } from 'react-hook-form'
 import { rules } from '../../utils/rules'
+import { useState } from 'react'
 
+import { register as registerUser } from '../../apis/auth.api'
 interface FormData {
   email: string
   password: string
@@ -31,7 +48,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '5px',
+    padding: '5px'
   },
   avatar: {},
   form: {
@@ -52,8 +69,17 @@ export default function Register() {
     getValues
   } = useForm<FormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const [role, setRole] = useState<string>('owner')
+
+  const handleChangeRole = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRole((event.target as HTMLInputElement).value)
+  }
+
+  const onSubmit = handleSubmit(async (data) => {
+    const { confirm_password, ...res } = data
+
+    const response = await registerUser(res, role)
+    console.log(response)
   })
 
   return (
@@ -121,6 +147,20 @@ export default function Register() {
                 }
               })}
             />
+
+            <FormControl>
+              <FormLabel id='demo-controlled-radio-buttons-group'>Vai trò</FormLabel>
+              <RadioGroup
+                aria-labelledby='demo-controlled-radio-buttons-group'
+                name='controlled-radio-buttons-group'
+                value={role}
+                onChange={handleChangeRole}
+              >
+                <FormControlLabel value='owner' control={<Radio />} label='Chủ nhà' />
+                <FormControlLabel value='helper' control={<Radio />} label='Người giúp việc' />
+              </RadioGroup>
+            </FormControl>
+
             <Stack direction='row' justifyContent='center' alignItems='center' mb={1} mt={1}>
               <Button type='submit' variant='contained' color='primary' className={classes.submit}>
                 Đăng ký
