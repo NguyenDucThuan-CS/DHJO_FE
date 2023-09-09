@@ -87,7 +87,7 @@ export default function Login() {
               required
               fullWidth
               id='email'
-              label='Email'
+              label='Email hoặc username'
               {...register('email', rules.email)}
             />
             <TextField
@@ -116,7 +116,7 @@ export default function Login() {
 
             <Grid container>
               <Grid item>
-                <Link href='#' variant='body2'>
+                <Link href='/register' variant='body2'>
                   {'Bạn chưa có tài khoản? Đăng ký'}
                 </Link>
               </Grid>

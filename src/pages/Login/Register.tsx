@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 import {
   Avatar,
   Button,
@@ -15,16 +17,20 @@ import {
   FormControlLabel
 } from '@mui/material'
 import { LockOutlined } from '@mui/icons-material'
+
 import { makeStyles } from '@mui/styles'
 import { useForm } from 'react-hook-form'
 import { rules } from '../../utils/rules'
 import { useState } from 'react'
 
 import { register as registerUser } from '../../apis/auth.api'
+
+import { Popup } from '../../components/Popup/Popup'
 interface FormData {
   email: string
   password: string
   confirm_password: string
+  username: string
 }
 
 const useStyles = makeStyles(() => ({
@@ -54,6 +60,9 @@ const useStyles = makeStyles(() => ({
   form: {
     width: '100%' // Fix IE 11 issue.
   },
+  field: {
+    padding: '14px'
+  },
   submit: {
     width: 'fit-content',
     margin: 'auto'
@@ -70,6 +79,7 @@ export default function Register() {
   } = useForm<FormData>()
 
   const [role, setRole] = useState<string>('owner')
+  const [open, setOpen] = useState<boolean>(false)
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole((event.target as HTMLInputElement).value)
@@ -77,10 +87,22 @@ export default function Register() {
 
   const onSubmit = handleSubmit(async (data) => {
     const { confirm_password, ...res } = data
-
     const response = await registerUser(res, role)
-    console.log(response)
+    if (response.status === 200) {
+      setOpen(true)
+    }
   })
+  const agree = () => {
+    setOpen(false)
+  }
+
+  const disagree = () => {
+    setOpen(false)
+  }
+
+  const close = () => {
+    setOpen(false)
+  }
 
   return (
     <Grid container component='main' className={classes.root}>
@@ -103,9 +125,28 @@ export default function Register() {
               fullWidth
               id='email'
               label='Email'
+              size='small'
               {...register('email', rules.email)}
             />
             <TextField
+              error={errors.username?.message ? true : false}
+              helperText={errors.username?.message}
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='username'
+              label='Username'
+              size='small'
+              {...register('username', {
+                required: {
+                  value: true,
+                  message: 'Username không được để trống'
+                }
+              })}
+            />
+            <TextField
+              className={classes.field}
               variant='outlined'
               margin='normal'
               required
@@ -116,6 +157,7 @@ export default function Register() {
               autoComplete='current-password'
               error={errors.password?.message ? true : false}
               helperText={errors.password?.message}
+              size='small'
               {...register('password', {
                 required: {
                   value: true,
@@ -124,6 +166,7 @@ export default function Register() {
               })}
             />
             <TextField
+              className={classes.field}
               variant='outlined'
               margin='normal'
               required
@@ -134,6 +177,7 @@ export default function Register() {
               autoComplete='current-password'
               error={errors.confirm_password?.message ? true : false}
               helperText={errors.confirm_password?.message}
+              size='small'
               {...register('confirm_password', {
                 required: {
                   value: true,
@@ -169,7 +213,7 @@ export default function Register() {
 
             <Grid container>
               <Grid item>
-                <Link href='#' variant='body2'>
+                <Link href='/login' variant='body2'>
                   {'Bạn đã có tài khoản? Đăng nhập'}
                 </Link>
               </Grid>
@@ -177,6 +221,8 @@ export default function Register() {
           </form>
         </div>
       </Grid>
+
+      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} />
     </Grid>
   )
 }
