@@ -14,6 +14,8 @@ import AdbIcon from '@mui/icons-material/Adb'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { Badge } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Logo from './Logo'
+import { MenuList } from '../MenuList/MenuList'
 
 const pages = [
   { name: 'Trang chủ', to: '/' },
@@ -51,24 +53,7 @@ function Header() {
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant='h6'
-            noWrap
-            component='a'
-            href='/'
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            LOGO
-          </Typography>
-
+          <Logo variant={'h6'} display={{ xs: 'none', md: 'flex' }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size='large'
@@ -80,24 +65,7 @@ function Header() {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
+            <MenuList anchorElNav={anchorElNav} handleCloseNavMenu={handleCloseNavMenu}>
               {pages.map((page) => (
                 <MenuItem
                   key={page.name}
@@ -114,27 +82,10 @@ function Header() {
                   </Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </MenuList>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant='h5'
-            noWrap
-            component='a'
-            href='/'
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            LOGO
-          </Typography>
+          <Logo variant={'h5'} display={{ xs: 'flex', md: 'none' }} />
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
