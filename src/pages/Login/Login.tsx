@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form'
 import { Input } from '../../components/Input/Input'
 import { login } from '../../apis/auth.api'
 import { Popup } from '../../components/Popup/Popup'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import useStyles from './style'
 import { Wrapper } from './Wrapper'
+import { useNavigate } from 'react-router-dom'
 interface FormData {
   password: string
   usernameOrEmail: string
@@ -26,6 +27,9 @@ function Copyright() {
 
 export default function Login() {
   const classes = useStyles()
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -34,9 +38,11 @@ export default function Login() {
 
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
+  const success = useRef<boolean>(false)
 
   const agree = () => {
     setOpen(false)
+    return success.current && navigate('/')
   }
 
   const disagree = () => {
@@ -52,10 +58,12 @@ export default function Login() {
       if (response.status === 200) {
         setOpen(true)
         setText('Bạn đã đăng nhập thành công')
+        success.current = true
       }
     } catch (error) {
       setOpen(true)
       setText('Mật khẩu hoặc username chưa đúng')
+      success.current = false
     }
   })
 

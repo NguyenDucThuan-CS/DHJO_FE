@@ -7,11 +7,13 @@ interface InputProps {
   helperText?: string
   label?: string
   register?: UseFormRegisterReturn
+  type?: string
 }
 
-export const Input: React.FC<InputProps> = ({ error, helperText, label, register }) => {
+export const Input: React.FC<InputProps> = ({ error, helperText, label, register, type }) => {
   return (
     <TextField
+      type={type ? type : 'text'}
       error={error}
       helperText={helperText}
       label={label}

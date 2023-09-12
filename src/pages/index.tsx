@@ -1,0 +1,6 @@
+export { default as Login } from './Login/Login'
+export { default as Register } from './Login/Register'
+export { default as TotalInfo } from './TotalInfo/TotalInfo'
+export { default as MyNews } from './MyNews/MyNews.tsx'
+export { default as MyProfiles } from './MyProfiles/MyProfiles.tsx'
+export { default as FavoriteHelpers } from './FavoriteHelpers/FavoriteHelpers.tsx'

@@ -3,15 +3,14 @@ import * as React from 'react'
 import { Button, Link, Grid, Stack, Radio, FormControl, FormLabel, RadioGroup, FormControlLabel } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { rules } from '../../utils/rules'
-import { useState } from 'react'
-
+import { useState, useRef } from 'react'
 import { register as registerUser } from '../../apis/auth.api'
-
 import { Popup } from '../../components/Popup/Popup'
 import { Input } from '../../components/Input/Input'
 import { useNavigate } from 'react-router-dom'
 import { Wrapper } from './Wrapper'
 import useStyles from './style'
+
 interface FormData {
   email: string
   password: string
@@ -31,8 +30,9 @@ export default function Register() {
   const [role, setRole] = useState<string>('owner')
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
+  const success = useRef<boolean>(false)
 
-  //const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole((event.target as HTMLInputElement).value)
@@ -44,7 +44,8 @@ export default function Register() {
       const response = await registerUser(res, role)
       if (response.status === 200) {
         setOpen(true)
-        setText('Bạn đã đăng kí thành công.')
+        setText('Bạn đã đăng kí thành công. Chuyển sang trang đăng nhập')
+        success.current = true
       }
     } catch (error: any) {
       setOpen(true)
@@ -54,7 +55,7 @@ export default function Register() {
 
   const agree = () => {
     setOpen(false)
-    //navigate('/login')
+    return success.current && navigate('/login')
   }
 
   const disagree = () => {
@@ -89,6 +90,7 @@ export default function Register() {
             }}
           ></Input>
           <Input
+            type='password'
             error={errors.password?.message ? true : false}
             helperText={errors.password?.message}
             label='Password'
@@ -103,6 +105,7 @@ export default function Register() {
           ></Input>
 
           <Input
+            type='password'
             error={errors.confirm_password?.message ? true : false}
             helperText={errors.confirm_password?.message}
             label='Confirm password'
