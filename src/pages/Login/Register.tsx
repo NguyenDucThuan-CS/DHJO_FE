@@ -1,24 +1,6 @@
 import * as React from 'react'
 
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  Link,
-  Paper,
-  Grid,
-  Typography,
-  Stack,
-  Radio,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel
-} from '@mui/material'
-import { LockOutlined } from '@mui/icons-material'
-
-import { makeStyles } from '@mui/styles'
+import { Button, Link, Grid, Stack, Radio, FormControl, FormLabel, RadioGroup, FormControlLabel } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { rules } from '../../utils/rules'
 import { useState } from 'react'
@@ -26,48 +8,16 @@ import { useState } from 'react'
 import { register as registerUser } from '../../apis/auth.api'
 
 import { Popup } from '../../components/Popup/Popup'
+import { Input } from '../../components/Input/Input'
+import { useNavigate } from 'react-router-dom'
+import { Wrapper } from './Wrapper'
+import useStyles from './style'
 interface FormData {
   email: string
   password: string
   confirm_password: string
   username: string
 }
-
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100vh',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  size: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '5px'
-  },
-  avatar: {},
-  form: {
-    width: '100%' // Fix IE 11 issue.
-  },
-  field: {
-    padding: '14px'
-  },
-  submit: {
-    width: 'fit-content',
-    margin: 'auto'
-  }
-}))
 
 export default function Register() {
   const classes = useStyles()
@@ -80,6 +30,9 @@ export default function Register() {
 
   const [role, setRole] = useState<string>('owner')
   const [open, setOpen] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
+
+  //const navigate = useNavigate()
 
   const handleChangeRole = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole((event.target as HTMLInputElement).value)
@@ -87,13 +40,21 @@ export default function Register() {
 
   const onSubmit = handleSubmit(async (data) => {
     const { confirm_password, ...res } = data
-    const response = await registerUser(res, role)
-    if (response.status === 200) {
+    try {
+      const response = await registerUser(res, role)
+      if (response.status === 200) {
+        setOpen(true)
+        setText('Bạn đã đăng kí thành công.')
+      }
+    } catch (error: any) {
       setOpen(true)
+      setText(error.response.data.detail)
     }
   })
+
   const agree = () => {
     setOpen(false)
+    //navigate('/login')
   }
 
   const disagree = () => {
@@ -105,80 +66,48 @@ export default function Register() {
   }
 
   return (
-    <Grid container component='main' className={classes.root}>
-      <CssBaseline />
-      <Grid className={classes.paper} item xs={10} sm={8} md={4} component={Paper} elevation={1} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Đăng ký
-          </Typography>
-          <form className={classes.form} noValidate onSubmit={onSubmit}>
-            <TextField
-              error={errors.email?.message ? true : false}
-              helperText={errors.email?.message}
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='email'
-              label='Email'
-              size='small'
-              {...register('email', rules.email)}
-            />
-            <TextField
-              error={errors.username?.message ? true : false}
-              helperText={errors.username?.message}
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='username'
-              label='Username'
-              size='small'
-              {...register('username', {
+    <>
+      <Wrapper title='Đăng ký'>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
+          <Input
+            error={errors.email?.message ? true : false}
+            helperText={errors.email?.message}
+            label='Email'
+            register={{ ...register('email', rules.email) }}
+          ></Input>
+          <Input
+            error={errors.username?.message ? true : false}
+            helperText={errors.username?.message}
+            label='Username'
+            register={{
+              ...register('username', {
                 required: {
                   value: true,
                   message: 'Username không được để trống'
                 }
-              })}
-            />
-            <TextField
-              className={classes.field}
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              label='Password'
-              type='password'
-              id='password'
-              autoComplete='current-password'
-              error={errors.password?.message ? true : false}
-              helperText={errors.password?.message}
-              size='small'
-              {...register('password', {
+              })
+            }}
+          ></Input>
+          <Input
+            error={errors.password?.message ? true : false}
+            helperText={errors.password?.message}
+            label='Password'
+            register={{
+              ...register('password', {
                 required: {
                   value: true,
                   message: 'Password không được để trống'
                 }
-              })}
-            />
-            <TextField
-              className={classes.field}
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              label='Confirm password'
-              type='password'
-              id='confirm_password'
-              autoComplete='current-password'
-              error={errors.confirm_password?.message ? true : false}
-              helperText={errors.confirm_password?.message}
-              size='small'
-              {...register('confirm_password', {
+              })
+            }}
+          ></Input>
+
+          <Input
+            error={errors.confirm_password?.message ? true : false}
+            helperText={errors.confirm_password?.message}
+            label='Confirm password'
+            register={{
+              ...register('confirm_password', {
                 required: {
                   value: true,
                   message: 'Confirm password không được để trống'
@@ -189,40 +118,38 @@ export default function Register() {
                   }
                   return 'Nhập lại email không chính xác'
                 }
-              })}
-            />
+              })
+            }}
+          ></Input>
+          <FormControl>
+            <FormLabel id='demo-controlled-radio-buttons-group'>Vai trò</FormLabel>
+            <RadioGroup
+              aria-labelledby='demo-controlled-radio-buttons-group'
+              name='controlled-radio-buttons-group'
+              value={role}
+              onChange={handleChangeRole}
+            >
+              <FormControlLabel value='owner' control={<Radio />} label='Chủ nhà' />
+              <FormControlLabel value='helper' control={<Radio />} label='Người giúp việc' />
+            </RadioGroup>
+          </FormControl>
 
-            <FormControl>
-              <FormLabel id='demo-controlled-radio-buttons-group'>Vai trò</FormLabel>
-              <RadioGroup
-                aria-labelledby='demo-controlled-radio-buttons-group'
-                name='controlled-radio-buttons-group'
-                value={role}
-                onChange={handleChangeRole}
-              >
-                <FormControlLabel value='owner' control={<Radio />} label='Chủ nhà' />
-                <FormControlLabel value='helper' control={<Radio />} label='Người giúp việc' />
-              </RadioGroup>
-            </FormControl>
+          <Stack direction='row' justifyContent='center' alignItems='center' mb={1} mt={1}>
+            <Button type='submit' variant='contained' color='primary' className={classes.submit}>
+              Đăng ký
+            </Button>
+          </Stack>
 
-            <Stack direction='row' justifyContent='center' alignItems='center' mb={1} mt={1}>
-              <Button type='submit' variant='contained' color='primary' className={classes.submit}>
-                Đăng ký
-              </Button>
-            </Stack>
-
-            <Grid container>
-              <Grid item>
-                <Link href='/login' variant='body2'>
-                  {'Bạn đã có tài khoản? Đăng nhập'}
-                </Link>
-              </Grid>
+          <Grid container>
+            <Grid item>
+              <Link href='/login' variant='body2'>
+                {'Bạn đã có tài khoản? Đăng nhập'}
+              </Link>
             </Grid>
-          </form>
-        </div>
-      </Grid>
-
-      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} />
-    </Grid>
+          </Grid>
+        </form>
+        <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      </Wrapper>
+    </>
   )
 }

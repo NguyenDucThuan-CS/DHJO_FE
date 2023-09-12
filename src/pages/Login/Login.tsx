@@ -1,11 +1,14 @@
-import { Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography, Stack } from '@mui/material'
-import { LockOutlined } from '@mui/icons-material'
-import { makeStyles } from '@mui/styles'
+import { Button, Link, Box, Grid, Typography, Stack } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { rules } from '../../utils/rules'
+import { Input } from '../../components/Input/Input'
+import { login } from '../../apis/auth.api'
+import { Popup } from '../../components/Popup/Popup'
+import { useState } from 'react'
+import useStyles from './style'
+import { Wrapper } from './Wrapper'
 interface FormData {
-  email: string
   password: string
+  usernameOrEmail: string
 }
 
 function Copyright() {
@@ -21,40 +24,6 @@ function Copyright() {
   )
 }
 
-const useStyles = makeStyles(() => ({
-  root: {
-    height: '100vh',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  size: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '5px',
-    width: '100%'
-  },
-  avatar: {},
-  form: {
-    width: '100%' // Fix IE 11 issue.
-  },
-  submit: {
-    width: 'fit-content',
-    margin: 'auto'
-  }
-}))
-
 export default function Login() {
   const classes = useStyles()
   const {
@@ -63,70 +32,80 @@ export default function Login() {
     formState: { errors }
   } = useForm<FormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const [open, setOpen] = useState(false)
+  const [text, setText] = useState<string>('')
+
+  const agree = () => {
+    setOpen(false)
+  }
+
+  const disagree = () => {
+    setOpen(false)
+  }
+
+  const close = () => {
+    setOpen(false)
+  }
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const response = await login(data)
+      if (response.status === 200) {
+        setOpen(true)
+        setText('Bạn đã đăng nhập thành công')
+      }
+    } catch (error) {
+      setOpen(true)
+      setText('Mật khẩu hoặc username chưa đúng')
+    }
   })
 
   return (
-    <Grid container component='main' className={classes.root}>
-      <CssBaseline />
-      <Grid className={classes.paper} item xs={10} sm={8} md={4} component={Paper} elevation={1} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
+    <Wrapper title='Đăng nhập'>
+      <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <Input
+          error={errors.usernameOrEmail?.message ? true : false}
+          helperText={errors.usernameOrEmail?.message}
+          label='Email hoặc username'
+          register={{
+            ...register('usernameOrEmail', {
+              required: {
+                value: true,
+                message: 'Email hoặc username không được để trống'
+              }
+            })
+          }}
+        />
+        <Input
+          error={errors.password?.message ? true : false}
+          helperText={errors.password?.message}
+          label='Password'
+          register={{
+            ...register('password', {
+              required: {
+                value: true,
+                message: 'Password không được để trống'
+              }
+            })
+          }}
+        />
+        <Stack direction='row' justifyContent='center' alignItems='center' mb={1} mt={1}>
+          <Button type='submit' variant='contained' color='primary' className={classes.submit}>
             Đăng nhập
-          </Typography>
-          <form className={classes.form} noValidate onSubmit={onSubmit}>
-            <TextField
-              error={errors.email?.message ? true : false}
-              helperText={errors.email?.message}
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              id='email'
-              label='Email hoặc username'
-              {...register('email', rules.email)}
-            />
-            <TextField
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              label='Password'
-              type='password'
-              id='password'
-              autoComplete='current-password'
-              error={errors.password?.message ? true : false}
-              helperText={errors.password?.message}
-              {...register('password', {
-                required: {
-                  value: true,
-                  message: 'Password không được để trống'
-                }
-              })}
-            />
-            <Stack direction='row' justifyContent='center' alignItems='center' mb={1} mt={1}>
-              <Button type='submit' variant='contained' color='primary' className={classes.submit}>
-                Đăng nhập
-              </Button>
-            </Stack>
+          </Button>
+        </Stack>
 
-            <Grid container>
-              <Grid item>
-                <Link href='/register' variant='body2'>
-                  {'Bạn chưa có tài khoản? Đăng ký'}
-                </Link>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </div>
-      </Grid>
-    </Grid>
+        <Grid container>
+          <Grid item>
+            <Link href='/register' variant='body2'>
+              {'Bạn chưa có tài khoản? Đăng ký'}
+            </Link>
+          </Grid>
+        </Grid>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </form>
+      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+    </Wrapper>
   )
 }

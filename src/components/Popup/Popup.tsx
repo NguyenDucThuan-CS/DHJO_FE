@@ -8,6 +8,7 @@ interface PopupProps {
   handleClose: () => void
   handleAgree: () => void
   handleDisAgree: () => void
+  text: string
 }
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -18,7 +19,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-export const Popup: React.FC<PopupProps> = ({ open, handleClose, handleAgree, handleDisAgree }) => {
+export const Popup: React.FC<PopupProps> = ({ open, handleClose, handleAgree, handleDisAgree, text }) => {
   return (
     <Dialog
       open={open}
@@ -28,9 +29,7 @@ export const Popup: React.FC<PopupProps> = ({ open, handleClose, handleAgree, ha
       aria-describedby='alert-dialog-slide-description'
     >
       <DialogContent>
-        <DialogContentText id='alert-dialog-slide-description'>
-          Bạn đã đăng kí thành công. Bạn có muốn đăng nhập?
-        </DialogContentText>
+        <DialogContentText id='alert-dialog-slide-description'>{text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDisAgree}>Cancel</Button>
