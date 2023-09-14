@@ -28,7 +28,7 @@ function Copyright() {
 export default function Login() {
   const classes = useStyles()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const {
     register,
