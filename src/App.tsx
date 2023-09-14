@@ -3,7 +3,7 @@ import { TotalInfo, MyNews, Login, Register, MyProfiles, FavoriteHelpers } from 
 import { Route, Routes } from 'react-router-dom'
 import { PrivateRouter } from './routes/Private.tsx'
 import { PublicRouter } from './routes/PublicRouter.tsx'
-
+import Profiles from './pages/Profiles/Profies.tsx'
 function App() {
   return (
     <Routes>
@@ -55,6 +55,15 @@ function App() {
         element={
           <PrivateRouter>
             <FavoriteHelpers />
+          </PrivateRouter>
+        }
+      />
+
+      <Route
+        path='/profiles'
+        element={
+          <PrivateRouter>
+            <Profiles />
           </PrivateRouter>
         }
       />

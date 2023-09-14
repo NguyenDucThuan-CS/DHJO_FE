@@ -7,6 +7,7 @@ import { useState, useRef } from 'react'
 import useStyles from './style'
 import { Wrapper } from './Wrapper'
 import { useNavigate } from 'react-router-dom'
+import { setCookie } from '../../utils/cookie'
 interface FormData {
   password: string
   usernameOrEmail: string
@@ -56,8 +57,12 @@ export default function Login() {
     try {
       const response = await login(data)
       if (response.status === 200) {
+        setCookie(365, response.data.data.accessToken, 'tokenDHJO')
+        setCookie(365, response.data.data.userId, 'userId')
+
         setOpen(true)
         setText('Bạn đã đăng nhập thành công')
+
         success.current = true
       }
     } catch (error) {

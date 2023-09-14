@@ -1,21 +1,32 @@
 import { ReactNode } from 'react'
 import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
-import { makeStyles } from '@mui/styles'
+//import { makeStyles } from '@mui/styles'
+import { readCookie } from '../utils/cookie'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 interface PrivateRouterProps {
   children: ReactNode
 }
 export const PrivateRouter = ({ children }: PrivateRouterProps) => {
-  const useStyles = makeStyles(() => ({
-    content: {
-      minHeight: 'cacl(100vh - 687px)'
+  // const useStyles = makeStyles(() => ({
+  //   content: {
+  //     minHeight: 'cacl(100vh - 687px)'
+  //   }
+  // }))
+  // const classes = useStyles()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!readCookie('tokenDHJO')) {
+      return navigate('/login')
     }
-  }))
-  const classes = useStyles()
+  }, [])
+
   return (
     <>
       <Header />
-      <div className={classes.content}>{children}</div>
+      <div style={{ padding: '20px' }}>{children}</div>
       <Footer />
     </>
   )
