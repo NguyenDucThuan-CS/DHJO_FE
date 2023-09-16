@@ -8,7 +8,7 @@ const useStyles = makeStyles(() => ({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    display: 'flex',
+    display: 'flex'
   },
   input: {
     display: 'none'

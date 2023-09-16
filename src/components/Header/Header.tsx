@@ -14,6 +14,7 @@ import Logo from './Logo'
 import { MenuList } from '../MenuList/MenuList'
 import { Wrapper } from './Wrapper'
 import IconHamburger from './IconButton'
+import { deteletAllCookie } from '../../utils/cookie'
 
 const pages = [
   { name: 'Trang chủ', to: '/' },
@@ -21,7 +22,6 @@ const pages = [
   { name: 'Tin đăng của bạn', to: '/my-news' },
   { name: 'Người giúp việc yêu thích', to: '/favorite-helpers' }
 ]
-const settings = ['Hồ sơ', 'Đăng xuất']
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -44,6 +44,20 @@ function Header() {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const logout = () => {
+    deteletAllCookie()
+    navigate('/')
+  }
+
+  const settings = [
+    { title: 'Hồ sơ', action: () => {} },
+    {
+      title: 'Đăng xuất',
+      action: () => {
+        logout()
+      }
+    }
+  ]
   return (
     <Wrapper>
       <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -129,8 +143,8 @@ function Header() {
           onClose={handleCloseUserMenu}
         >
           {settings.map((setting) => (
-            <MenuItem key={setting}>
-              <Typography textAlign='center'>{setting}</Typography>
+            <MenuItem key={setting.title} onClick={setting.action}>
+              <Typography textAlign='center'>{setting.title}</Typography>
             </MenuItem>
           ))}
         </MenuList>

@@ -14,7 +14,6 @@ const PerInfo = () => {
   const {
     register,
     formState: { errors },
-    getValues,
     setValue
   } = useForm<FormData>()
 

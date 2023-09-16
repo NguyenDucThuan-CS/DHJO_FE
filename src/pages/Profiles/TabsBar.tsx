@@ -5,6 +5,7 @@ import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import PerInfo from './PerInfo'
+import ChangePassword from './ChangePassword'
 
 export default function LabTabs() {
   const [value, setValue] = React.useState('1')
@@ -26,7 +27,9 @@ export default function LabTabs() {
         <TabPanel value='1'>
           <PerInfo />
         </TabPanel>
-        <TabPanel value='2'>Bảo mật</TabPanel>
+        <TabPanel value='2'>
+          <ChangePassword />
+        </TabPanel>
         <TabPanel value='3'>Hồ sơ</TabPanel>
       </TabContext>
     </Box>

@@ -8,9 +8,10 @@ interface InputProps {
   label?: string
   register?: UseFormRegisterReturn
   type?: string
+  disabled?: boolean
 }
 
-export const Input: React.FC<InputProps> = ({ error, helperText, label, register, type }) => {
+export const Input: React.FC<InputProps> = ({ error, helperText, label, register, type, disabled }) => {
   return (
     <TextField
       type={type ? type : 'text'}
@@ -22,6 +23,7 @@ export const Input: React.FC<InputProps> = ({ error, helperText, label, register
       fullWidth
       size='small'
       required
+      disabled={disabled}
       {...register}
     />
   )
