@@ -1,10 +1,10 @@
 import http from '../utils/http'
 
 interface updateProfileOwnerParam {
-  id: 'string'
-  name: 'string'
-  phoneNum: 'string'
-  identificationNum: 'string'
+  id?: string
+  name?: string
+  phoneNum?: string
+  identificationNum?: string
 }
 const url = 'api/profile/owner'
 

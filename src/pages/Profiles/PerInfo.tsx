@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 
 import useStyles from './style'
-import { getProfileOwner } from '../../apis/ownerprofile.api'
-import { updateProfileOwner } from '../../apis/ownerprofile.api'
+import { getProfileOwner, updateProfileOwner } from '../../apis/ownerprofile.api'
 
 const PerInfo = () => {
   interface FormData {
@@ -22,6 +21,8 @@ const PerInfo = () => {
     handleSubmit
   } = useForm<FormData>()
   const [disabled, setDisabled] = useState<boolean>(true)
+  const [idProfile, setIdProfile] = useState<string | null>(null)
+
   const classes = useStyles()
 
   const onSubmit = handleSubmit((data) => {
@@ -29,7 +30,16 @@ const PerInfo = () => {
       setDisabled(false)
     } else {
       console.log(data)
-      updateProfileOwner
+      if (idProfile) {
+        updateProfileOwner({ id: idProfile, ...data }).then((res) => {
+          console.log('ressss', res)
+        })
+      } else {
+        updateProfileOwner({ ...data }).then((res) => {
+          console.log('ressss', res)
+        })
+      }
+      //updateProfileOwner
     }
   })
 
@@ -37,18 +47,54 @@ const PerInfo = () => {
     getProfileOwner().then((res) => {
       console.log('resssss', res)
     })
-    // setValue('name', 'nguyen van a')
-    // setValue('phoneNum', '06363636')
-    // setValue('identificationNum', '063636jjeje36')
   }, [])
 
   return (
-    <Container sx={{ width: { xs: '90%', md: '50%' } }}>
+    <Container sx={{ width: { xs: '100%', md: '50%' } }}>
       <AvatarChooser />
       <form className={classes.form} noValidate onSubmit={onSubmit}>
-        <Input label='Họ tên' register={{ ...register('name') }} disabled={disabled} />
-        <Input label='Số điện thoại' register={{ ...register('phoneNum') }} disabled={disabled} />
-        <Input label='CCCD' register={{ ...register('identificationNum') }} disabled={disabled} />
+        <Input
+          label='Họ tên'
+          error={errors.name?.message ? true : false}
+          helperText={errors.name?.message}
+          register={{
+            ...register('name', {
+              required: {
+                value: true,
+                message: 'Họ tên không được để trống'
+              }
+            })
+          }}
+          disabled={disabled}
+        />
+        <Input
+          error={errors.phoneNum?.message ? true : false}
+          helperText={errors.phoneNum?.message}
+          label='Số điện thoại'
+          register={{
+            ...register('phoneNum', {
+              required: {
+                value: true,
+                message: 'Số điện thoại không được để trống'
+              }
+            })
+          }}
+          disabled={disabled}
+        />
+        <Input
+          error={errors.identificationNum?.message ? true : false}
+          helperText={errors.identificationNum?.message}
+          label='CCCD'
+          register={{
+            ...register('identificationNum', {
+              required: {
+                value: true,
+                message: 'CCCD không được để trống'
+              }
+            })
+          }}
+          disabled={disabled}
+        />
         <Button type='submit' variant='outlined'>
           Cập nhật
         </Button>

@@ -50,10 +50,17 @@ function Header() {
   }
 
   const settings = [
-    { title: 'Hồ sơ', action: () => {} },
+    {
+      title: 'Hồ sơ',
+      action: () => {
+        handleCloseUserMenu()
+        navigate('/profiles')
+      }
+    },
     {
       title: 'Đăng xuất',
       action: () => {
+        handleCloseUserMenu()
         logout()
       }
     }

@@ -26,11 +26,10 @@ const ChangePassword = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>()
-  console.log('errors', errors)
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const response =  await updateAuthInfo({
+      const response = await updateAuthInfo({
         id: readCookie('userId') || '',
         username: data.username,
         email: data.email,
@@ -49,7 +48,7 @@ const ChangePassword = () => {
     setValue('email', 'nguyenducthuan@gmail.com')
   }, [])
   return (
-    <Container sx={{ width: { xs: '70%', md: '50%' }, display: 'flex', flexDirection: 'column' }}>
+    <Container sx={{ width: { xs: '100%', md: '50%' }, display: 'flex', flexDirection: 'column' }}>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Input
           error={errors.username?.message ? true : false}
