@@ -18,9 +18,9 @@ export const register = (
     username: username
   })
 
-export const login = ({ usernameOrEmail, password }: { usernameOrEmail: string; password: string }) =>
+export const login = ({ username, password }: { username: string; password: string }) =>
   http.post(`${url}/login`, {
-    usernameOrEmail: usernameOrEmail,
+    username: username,
     password: password
   })
 

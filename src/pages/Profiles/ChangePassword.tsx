@@ -2,11 +2,10 @@ import { Container, Button } from '@mui/material'
 import { Input } from '../../components/Input/Input'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { makeStyles } from '@mui/styles'
 import { rules } from '../../utils/rules'
 import { readCookie } from '../../utils/cookie'
 import { updateAuthInfo } from '../../apis/auth.api'
-
+import useStyles from './style'
 interface FormData {
   username?: string
   oldPassword?: string
@@ -14,13 +13,6 @@ interface FormData {
   newPassword?: string
   confirmPassword?: string
 }
-const useStyles = makeStyles(() => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  }
-}))
 
 const ChangePassword = () => {
   const classes = useStyles()
@@ -37,7 +29,6 @@ const ChangePassword = () => {
   console.log('errors', errors)
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log('data', data)
     try {
       const response =  await updateAuthInfo({
         id: readCookie('userId') || '',

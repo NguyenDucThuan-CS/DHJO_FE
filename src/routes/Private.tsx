@@ -9,12 +9,6 @@ interface PrivateRouterProps {
   children: ReactNode
 }
 export const PrivateRouter = ({ children }: PrivateRouterProps) => {
-  // const useStyles = makeStyles(() => ({
-  //   content: {
-  //     minHeight: 'cacl(100vh - 687px)'
-  //   }
-  // }))
-  // const classes = useStyles()
   const navigate = useNavigate()
 
   useEffect(() => {

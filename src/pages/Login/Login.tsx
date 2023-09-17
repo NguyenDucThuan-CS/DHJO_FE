@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { setCookie } from '../../utils/cookie'
 interface FormData {
   password: string
-  usernameOrEmail: string
+  username: string
 }
 
 function Copyright() {
@@ -76,11 +76,11 @@ export default function Login() {
     <Wrapper title='Đăng nhập'>
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Input
-          error={errors.usernameOrEmail?.message ? true : false}
-          helperText={errors.usernameOrEmail?.message}
-          label='Email hoặc username'
+          error={errors.username?.message ? true : false}
+          helperText={errors.username?.message}
+          label='Username'
           register={{
-            ...register('usernameOrEmail', {
+            ...register('username', {
               required: {
                 value: true,
                 message: 'Email hoặc username không được để trống'
