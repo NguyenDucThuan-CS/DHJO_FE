@@ -39,13 +39,17 @@ const PerInfo = () => {
           console.log('ressss', res)
         })
       }
-      //updateProfileOwner
     }
   })
 
   useEffect(() => {
     getProfileOwner().then((res) => {
-      console.log('resssss', res)
+      const { data } = res.data;
+
+      setValue('name', data.name)
+      setValue('phoneNum', data.identificationNum)
+      setValue('identificationNum', data.phoneNum)
+      setIdProfile(data.identificationNum)
     })
   }, [])
 
