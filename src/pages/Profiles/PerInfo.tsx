@@ -26,19 +26,14 @@ const PerInfo = () => {
   const classes = useStyles()
 
   const onSubmit = handleSubmit((data) => {
-    if (disabled) {
-      setDisabled(false)
+    if (idProfile) {
+      updateProfileOwner({ id: idProfile, ...data }).then((res) => {
+        console.log('ressss', res)
+      })
     } else {
-      console.log(data)
-      if (idProfile) {
-        updateProfileOwner({ id: idProfile, ...data }).then((res) => {
-          console.log('ressss', res)
-        })
-      } else {
-        updateProfileOwner({ ...data }).then((res) => {
-          console.log('ressss', res)
-        })
-      }
+      updateProfileOwner({ ...data }).then((res) => {
+        console.log('ressss', res)
+      })
     }
   })
 
@@ -49,7 +44,7 @@ const PerInfo = () => {
       setValue('name', data.name)
       setValue('phoneNum', data.identificationNum)
       setValue('identificationNum', data.phoneNum)
-      setIdProfile(data.identificationNum)
+      //setIdProfile(data.identificationNum)
     })
   }, [])
 
@@ -61,6 +56,7 @@ const PerInfo = () => {
           label='Họ tên'
           error={errors.name?.message ? true : false}
           helperText={errors.name?.message}
+          disabled={disabled}
           register={{
             ...register('name', {
               required: {
@@ -69,12 +65,12 @@ const PerInfo = () => {
               }
             })
           }}
-          disabled={disabled}
         />
         <Input
           error={errors.phoneNum?.message ? true : false}
           helperText={errors.phoneNum?.message}
           label='Số điện thoại'
+          disabled={disabled}
           register={{
             ...register('phoneNum', {
               required: {
@@ -83,12 +79,12 @@ const PerInfo = () => {
               }
             })
           }}
-          disabled={disabled}
         />
         <Input
           error={errors.identificationNum?.message ? true : false}
           helperText={errors.identificationNum?.message}
           label='CCCD'
+          disabled={disabled}
           register={{
             ...register('identificationNum', {
               required: {
@@ -97,9 +93,8 @@ const PerInfo = () => {
               }
             })
           }}
-          disabled={disabled}
         />
-        <Button type='submit' variant='outlined'>
+        <Button type='submit' variant='outlined' onClick={() => setDisabled(false)}>
           Cập nhật
         </Button>
       </form>
