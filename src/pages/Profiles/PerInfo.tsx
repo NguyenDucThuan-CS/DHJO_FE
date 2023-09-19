@@ -6,6 +6,11 @@ import { useEffect, useState } from 'react'
 
 import useStyles from './style'
 import { getProfileOwner, updateProfileOwner } from '../../apis/ownerprofile.api'
+import { Popup } from '../../components/Popup/Popup'
+import { rules } from '../../utils/rules'
+import { objToFormData } from '../../utils/api'
+import { readCookie } from '../../utils/cookie'
+import { getImg } from '../../apis/img.api'
 
 const PerInfo = () => {
   interface FormData {
@@ -21,36 +26,64 @@ const PerInfo = () => {
     handleSubmit
   } = useForm<FormData>()
   const [disabled, setDisabled] = useState<boolean>(true)
-  const [idProfile, setIdProfile] = useState<string | null>(null)
+
+  const [open, setOpen] = useState(false)
+  const [text, setText] = useState<string>('')
+  const [img, setImg] = useState<string>()
 
   const classes = useStyles()
 
+  const agree = () => {
+    setOpen(false)
+    setDisabled(true)
+  }
+
+  const disagree = () => {
+    setOpen(false)
+    setDisabled(true)
+  }
+
+  const close = () => {
+    setOpen(false)
+    setDisabled(true)
+  }
+
   const onSubmit = handleSubmit((data) => {
-    if (idProfile) {
-      updateProfileOwner({ id: idProfile, ...data }).then((res) => {
-        console.log('ressss', res)
+    Promise.all([
+      updateProfileOwner({ ...data }),
+      fetch('http://localhost:8080/api/image', {
+        method: 'POST',
+        body: objToFormData({
+          profileImage: img
+        }),
+        headers: {
+          Authorization: `Bearer ${readCookie('tokenDHJO')}`
+        }
       })
-    } else {
-      updateProfileOwner({ ...data }).then((res) => {
-        console.log('ressss', res)
-      })
-    }
+    ]).then(() => {
+      setOpen(true)
+      setText('Cập nhật thông tin thành công')
+    })
   })
 
   useEffect(() => {
-    getProfileOwner().then((res) => {
-      const { data } = res.data;
-
-      setValue('name', data.name)
-      setValue('phoneNum', data.identificationNum)
-      setValue('identificationNum', data.phoneNum)
-      //setIdProfile(data.identificationNum)
+    Promise.all([getProfileOwner(), getImg()]).then((values) => {
+      const { data } = values[0].data
+      console.log(values[0].data.data)
+      if (values[0].data.data) {
+        setValue('name', data.name)
+        setValue('phoneNum', data.phoneNum)
+        setValue('identificationNum', data.identificationNum)
+      }
     })
   }, [])
 
   return (
     <Container sx={{ width: { xs: '100%', md: '50%' } }}>
-      <AvatarChooser />
+      <Button variant='outlined' onClick={() => setDisabled(false)}>
+        Chinh sua
+      </Button>
+      <AvatarChooser setImg={setImg} />
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Input
           label='Họ tên'
@@ -72,12 +105,7 @@ const PerInfo = () => {
           label='Số điện thoại'
           disabled={disabled}
           register={{
-            ...register('phoneNum', {
-              required: {
-                value: true,
-                message: 'Số điện thoại không được để trống'
-              }
-            })
+            ...register('phoneNum', rules.phone)
           }}
         />
         <Input
@@ -94,10 +122,14 @@ const PerInfo = () => {
             })
           }}
         />
-        <Button type='submit' variant='outlined' onClick={() => setDisabled(false)}>
-          Cập nhật
-        </Button>
+        {!disabled && (
+          <Button type='submit' variant='outlined'>
+            Cập nhật
+          </Button>
+        )}
       </form>
+
+      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
     </Container>
   )
 }

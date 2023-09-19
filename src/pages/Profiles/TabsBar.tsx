@@ -6,14 +6,16 @@ import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import PerInfo from './PerInfo'
 import ChangePassword from './ChangePassword'
+import HomeProfiles from './HomeProfiles/HomeProfiles'
 
+import useStyles from './style'
 export default function LabTabs() {
   const [value, setValue] = React.useState('1')
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
-
+  const classes = useStyles()
   return (
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={value}>
@@ -24,13 +26,15 @@ export default function LabTabs() {
             <Tab label='Hồ sơ' value='3' />
           </TabList>
         </Box>
-        <TabPanel value='1'>
+        <TabPanel value='1' className={classes.tabPanel}>
           <PerInfo />
         </TabPanel>
-        <TabPanel value='2'>
+        <TabPanel value='2' className={classes.tabPanel}>
           <ChangePassword />
         </TabPanel>
-        <TabPanel value='3'>Hồ sơ</TabPanel>
+        <TabPanel value='3' className={classes.tabPanel}>
+          <HomeProfiles />
+        </TabPanel>
       </TabContext>
     </Box>
   )

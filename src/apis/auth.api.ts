@@ -24,4 +24,6 @@ export const login = ({ username, password }: { username: string; password: stri
     password: password
   })
 
+export const getAuthInfo = () => http.get(url)
+
 export const updateAuthInfo = (obj: updateAuthInfo) => http.post(url, obj)
