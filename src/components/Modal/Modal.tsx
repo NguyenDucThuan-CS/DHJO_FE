@@ -5,9 +5,9 @@ import { TransitionProps } from '@mui/material/transitions'
 
 interface PopupProps {
   open: boolean
-  Content: React.ReactNode
-  Actions: React.ReactNode
-  handleClose: () => void
+  Content?: React.ReactNode
+  Actions?: React.ReactNode
+  handleClose?: () => void
 }
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -27,6 +27,7 @@ export const Modal: React.FC<PopupProps> = ({ open, Content, Actions, handleClos
       onClose={handleClose}
       aria-describedby='alert-dialog-slide-description'
     >
+      <></>
       <DialogContent>{Content}</DialogContent>
       <DialogActions>{Actions}</DialogActions>
     </Dialog>
