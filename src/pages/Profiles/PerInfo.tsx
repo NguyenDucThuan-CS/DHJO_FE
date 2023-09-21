@@ -29,7 +29,8 @@ const PerInfo = () => {
 
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
-  const [img, setImg] = useState<string>()
+  const [img, setImg] = useState<File | null>(null)
+  const [imgInit, setImgInit] = useState<string>('')
 
   const classes = useStyles()
 
@@ -51,13 +52,21 @@ const PerInfo = () => {
   const onSubmit = handleSubmit((data) => {
     Promise.all([
       updateProfileOwner({ ...data }),
-      fetch('http://localhost:8080/api/image', {
-        method: 'POST',
-        body: objToFormData({
-          profileImage: img
-        }),
-        headers: {
-          Authorization: `Bearer ${readCookie('tokenDHJO')}`
+      new Promise((resolve) => {
+        if (img) {
+          resolve(
+            fetch('http://localhost:8080/api/image', {
+              method: 'POST',
+              body: objToFormData({
+                profileImage: img
+              }),
+              headers: {
+                Authorization: `Bearer ${readCookie('tokenDHJO')}`
+              }
+            })
+          )
+        } else {
+          resolve(true)
         }
       })
     ]).then(() => {
@@ -69,11 +78,14 @@ const PerInfo = () => {
   useEffect(() => {
     Promise.all([getProfileOwner(), getImg()]).then((values) => {
       const { data } = values[0].data
-      console.log(values[0].data.data)
+      const { data: dataImg } = values[1].data
       if (values[0].data.data) {
         setValue('name', data.name)
         setValue('phoneNum', data.phoneNum)
         setValue('identificationNum', data.identificationNum)
+      }
+      if (values[1].data.data && dataImg.imageName) {
+        setImgInit(`localhost:8080/images/${dataImg.imageName}`)
       }
     })
   }, [])
@@ -83,7 +95,7 @@ const PerInfo = () => {
       <Button variant='outlined' onClick={() => setDisabled(false)}>
         Chinh sua
       </Button>
-      <AvatarChooser setImg={setImg} />
+      <AvatarChooser setImg={setImg} img={imgInit} disabled={disabled} />
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Input
           label='Họ tên'

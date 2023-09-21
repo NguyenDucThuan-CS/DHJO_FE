@@ -27,9 +27,8 @@ export const Modal: React.FC<PopupProps> = ({ open, Content, Actions, handleClos
       onClose={handleClose}
       aria-describedby='alert-dialog-slide-description'
     >
-      <></>
       <DialogContent>{Content}</DialogContent>
-      <DialogActions>{Actions}</DialogActions>
+      {Actions && <DialogActions>{Actions}</DialogActions>}
     </Dialog>
   )
 }

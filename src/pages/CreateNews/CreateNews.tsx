@@ -29,7 +29,7 @@ export default function CreateNews() {
       <Typography>Tạo tin đăng</Typography>
       <Container sx={{ width: { xs: '100%', md: '80%' } }}>
         <Stepper activeStep={activeStep}>
-          {steps.map((label, _index) => {
+          {steps.map((label) => {
             const stepProps: { completed?: boolean } = {}
             const labelProps: {
               optional?: React.ReactNode
