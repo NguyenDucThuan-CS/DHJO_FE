@@ -5,8 +5,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { Typography } from '@mui/material'
 
 type ListOption = {
-  id: string
-  name: string
+  id?: string
+  name?: string
 }[]
 interface SelectDropdownDrops {
   list: ListOption

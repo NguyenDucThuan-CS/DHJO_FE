@@ -9,9 +9,11 @@ interface InputProps {
   register?: UseFormRegisterReturn
   type?: string
   disabled?: boolean
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  value?: string
 }
 
-export const Input: React.FC<InputProps> = ({ error, helperText, label, register, type, disabled }) => {
+export const Input: React.FC<InputProps> = ({ error, helperText, label, register, type, disabled, onChange, value }) => {
   return (
     <>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>
@@ -25,7 +27,9 @@ export const Input: React.FC<InputProps> = ({ error, helperText, label, register
         size='small'
         required
         disabled={disabled}
+        onChange={onChange}
         sx={{ mt: '5px' }}
+        value={value}
         {...register}
       />
     </>

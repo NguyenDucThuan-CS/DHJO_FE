@@ -1,11 +1,12 @@
 import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 import { makeStyles } from '@mui/styles'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 interface AvatarProps {
   setImg: (img: any) => void
-  img: string
+  //img: string
   disabled: boolean
+  imgInit: string
 }
 
 const useStyles = makeStyles(() => ({
@@ -24,9 +25,9 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-export default function AvatarChooser({ setImg, img, disabled }: AvatarProps) {
+export default function AvatarChooser({ setImg, disabled, imgInit }: AvatarProps) {
   const classes = useStyles()
-  const [src, setSrc] = useState<string>(img)
+  const [src, setSrc] = useState<string>(imgInit)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -34,6 +35,9 @@ export default function AvatarChooser({ setImg, img, disabled }: AvatarProps) {
       setImg(event.target.files[0])
     }
   }
+  useEffect(() => {
+    setSrc(imgInit)
+  }, [imgInit])
 
   return (
     <div className={classes.root}>

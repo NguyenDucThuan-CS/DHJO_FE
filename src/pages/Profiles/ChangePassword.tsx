@@ -67,6 +67,7 @@ const ChangePassword = () => {
     getAuthInfo().then((res) => {
       setValue('username', res.data.data.username)
       setValue('email', res.data.data.email)
+      setValue('oldPassword','123456')
     })
   }, [])
   return (

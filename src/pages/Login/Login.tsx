@@ -92,6 +92,7 @@ export default function Login() {
           error={errors.password?.message ? true : false}
           helperText={errors.password?.message}
           label='Password'
+          type='password'
           register={{
             ...register('password', {
               required: {

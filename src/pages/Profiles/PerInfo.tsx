@@ -31,7 +31,6 @@ const PerInfo = () => {
   const [text, setText] = useState<string>('')
   const [img, setImg] = useState<File | null>(null)
   const [imgInit, setImgInit] = useState<string>('')
-
   const classes = useStyles()
 
   const agree = () => {
@@ -95,7 +94,7 @@ const PerInfo = () => {
       <Button variant='outlined' onClick={() => setDisabled(false)}>
         Chinh sua
       </Button>
-      <AvatarChooser setImg={setImg} img={imgInit} disabled={disabled} />
+      <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
       <form className={classes.form} noValidate onSubmit={onSubmit}>
         <Input
           label='Họ tên'

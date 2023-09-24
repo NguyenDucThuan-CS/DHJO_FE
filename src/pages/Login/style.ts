@@ -14,14 +14,15 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '5px'
+    padding: '5px',
+    width:'100%'
   },
   avatar: {},
   form: {

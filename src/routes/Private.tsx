@@ -21,7 +21,7 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
     <>
       <Header />
       <div style={{ padding: '20px' }}>{children}</div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }

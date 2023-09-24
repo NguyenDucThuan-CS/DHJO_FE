@@ -5,6 +5,7 @@ import { PrivateRouter } from './routes/Private.tsx'
 import { PublicRouter } from './routes/PublicRouter.tsx'
 import Profiles from './pages/Profiles/Profies.tsx'
 import CreateNews from './pages/CreateNews/CreateNews.tsx'
+
 function App() {
   return (
     <Routes>

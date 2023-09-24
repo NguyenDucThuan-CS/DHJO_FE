@@ -9,22 +9,21 @@ const MySpan = styled('span')({
   fontWeight: 'bolder'
 })
 
-
-export default function HomeCard() {
+export default function HomeCard({ homeName, homeType, floorArea, address }: any) {
   return (
     <Card>
       <CardContent>
         <Typography>
-          <MySpan>Tên nhà: </MySpan>
+          <MySpan>Tên nhà: {homeName}</MySpan>
         </Typography>
         <Typography>
-          <MySpan>Loại nhà: </MySpan>
+          <MySpan>Loại nhà: {homeType}</MySpan>
         </Typography>
         <Typography>
-          <MySpan>Diện tích sàn: </MySpan>
+          <MySpan>Diện tích sàn: {floorArea}</MySpan>
         </Typography>
         <Typography>
-          <MySpan>Địa chỉ: </MySpan>
+          <MySpan>Địa chỉ: {address}</MySpan>
         </Typography>
       </CardContent>
       <CardActions>
