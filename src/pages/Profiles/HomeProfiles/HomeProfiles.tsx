@@ -1,4 +1,4 @@
-import ListHomeCard from './ListHomeCard/ListHomeCard'
+import ListHomeCard, { House } from './ListHomeCard/ListHomeCard'
 import { Box, Button } from '@mui/material'
 import { Modal } from '../../../components/Modal/Modal'
 import { useState, useEffect } from 'react'
@@ -8,23 +8,17 @@ import SelectDropdown from '../../../components/SelectDropdown/SelectDown'
 import { getAllProvine, getDistrictByProvince, getWardsByDistrict } from '../../../apis/address.api'
 import { getHouseType } from '../../../apis/utils.api'
 import Loading from '../../../components/Loading/Loading'
-import { updateHouseOwner } from '../../../apis/house.api'
+import { updateHouseOwner, getHousesOfOwer, getHouseById, deleteHouseById } from '../../../apis/house.api'
 import { Popup } from '../../../components/Popup/Popup'
 import { useForm } from 'react-hook-form'
-import { getHousesOfOwer } from '../../../apis/house.api'
+
 interface Province {
-  _id?: string
-  name?: string
-  slug?: string
-  type?: string
-  name_with_type?: string
-  code?: string
-  isDeleted?: boolean
+  code: string
+  name: string
+  slug: string
+  type: string
 }
-interface Ward extends Province {
-  path_with_type?: string
-  parent_code?: string
-}
+type Ward = Omit<Province, 'slug'>
 interface FormData {
   houseName: string
   floorArea: string
@@ -37,7 +31,7 @@ const HomeProfiles = () => {
   const [openPopup, setOpenPopup] = useState<boolean>(false)
 
   const [listProvince, setListProvince] = useState<Province[]>([])
-  const [listHouse, setListHouses] = useState<any>([])
+  const [listHouse, setListHouses] = useState<House[]>([])
 
   const [idProvince, setIdProvince] = useState<string>('0')
   const [houseTypes, setHouseTypes] = useState<{ id: string; name: string }[]>([])
@@ -50,14 +44,14 @@ const HomeProfiles = () => {
   const [idDistrict, setIdDistrict] = useState<string>('0')
 
   const [isLoading, setIsLoading] = useState(true)
+  const [idHouse, setIdHouse] = useState<null | string>(null)
 
   const [text, setText] = useState<string>('')
-  const { register, getValues } = useForm<FormData>()
+  const { register, getValues, setValue } = useForm<FormData>()
 
   useEffect(() => {
     setIsLoading(true)
     Promise.all([getAllProvine(), getHouseType(), getHousesOfOwer()]).then((res) => {
-      console.log("resss", res)
       setIsLoading(false)
       setListProvince(res[0].data.data)
       setHouseTypes(res[1].data.data)
@@ -104,7 +98,7 @@ const HomeProfiles = () => {
   const createNewHouse = () => {
     setIsLoading(true)
     updateHouseOwner({
-      id: null,
+      id: idHouse,
       houseName: getValues().houseName,
       houseType: houseTypes.find((item) => item.id === idHouseType),
       floorArea: Number(getValues().floorArea),
@@ -116,7 +110,7 @@ const HomeProfiles = () => {
     })
       .then(() => {
         setIsLoading(false)
-        setText('Tạo căn nhà thành công')
+        setText(idHouse ? 'Cập nhật thành công' : 'Tạo căn nhà thành công')
         setOpenPopup(true)
       })
       .catch((err) => {
@@ -124,24 +118,37 @@ const HomeProfiles = () => {
         setIsLoading(false)
       })
   }
+
+  const clearData = () => {
+    setIdProvince('0')
+    setIdHouseType('0')
+    setIdWard('0')
+    setIdDistrict('0')
+    setValue('houseName', '')
+    setValue('floorArea', '')
+    setValue('houseNo', '')
+    setValue('street', '')
+    setIdHouse(null)
+  }
+
   const agree = () => {
     setOpenPopup(false)
     setOpen(false)
-
+    clearData()
     getHousesOfOwer().then((res) => setListHouses(res.data.data))
   }
 
   const disagree = () => {
     setOpenPopup(false)
     setOpen(false)
-
+    clearData()
     getHousesOfOwer().then((res) => setListHouses(res.data.data))
   }
 
   const close = () => {
     setOpenPopup(false)
     setOpen(false)
-
+    clearData()
     getHousesOfOwer().then((res) => setListHouses(res.data.data))
   }
   const ContentModal = () => {
@@ -227,16 +234,41 @@ const HomeProfiles = () => {
   const ActionsModal = () => {
     return (
       <Button variant='outlined' onClick={createNewHouse}>
-        Tạo mới
+        {idHouse ? 'Cập nhật' : 'Tạo mới'}
       </Button>
     )
   }
+
+  const editHome = async (id: string) => {
+    const res = await getHouseById({ id })
+    const data = res.data.data
+    setIdHouse(data.id)
+    setIdProvince(data.province.code)
+    setIdProvince(data.province.code)
+    setIdHouseType(data.houseType.id)
+    setIdWard(data.ward.code)
+    setIdDistrict(data.district.code)
+
+    setValue('houseName', data.houseName)
+    setValue('floorArea', data.floorArea)
+    setValue('houseNo', data.houseNo)
+    setValue('street', data.street)
+    setOpen(true)
+  }
+
+  const removeHome = (id: string) => {
+    deleteHouseById({ houseId: id }).then(() => {
+      setText('Xóa căn nhà thành công')
+      setOpenPopup(true)
+    })
+  }
+
   return (
     <Box>
       <Button variant='outlined' sx={{ mb: '15px' }} onClick={() => setOpen(true)}>
         Thêm mới +
       </Button>
-      <ListHomeCard listHouses={listHouse} />
+      <ListHomeCard listHouses={listHouse} edit={editHome} remove={removeHome} />
       <Modal
         open={open}
         handleClose={() => setOpen(false)}

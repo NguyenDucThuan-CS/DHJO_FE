@@ -8,8 +8,16 @@ import { styled } from '@mui/system'
 const MySpan = styled('span')({
   fontWeight: 'bolder'
 })
-
-export default function HomeCard({ homeName, homeType, floorArea, address }: any) {
+interface HomeCardProps {
+  id: string
+  homeName: string
+  homeType: string
+  floorArea: number
+  address: string
+  edit: (id: string) => void
+  remove: (id: string) => void
+}
+export default function HomeCard({ homeName, homeType, floorArea, address, edit, remove, id }: HomeCardProps) {
   return (
     <Card>
       <CardContent>
@@ -27,10 +35,10 @@ export default function HomeCard({ homeName, homeType, floorArea, address }: any
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' variant='contained' color='success'>
+        <Button size='small' variant='contained' color='success' onClick={() => edit(id)}>
           Chỉnh sửa
         </Button>
-        <Button size='small' variant='contained' color='error'>
+        <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
           Xóa
         </Button>
       </CardActions>
