@@ -14,10 +14,11 @@ interface HomeCardProps {
   homeType: string
   floorArea: number
   address: string
-  edit: (id: string) => void
-  remove: (id: string) => void
+  edit?: (id: string) => void
+  remove?: (id: string) => void
+  choose?: (id: string) => void
 }
-export default function HomeCard({ homeName, homeType, floorArea, address, edit, remove, id }: HomeCardProps) {
+export default function HomeCard({ homeName, homeType, floorArea, address, edit, remove, id, choose }: HomeCardProps) {
   return (
     <Card>
       <CardContent>
@@ -35,12 +36,22 @@ export default function HomeCard({ homeName, homeType, floorArea, address, edit,
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' variant='contained' color='success' onClick={() => edit(id)}>
-          Chỉnh sửa
-        </Button>
-        <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
-          Xóa
-        </Button>
+        {edit && (
+          <Button size='small' variant='contained' color='success' onClick={() => edit(id)}>
+            Chỉnh sửa
+          </Button>
+        )}
+        {remove && (
+          <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
+            Xóa
+          </Button>
+        )}
+
+        {choose && (
+          <Button size='small' variant='contained' color='error' onClick={() => choose(id)}>
+            Xóa
+          </Button>
+        )}
       </CardActions>
     </Card>
   )

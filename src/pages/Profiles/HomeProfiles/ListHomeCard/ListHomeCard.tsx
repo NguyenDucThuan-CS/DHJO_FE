@@ -29,11 +29,12 @@ export interface House {
 }
 interface ListHousesProps {
   listHouses: House[]
-  edit: (id: string) => void
-  remove: (id: string) => void
+  edit?: (id: string) => void
+  remove?: (id: string) => void
+  choose?: (id: string) => void
 }
 
-const ListHomeCard = ({ listHouses, edit, remove }: ListHousesProps) => {
+const ListHomeCard = ({ listHouses, edit, remove, choose }: ListHousesProps) => {
   return (
     <>
       <Grid container spacing={2}>
@@ -47,6 +48,7 @@ const ListHomeCard = ({ listHouses, edit, remove }: ListHousesProps) => {
               address={i.ward.name + i.district.name + i.province.name}
               edit={edit}
               remove={remove}
+              choose={choose}
             />
           </Grid>
         ))}

@@ -13,7 +13,16 @@ interface InputProps {
   value?: string
 }
 
-export const Input: React.FC<InputProps> = ({ error, helperText, label, register, type, disabled, onChange, value }) => {
+export const Input: React.FC<InputProps> = ({
+  error,
+  helperText,
+  label,
+  register,
+  type,
+  disabled,
+  onChange,
+  value
+}) => {
   return (
     <>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>

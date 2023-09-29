@@ -21,7 +21,7 @@ interface Province {
 type Ward = Omit<Province, 'slug'>
 interface FormData {
   houseName: string
-  floorArea: string
+  floorArea: number
   houseNo: string
   street: string
 }
@@ -115,6 +115,7 @@ const HomeProfiles = () => {
       })
       .catch((err) => {
         console.log(err)
+        setOpenPopup(true)
         setIsLoading(false)
       })
   }
@@ -125,7 +126,7 @@ const HomeProfiles = () => {
     setIdWard('0')
     setIdDistrict('0')
     setValue('houseName', '')
-    setValue('floorArea', '')
+    setValue('floorArea', 0)
     setValue('houseNo', '')
     setValue('street', '')
     setIdHouse(null)
@@ -173,6 +174,7 @@ const HomeProfiles = () => {
                 register={{
                   ...register('floorArea')
                 }}
+                type='number'
               ></Input>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>

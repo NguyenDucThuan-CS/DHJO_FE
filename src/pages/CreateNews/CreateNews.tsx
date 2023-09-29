@@ -6,6 +6,10 @@ import StepLabel from '@mui/material/StepLabel'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { Container } from '@mui/material'
+import Step1 from './Step1'
+import Step2 from './Step2'
+import Step3 from './Step3'
+
 const steps = ['Chọn nhà', 'Chi tiết', 'Chọn người giúp việc']
 
 export default function CreateNews() {
@@ -20,8 +24,12 @@ export default function CreateNews() {
   }
 
   const handleSumit = () => {
-    //setActiveStep(0)
     console.log('Đăng bài')
+  }
+  const renderStep = (activeStep: number) => {
+    if (activeStep === 0) return <Step1 />
+    if (activeStep === 1) return <Step2 />
+    return <Step3 />
   }
 
   return (
@@ -54,7 +62,7 @@ export default function CreateNews() {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            <Box sx={{ paddingTop: '20px' }}>{renderStep(activeStep)}</Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
                 Back
