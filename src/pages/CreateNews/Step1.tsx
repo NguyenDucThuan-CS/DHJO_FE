@@ -3,9 +3,12 @@ import ListHomeCard, { House } from '../Profiles/HomeProfiles/ListHomeCard/ListH
 import { getHousesOfOwer } from '../../apis/house.api'
 import { useEffect, useState } from 'react'
 
-const Step1 = () => {
+const Step1 = ({ idChosen, setIdHouseChosen }: { idChosen: string; setIdHouseChosen: (id: string) => void }) => {
   const [listHouse, setListHouse] = useState<House[]>([])
-
+  const choose = (id: string, flag: boolean) => {
+    if (flag === true) setIdHouseChosen(id)
+    else setIdHouseChosen('')
+  }
   useEffect(() => {
     getHousesOfOwer().then((res) => {
       setListHouse(res.data.data)
@@ -14,7 +17,7 @@ const Step1 = () => {
 
   return (
     <Box>
-      <ListHomeCard listHouses={listHouse} />
+      <ListHomeCard listHouses={listHouse} choose={choose} idChosen={idChosen} />
     </Box>
   )
 }

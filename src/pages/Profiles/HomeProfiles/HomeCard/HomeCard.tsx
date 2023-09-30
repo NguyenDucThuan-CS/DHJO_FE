@@ -16,9 +16,20 @@ interface HomeCardProps {
   address: string
   edit?: (id: string) => void
   remove?: (id: string) => void
-  choose?: (id: string) => void
+  choose?: (id: string, flag: boolean) => void
+  isChosen?: boolean
 }
-export default function HomeCard({ homeName, homeType, floorArea, address, edit, remove, id, choose }: HomeCardProps) {
+export default function HomeCard({
+  homeName,
+  homeType,
+  floorArea,
+  address,
+  edit,
+  remove,
+  id,
+  choose,
+  isChosen
+}: HomeCardProps) {
   return (
     <Card>
       <CardContent>
@@ -46,10 +57,15 @@ export default function HomeCard({ homeName, homeType, floorArea, address, edit,
             Xóa
           </Button>
         )}
+        {choose && !isChosen && (
+          <Button size='small' variant='contained' color='warning' onClick={() => choose(id, true)}>
+            Chọn
+          </Button>
+        )}
 
-        {choose && (
-          <Button size='small' variant='contained' color='error' onClick={() => choose(id)}>
-            Xóa
+        {choose && isChosen && (
+          <Button size='small' variant='contained' color='inherit' onClick={() => choose(id, false)}>
+            Bỏ chọn
           </Button>
         )}
       </CardActions>

@@ -22,7 +22,7 @@ export default function SelectDropdown({ list, name, id, setId }: SelectDropdown
 
   return (
     <Box>
-      <FormControl fullWidth>
+      <FormControl fullWidth size='small'>
         <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}</Typography>
         <Select
           labelId='demo-simple-select-label'

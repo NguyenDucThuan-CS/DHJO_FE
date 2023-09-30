@@ -9,14 +9,39 @@ import { Container } from '@mui/material'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
+import { useState } from 'react'
+import { Popup } from '../../components/Popup/Popup'
 
 const steps = ['Chọn nhà', 'Chi tiết', 'Chọn người giúp việc']
 
 export default function CreateNews() {
   const [activeStep, setActiveStep] = React.useState(0)
+  const [idHouseChosen, setIdHouseChosen] = useState<string>('')
+  const [open, setOpen] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
 
+  const agree = () => {
+    setOpen(false)
+  }
+
+  const disagree = () => {
+    setOpen(false)
+  }
+
+  const close = () => {
+    setOpen(false)
+  }
+  const checkForNextStep = () => {
+    if (activeStep === 0 && !idHouseChosen) {
+      setText('Vui long chon nha')
+      setOpen(true)
+      return false
+    }
+
+    return true
+  }
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    if (checkForNextStep()) setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
   const handleBack = () => {
@@ -27,7 +52,7 @@ export default function CreateNews() {
     console.log('Đăng bài')
   }
   const renderStep = (activeStep: number) => {
-    if (activeStep === 0) return <Step1 />
+    if (activeStep === 0) return <Step1 idChosen={idHouseChosen} setIdHouseChosen={setIdHouseChosen} />
     if (activeStep === 1) return <Step2 />
     return <Step3 />
   }
@@ -73,6 +98,8 @@ export default function CreateNews() {
           </React.Fragment>
         )}
       </Container>
+
+      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
     </Box>
   )
 }
