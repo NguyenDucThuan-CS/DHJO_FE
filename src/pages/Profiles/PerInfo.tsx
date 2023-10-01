@@ -75,18 +75,22 @@ const PerInfo = () => {
   })
 
   useEffect(() => {
-    Promise.all([getProfileOwner(), getImg()]).then((values) => {
-      const { data } = values[0].data
-      const { data: dataImg } = values[1].data
-      if (values[0].data.data) {
-        setValue('name', data.name)
-        setValue('phoneNum', data.phoneNum)
-        setValue('identificationNum', data.identificationNum)
-      }
-      if (values[1].data.data && dataImg.imageName) {
-        setImgInit(`localhost:8080/images/${dataImg.imageName}`)
-      }
-    })
+    Promise.all([getProfileOwner(), getImg()])
+      .then((values) => {
+        const { data } = values[0].data
+        const { data: dataImg } = values[1].data
+        if (values[0].data.data) {
+          setValue('name', data.name)
+          setValue('phoneNum', data.phoneNum)
+          setValue('identificationNum', data.identificationNum)
+        }
+        if (values[1].data.data && dataImg.imageName) {
+          setImgInit(`localhost:8080/images/${dataImg.imageName}`)
+        }
+      })
+      .catch((err) => {
+        console.log('err', err)
+      })
   }, [])
 
   return (

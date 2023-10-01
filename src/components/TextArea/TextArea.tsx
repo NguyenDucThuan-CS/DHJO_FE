@@ -3,8 +3,10 @@ import { styled } from '@mui/system'
 import Typography from '@mui/material/Typography'
 interface TextAreaProps {
   label: string
+  onChange: (value: string) => void
+  value?: string
 }
-export default function Textarea({ label }: TextAreaProps) {
+export default function Textarea({ label, onChange, value }: TextAreaProps) {
   const blue = {
     100: '#DAECFF',
     200: '#b6daff',
@@ -60,7 +62,13 @@ export default function Textarea({ label }: TextAreaProps) {
   return (
     <>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>
-      <StyledTextarea aria-label='minimum height' minRows={3} placeholder='Minimum 3 rows' />
+      <StyledTextarea
+        aria-label='minimum height'
+        minRows={3}
+        placeholder='Minimum 3 rows'
+        onChange={(e) => onChange(e.target.value)}
+        value={value}
+      />
     </>
   )
 }

@@ -1,6 +1,6 @@
 import http from '../utils/http'
 
-const url = 'api/image'
+const url = 'api/image/user'
 
 export const getImg = () => http.get(url)
 
