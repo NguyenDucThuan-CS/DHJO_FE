@@ -35,7 +35,6 @@ interface ListHousesProps {
   idChosen?: string
 }
 
-
 const ListHomeCard = ({ listHouses, edit, remove, choose, idChosen }: ListHousesProps) => {
   return (
     <>

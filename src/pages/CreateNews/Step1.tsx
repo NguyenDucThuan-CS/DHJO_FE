@@ -1,10 +1,21 @@
 import Box from '@mui/material/Box'
 import ListHomeCard, { House } from '../Profiles/HomeProfiles/ListHomeCard/ListHomeCard'
 import { getHousesOfOwer } from '../../apis/house.api'
-import { useEffect, useState } from 'react'
+import { RootState } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import React, { useImperativeHandle, useState, useEffect } from 'react'
+import { doUpdateInfoStep1 } from '../../redux/slice'
 
-const Step1 = ({ idChosen, setIdHouseChosen }: { idChosen: string; setIdHouseChosen: (id: string) => void }) => {
+const Step1 = React.forwardRef(function Step1(props, ref) {
   const [listHouse, setListHouse] = useState<House[]>([])
+  const [idHouseChosen, setIdHouseChosen] = useState<string>('')
+
+  const dispatch = useDispatch()
+
+  const { house } = useSelector((state: RootState) => {
+    return state.storeInfoReducer
+  })
+
   const choose = (id: string, flag: boolean) => {
     if (flag === true) setIdHouseChosen(id)
     else setIdHouseChosen('')
@@ -15,11 +26,60 @@ const Step1 = ({ idChosen, setIdHouseChosen }: { idChosen: string; setIdHouseCho
     })
   }, [])
 
+  useEffect(() => {
+    setIdHouseChosen(house.id)
+  }, [house])
+
+  const getHouseOject = (id: string) => {
+    return listHouse.find((item) => item.id === id)
+  }
+
+  useImperativeHandle(ref, () => ({
+    handlePassStep() {
+      if (idHouseChosen) {
+        dispatch(doUpdateInfoStep1({ house: getHouseOject(idHouseChosen) }))
+        return true
+      } else {
+        dispatch(
+          doUpdateInfoStep1({
+            house: {
+              id: '',
+              houseName: '',
+              houseType: {
+                id: '',
+                name: ''
+              },
+              floorArea: 0,
+              houseNo: '',
+              street: '',
+              ward: {
+                code: '',
+                name: '',
+                type: ''
+              },
+              district: {
+                code: '',
+                name: '',
+                type: ''
+              },
+              province: {
+                code: '',
+                name: '',
+                type: '',
+                slug: ''
+              }
+            }
+          })
+        )
+        return false
+      }
+    }
+  }))
   return (
     <Box>
-      <ListHomeCard listHouses={listHouse} choose={choose} idChosen={idChosen} />
+      <ListHomeCard listHouses={listHouse} choose={choose} idChosen={idHouseChosen} />
     </Box>
   )
-}
+})
 
 export default Step1

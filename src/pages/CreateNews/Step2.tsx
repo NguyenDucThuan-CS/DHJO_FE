@@ -16,6 +16,7 @@ import { getEduLevel } from '../../apis/education.api'
 import { getPeriod } from '../../apis/period.api'
 import { getGender } from '../../apis/gender.api'
 
+//const Step1
 const Step2 = () => {
   const [checked, setChecked] = useState<boolean>(false)
   const [endDate, setEndDate] = useState<string | number | Date | dayjs.Dayjs | null | undefined>(dayjs(new Date()))

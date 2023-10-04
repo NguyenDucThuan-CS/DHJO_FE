@@ -9,16 +9,21 @@ import { Container } from '@mui/material'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Popup } from '../../components/Popup/Popup'
+// import { useSelector } from 'react-redux'
+// import { RootState } from '../../redux/store'
 
 const steps = ['Chọn nhà', 'Chi tiết', 'Chọn người giúp việc']
 
 export default function CreateNews() {
   const [activeStep, setActiveStep] = React.useState(0)
-  const [idHouseChosen, setIdHouseChosen] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
+
+  // const { house } = useSelector((state: RootState) => {
+  //   return state.storeInfoReducer
+  // })
 
   const agree = () => {
     setOpen(false)
@@ -31,17 +36,20 @@ export default function CreateNews() {
   const close = () => {
     setOpen(false)
   }
-  const checkForNextStep = () => {
-    if (activeStep === 0 && !idHouseChosen) {
-      setText('Vui long chon nha')
-      setOpen(true)
-      return false
-    }
 
-    return true
-  }
+  const refStep1 = useRef<any>(null)
+  // const refStep2 = useRef(null)
+  // const refStep3 = useRef(null)
+
   const handleNext = () => {
-    if (checkForNextStep()) setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    if (activeStep === 0) {
+      if (refStep1?.current?.handlePassStep()) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      } else {
+        setText('Vui long chon nha')
+        setOpen(true)
+      }
+    }
   }
 
   const handleBack = () => {
@@ -51,8 +59,9 @@ export default function CreateNews() {
   const handleSumit = () => {
     console.log('Đăng bài')
   }
+
   const renderStep = (activeStep: number) => {
-    if (activeStep === 0) return <Step1 idChosen={idHouseChosen} setIdHouseChosen={setIdHouseChosen} />
+    if (activeStep === 0) return <Step1 ref={refStep1} />
     if (activeStep === 1) return <Step2 />
     return <Step3 />
   }
