@@ -38,8 +38,8 @@ export default function CreateNews() {
   }
 
   const refStep1 = useRef<any>(null)
-  // const refStep2 = useRef(null)
-  // const refStep3 = useRef(null)
+  const refStep2 = useRef<any>(null)
+  const refStep3 = useRef(null)
 
   const handleNext = () => {
     if (activeStep === 0) {
@@ -47,6 +47,13 @@ export default function CreateNews() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       } else {
         setText('Vui long chon nha')
+        setOpen(true)
+      }
+    } else if (activeStep === 1) {
+      if (refStep2.current.handlePassStep()) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      } else {
+        setText('Vui nhap du thong tin')
         setOpen(true)
       }
     }
@@ -62,7 +69,7 @@ export default function CreateNews() {
 
   const renderStep = (activeStep: number) => {
     if (activeStep === 0) return <Step1 ref={refStep1} />
-    if (activeStep === 1) return <Step2 />
+    if (activeStep === 1) return <Step2 ref={refStep2} />
     return <Step3 />
   }
 

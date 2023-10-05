@@ -10,7 +10,12 @@ interface InputMultipleOptionProps {
   defaultValue: { id: string; value: string }[]
 }
 
-export default function InputMultipleOption({ label, options, setSelectedOptions }: InputMultipleOptionProps) {
+export default function InputMultipleOption({
+  label,
+  options,
+  setSelectedOptions,
+  defaultValue
+}: InputMultipleOptionProps) {
   return (
     <Stack sx={{ width: '100%' }}>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>
@@ -18,12 +23,14 @@ export default function InputMultipleOption({ label, options, setSelectedOptions
         multiple
         id='size-small-outlined-multi'
         size='small'
+        //key={defaultValue}
         options={options}
         getOptionLabel={(option) => {
           return option.value
         }}
         onChange={(event, value) => setSelectedOptions(value)}
-        defaultValue={[] as { id: string; value: string }[]}
+        //defaultValue={[] as { id: string; value: string }[]}
+        value={defaultValue}
         renderInput={(params) => <TextField {...params} sx={{ flexWrap: 'nowrap' }} />}
       />
     </Stack>

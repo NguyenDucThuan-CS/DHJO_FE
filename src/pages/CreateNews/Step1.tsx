@@ -12,7 +12,7 @@ const Step1 = React.forwardRef(function Step1(props, ref) {
 
   const dispatch = useDispatch()
 
-  const { house } = useSelector((state: RootState) => {
+  const { post } = useSelector((state: RootState) => {
     return state.storeInfoReducer
   })
 
@@ -27,8 +27,8 @@ const Step1 = React.forwardRef(function Step1(props, ref) {
   }, [])
 
   useEffect(() => {
-    setIdHouseChosen(house.id)
-  }, [house])
+    setIdHouseChosen(post.house.id)
+  }, [post])
 
   const getHouseOject = (id: string) => {
     return listHouse.find((item) => item.id === id)

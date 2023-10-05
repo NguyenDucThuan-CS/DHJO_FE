@@ -15,6 +15,7 @@ export default function SelectDate({ value, setValue, name }: SelectDateProps) {
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}</Typography>
       <DatePicker
         value={value}
+        format='DD/MM/YYYY'
         onChange={(newValue) => setValue(newValue)}
         slotProps={{ textField: { size: 'small' } }}
       />
