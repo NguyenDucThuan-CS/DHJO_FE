@@ -3,9 +3,9 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   post: {
     id: '',
-    createdAt: 0,
-    modifiedAt: 0,
-    deleted: 0,
+    createdAt: null,
+    modifiedAt: null,
+    deleted: null,
     title: '',
     content: '',
     startTime: {
@@ -25,7 +25,7 @@ const initialState = {
       id: '',
       name: ''
     },
-    finished: true,
+    finished: false,
     owner: null,
     house: {
       id: '',

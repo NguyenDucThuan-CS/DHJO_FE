@@ -11,8 +11,10 @@ import Step2 from './Step2'
 import Step3 from './Step3'
 import { useState, useRef } from 'react'
 import { Popup } from '../../components/Popup/Popup'
+import { useSelector } from 'react-redux'
 // import { useSelector } from 'react-redux'
-// import { RootState } from '../../redux/store'
+import { RootState } from '../../redux/store'
+import { createPost } from '../../apis/post.api'
 
 const steps = ['Chọn nhà', 'Chi tiết', 'Chọn người giúp việc']
 
@@ -20,7 +22,9 @@ export default function CreateNews() {
   const [activeStep, setActiveStep] = React.useState(0)
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
-
+  const { post } = useSelector((state: RootState) => {
+    return state.storeInfoReducer
+  })
   // const { house } = useSelector((state: RootState) => {
   //   return state.storeInfoReducer
   // })
@@ -39,7 +43,7 @@ export default function CreateNews() {
 
   const refStep1 = useRef<any>(null)
   const refStep2 = useRef<any>(null)
-  const refStep3 = useRef(null)
+  //const refStep3 = useRef(null)
 
   const handleNext = () => {
     if (activeStep === 0) {
@@ -56,6 +60,16 @@ export default function CreateNews() {
         setText('Vui nhap du thong tin')
         setOpen(true)
       }
+    } else if (activeStep === 2) {
+      return createPost(post)
+        .then(() => {
+          setText('Cập nhật bài post thành công')
+          setOpen(true)
+        })
+        .catch(() => {
+          setText('Đã có lỗi xảy ra vui long thử lại')
+          setOpen(true)
+        })
     }
   }
 
