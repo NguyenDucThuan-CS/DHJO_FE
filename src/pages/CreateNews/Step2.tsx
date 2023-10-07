@@ -61,12 +61,12 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       setIdGender(post.preferredGender.id)
       setTitle(post.title)
       setContent(post.content)
-      setStartDate(dayjs(post.startDate, 'DD/MM/YYYY'))
-      setEndDate(dayjs(post.recurringPattern.endDate, 'DD/MM/YYYY'))
+      setStartDate(dayjs(post.startDate, 'YYYY-MM-DD'))
+      setEndDate(dayjs(post.recurringPattern.endDate, 'YYYY-MM-DD'))
 
       setStartTime(dayjs(`2022-04-17T${post.startTime.hour}:${post.startTime.minute}`))
       setFee(post.fee.toString())
-      setChecked(post.recurringPattern ? true : false)
+      setChecked(post.recurringPattern.endDate ? true : false)
       setIdPeriod(post.recurringPattern.period.id)
       setWorkTime(post.workTime.toString())
     }
@@ -98,7 +98,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
             preferredGender: gender.find((item) => item.id === idGender),
             title,
             content,
-            startDate: dayjs(startDate).format('DD/MM/YYYY'),
+            startDate: dayjs(startDate).format('YYYY-MM-DD'),
             startTime: {
               hour: startTime?.hour(),
               minute: startTime?.minute(),
@@ -108,7 +108,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
             fee: +fee,
             recurringPattern: checked
               ? {
-                  endDate: dayjs(endDate).format('DD/MM/YYYY'),
+                  endDate: dayjs(endDate).format('YYYY-MM-DD'),
                   period: idPeriod
                     ? period.find((item) => item.id === idPeriod)
                     : {
