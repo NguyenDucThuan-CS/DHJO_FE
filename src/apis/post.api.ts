@@ -3,7 +3,7 @@ import http from '../utils/http'
 const url = 'api/post'
 
 interface Post {
-  id: string
+  id: null
   createdAt: null
   modifiedAt: null
   deleted: null

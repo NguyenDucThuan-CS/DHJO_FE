@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   post: {
-    id: '',
+    id: null,
     createdAt: null,
     modifiedAt: null,
     deleted: null,
