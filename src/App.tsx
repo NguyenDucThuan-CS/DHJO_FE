@@ -5,12 +5,13 @@ import { PrivateRouter } from './routes/Private.tsx'
 import { PublicRouter } from './routes/PublicRouter.tsx'
 import Profiles from './pages/Profiles/Profies.tsx'
 import CreateNews from './pages/CreateNews/CreateNews.tsx'
+import Helper from './pages/Helpers/Helper.tsx'
 
 function App() {
   return (
     <Routes>
       <Route
-        path='/'
+        path='/owner'
         element={
           <PrivateRouter>
             <TotalInfo />
@@ -35,7 +36,7 @@ function App() {
       />
 
       <Route
-        path='/my-news'
+        path='owner/my-news'
         element={
           <PrivateRouter>
             <MyNews />
@@ -44,7 +45,7 @@ function App() {
       />
 
       <Route
-        path='/my-profiles'
+        path='owner/my-profiles'
         element={
           <PrivateRouter>
             <MyProfiles />
@@ -53,7 +54,7 @@ function App() {
       />
 
       <Route
-        path='/favorite-helpers'
+        path='owner/favorite-helpers'
         element={
           <PrivateRouter>
             <FavoriteHelpers />
@@ -62,7 +63,7 @@ function App() {
       />
 
       <Route
-        path='/profiles'
+        path='owner/profiles'
         element={
           <PrivateRouter>
             <Profiles />
@@ -71,10 +72,19 @@ function App() {
       />
 
       <Route
-        path='/create-news'
+        path='owner/create-news'
         element={
           <PrivateRouter>
             <CreateNews />
+          </PrivateRouter>
+        }
+      />
+
+      <Route
+        path='/helper'
+        element={
+          <PrivateRouter>
+            <Helper />
           </PrivateRouter>
         }
       />

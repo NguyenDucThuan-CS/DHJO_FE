@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
@@ -15,13 +14,6 @@ import { MenuList } from '../MenuList/MenuList'
 import { Wrapper } from './Wrapper'
 import IconHamburger from './IconButton'
 import { deteletAllCookie } from '../../utils/cookie'
-
-const pages = [
-  { name: 'Trang chủ', to: '/' },
-  { name: 'Hồ sơ của bạn', to: '/my-profiles' },
-  { name: 'Tin đăng của bạn', to: '/my-news' },
-  { name: 'Người giúp việc yêu thích', to: '/favorite-helpers' }
-]
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -46,15 +38,15 @@ function Header() {
 
   const logout = () => {
     deteletAllCookie()
-    navigate('/')
+    navigate('/login')
   }
 
-  const settings = [
+  const ownerSetting = [
     {
       title: 'Hồ sơ',
       action: () => {
         handleCloseUserMenu()
-        navigate('/profiles')
+        navigate('/owner/profiles')
       }
     },
     {
@@ -65,6 +57,49 @@ function Header() {
       }
     }
   ]
+  const helperSetting = [
+    {
+      title: 'Hồ sơ',
+      action: () => {
+        handleCloseUserMenu()
+        navigate('/helper/profiles')
+      }
+    },
+    {
+      title: 'Đăng xuất',
+      action: () => {
+        handleCloseUserMenu()
+        logout()
+      }
+    }
+  ]
+
+  const pagesForOwner = [
+    { name: 'Trang chủ', to: '/' },
+    { name: 'Hồ sơ của bạn', to: '/owner/my-profiles' },
+    { name: 'Tin đăng của bạn', to: '/owner/my-news' },
+    { name: 'Người giúp việc yêu thích', to: '/owner/favorite-helpers' }
+  ]
+
+  const pagesForHelper = [
+    { name: 'Trang chủ', to: '/helper' },
+    { name: 'Hoạt động', to: '/helper/activitive' },
+    { name: 'Lịch làm việc', to: '/helper/schedules' }
+  ]
+  const renderContentHeader = () => {
+    if (window.location.href.split('/').includes('helper')) {
+      return pagesForHelper
+    }
+    return pagesForOwner
+  }
+
+  const renderSetting = () => {
+    if (window.location.href.split('/').includes('helper')) {
+      return helperSetting
+    }
+    return ownerSetting
+  }
+
   return (
     <Wrapper>
       <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -86,7 +121,7 @@ function Header() {
             display: { xs: 'block', md: 'none' }
           }}
         >
-          {pages.map((page) => (
+          {pagesForOwner.map((page) => (
             <MenuItem
               key={page.name}
               onClick={() => {
@@ -107,7 +142,7 @@ function Header() {
       <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
       <Logo variant={'h5'} display={{ xs: 'flex', md: 'none' }} />
       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-        {pages.map((page) => (
+        {renderContentHeader().map((page) => (
           <Button
             key={page.name}
             onClick={() => {
@@ -149,7 +184,7 @@ function Header() {
           }}
           onClose={handleCloseUserMenu}
         >
-          {settings.map((setting) => (
+          {renderSetting().map((setting) => (
             <MenuItem key={setting.title} onClick={setting.action}>
               <Typography textAlign='center'>{setting.title}</Typography>
             </MenuItem>

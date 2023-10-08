@@ -40,10 +40,12 @@ export default function Login() {
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
   const success = useRef<boolean>(false)
+  const role = useRef<string>('')
 
   const agree = () => {
     setOpen(false)
-    return success.current && navigate('/')
+    if (success.current && role.current === 'ROLE_HELPER') return navigate('/helper')
+    if (success.current && role.current === 'ROLE_OWNER') return navigate('/owner')
   }
 
   const disagree = () => {
@@ -59,11 +61,12 @@ export default function Login() {
       if (response.status === 200) {
         setCookie(365, response.data.data.accessToken, 'tokenDHJO')
         setCookie(365, response.data.data.userId, 'userId')
-
+        setCookie(365, response.data.data.roles[0], 'roles')
         setOpen(true)
         setText('Bạn đã đăng nhập thành công')
 
         success.current = true
+        role.current = response.data.data.roles[0]
       }
     } catch (error) {
       setOpen(true)

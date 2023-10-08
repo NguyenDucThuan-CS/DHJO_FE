@@ -1,18 +1,22 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import Header from '../components/Header/Header'
-import Footer from '../components/Footer/Footer'
-//import { makeStyles } from '@mui/styles'
 import { readCookie } from '../utils/cookie'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+
 interface PrivateRouterProps {
   children: ReactNode
 }
 export const PrivateRouter = ({ children }: PrivateRouterProps) => {
   const navigate = useNavigate()
 
+  const checkCorrectRole = () => {
+    if (window.location.href.split('/').includes('helper') && readCookie('roles') === 'ROLE_HELPER') return true
+    if (window.location.href.split('/').includes('owner') && readCookie('roles') === 'ROLE_OWNER') return true
+    return false
+  }
+
   useEffect(() => {
-    if (!readCookie('tokenDHJO')) {
+    if (!readCookie('tokenDHJO') || !checkCorrectRole()) {
       return navigate('/login')
     }
   }, [])
