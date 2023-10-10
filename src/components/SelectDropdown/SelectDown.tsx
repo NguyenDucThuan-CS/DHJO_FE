@@ -13,16 +13,17 @@ interface SelectDropdownDrops {
   name: string
   id?: string
   setId: (id: string) => void
+  disabled?: boolean
 }
 
-export default function SelectDropdown({ list, name, id, setId }: SelectDropdownDrops) {
+export default function SelectDropdown({ list, name, id, setId, disabled }: SelectDropdownDrops) {
   const handleChange = (event: SelectChangeEvent) => {
     setId(event.target.value)
   }
 
   return (
     <Box>
-      <FormControl fullWidth size='small'>
+      <FormControl fullWidth size='small' disabled={disabled}>
         <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}</Typography>
         <Select
           labelId='demo-simple-select-label'

@@ -8,8 +8,9 @@ interface SelectDateProps {
   value: string | number | Date | dayjs.Dayjs | null | undefined
   setValue: (newValue: string | number | Date | dayjs.Dayjs | null | undefined) => void
   name: string
+  disabled: boolean
 }
-export default function SelectDate({ value, setValue, name }: SelectDateProps) {
+export default function SelectDate({ value, setValue, name, disabled }: SelectDateProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}</Typography>
@@ -18,6 +19,7 @@ export default function SelectDate({ value, setValue, name }: SelectDateProps) {
         format='DD/MM/YYYY'
         onChange={(newValue) => setValue(newValue)}
         slotProps={{ textField: { size: 'small' } }}
+        disabled={disabled}
       />
     </LocalizationProvider>
   )

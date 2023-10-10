@@ -8,13 +8,15 @@ interface InputMultipleOptionProps {
   options: { id: string; value: string }[]
   setSelectedOptions: (value: { id: string; value: string }[]) => void
   defaultValue: { id: string; value: string }[]
+  disabled?: boolean
 }
 
 export default function InputMultipleOption({
   label,
   options,
   setSelectedOptions,
-  defaultValue
+  defaultValue,
+  disabled
 }: InputMultipleOptionProps) {
   return (
     <Stack sx={{ width: '100%' }}>
@@ -32,6 +34,7 @@ export default function InputMultipleOption({
         //defaultValue={[] as { id: string; value: string }[]}
         value={defaultValue}
         renderInput={(params) => <TextField {...params} sx={{ flexWrap: 'nowrap' }} />}
+        disabled={disabled}
       />
     </Stack>
   )
