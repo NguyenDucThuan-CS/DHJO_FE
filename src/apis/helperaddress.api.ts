@@ -21,8 +21,12 @@ interface Props {
   }
 }
 
-const url = 'api/helper/address'
+const url = 'api/address/helper'
 
 export const createAddressHelper = (obj: Props) => {
   return http.post(url, obj)
+}
+
+export const getAddressHelper = () => {
+  return http.get(url)
 }

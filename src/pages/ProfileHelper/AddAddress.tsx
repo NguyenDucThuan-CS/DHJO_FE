@@ -6,10 +6,9 @@ import { useState, useEffect } from 'react'
 import { getAllProvine, getDistrictByProvince, getWardsByDistrict } from '../../apis/address.api'
 import { Modal } from '../../components/Modal/Modal'
 import Button from '@mui/material/Button/Button'
-import { createAddressHelper } from '../../apis/helperaddress.api'
+import { createAddressHelper, getAddressHelper } from '../../apis/helperaddress.api'
 import { Popup } from '../../components/Popup/Popup'
 import Container from '@mui/material/Container'
-
 
 interface Province {
   code: string
@@ -40,6 +39,16 @@ const AddAdress = () => {
     getAllProvine().then((res) => {
       setIsLoading(false)
       setListProvince(res.data.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    getAddressHelper().then((res) => {
+      setIdProvince(res.data.data.province.code)
+      setIdDistrict(res.data.data.district.code)
+      setIdWard(res.data.data.ward.code)
+      setHouseNo(res.data.data.houseNo)
+      setStreet(res.data.data.street)
     })
   }, [])
   const agree = () => {
@@ -100,7 +109,7 @@ const AddAdress = () => {
     })
       .then(() => {
         setIsLoading(false)
-        setText('Cập nhật đại chỉ thành công')
+        setText('Cập nhật địa chỉ thành công')
         setOpenPopup(true)
       })
       .catch((err) => {

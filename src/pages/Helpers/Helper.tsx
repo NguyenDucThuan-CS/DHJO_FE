@@ -1,5 +1,7 @@
+import Box from '@mui/material/Box'
+
 const Helper = () => {
-  return <div>Helper</div>
+  return <Box>Helper</Box>
 }
 
-export default Helper;
+export default Helper

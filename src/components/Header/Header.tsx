@@ -121,7 +121,7 @@ function Header() {
             display: { xs: 'block', md: 'none' }
           }}
         >
-          {pagesForOwner.map((page) => (
+          {renderContentHeader().map((page) => (
             <MenuItem
               key={page.name}
               onClick={() => {
