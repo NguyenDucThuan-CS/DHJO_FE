@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack/Stack'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HomeIcon from '@mui/icons-material/Home'
-
+import CardPost from '../../components/CardPost/CardPost'
 import Chip from '@mui/material/Chip'
 
 const DetailPost = () => {
@@ -41,10 +41,31 @@ const DetailPost = () => {
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, omnis aperiam? Vel unde nobis laboriosam nostrum, harum libero ipsam aliquid!
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, omnis aperiam? Vel unde nobis laboriosam
+          nostrum, harum libero ipsam aliquid!
         </Grid>
       </Grid>
-      <></>
+      <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+      <Box>
+        <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
+          Mô tả công việc
+        </Typography>
+        <Box>
+          {' '}
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, omnis aperiam? Vel unde nobis laboriosam
+          nostrum, harum libero ipsam aliquid!. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam,
+          omnis aperiam? Vel unde nobis laboriosam nostrum, harum libero ipsam aliquid!. Lorem ipsum dolor sit amet
+          consectetur, adipisicing elit. Quisquam, omnis aperiam? Vel unde nobis laboriosam nostrum, harum libero ipsam
+          aliquid!
+        </Box>
+      </Box>
+      <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+      <Box>
+        <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
+          Công việc đã hoàn thành
+        </Typography>
+        <CardPost />
+      </Box>
     </Box>
   )
 }

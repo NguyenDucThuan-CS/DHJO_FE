@@ -71,24 +71,6 @@ export default function CardPost({ ...post }: Post) {
           </Grid>
         </Grid>
       </CardContent>
-      {/* <CardActions>
-        {remove && (
-          <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
-            Xóa
-          </Button>
-        )}
-        {choose && !isChosen && (
-          <Button size='small' variant='contained' color='warning' onClick={() => choose(id, true)}>
-            Chọn
-          </Button>
-        )}
-
-        {choose && isChosen && (
-          <Button size='small' variant='contained' color='inherit' onClick={() => choose(id, false)}>
-            Bỏ chọn
-          </Button>
-        )}
-      </CardActions> */}
     </Card>
   )
 }
