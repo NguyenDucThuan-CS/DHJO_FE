@@ -8,7 +8,7 @@ interface SelectDateProps {
   value: string | number | Date | dayjs.Dayjs | null | undefined
   setValue: (newValue: string | number | Date | dayjs.Dayjs | null | undefined) => void
   name: string
-  disabled: boolean
+  disabled?: boolean
 }
 export default function SelectDate({ value, setValue, name, disabled }: SelectDateProps) {
   return (

@@ -116,13 +116,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
                         name: ''
                       }
                 }
-              : {
-                  endDate: '',
-                  period: {
-                    id: '',
-                    name: ''
-                  }
-                },
+              : null,
             workTime: +workTime
           })
         )
