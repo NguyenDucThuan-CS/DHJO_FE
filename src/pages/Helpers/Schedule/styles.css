@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.container {
+  position: relative;
+  margin: auto;
+}
+.time {
+  border: 1px solid rgb(59, 56, 56);
+  height: 20px;
+  position: relative;
+}
+/* .time p::after {
+  content: "";
+  width: 90%;
+  display: inline-block;
+  position: absolute;
+  border-bottom: 1px solid rgb(202, 194, 194);
+  top: 50%;
+  left: 10px;
+  z-index: 5;
+} */
+.schedule {
+  position: absolute;
+  border-radius: 0.2rem;
+  /* left: 2rem !important; */
+  border: 1px solid white;
+  /* margin: 1rem; */
+  /* width: 5rem;
+  height: 60px;
+  background-color: red;
+  top: 60px; */
+}
+.schedule p {
+  color: white;
+  font-weight: bolder;
+  padding: 0.5rem 0rem 0rem 0.5rem;
+}
+@media screen and (max-width: 780px) {
+  .container {
+    position: relative;
+    width: 90%;
+    margin: auto;
+  }
+}

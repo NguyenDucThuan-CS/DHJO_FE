@@ -1,7 +1,69 @@
 import { Stack, Box } from '@mui/material'
+import './styles.css'
+import { getTime, sortIt, collision2 } from './../../../utils/schedule'
+import { useCallback, useRef, useEffect, useState } from 'react'
+import { getTaskToday } from '../../../apis/task.api'
+
+interface ITask {
+  id: string
+  startTime: {
+    hour: number
+    minute: number
+    second: number
+    nano: number
+  }
+  startDate: {
+    year: number
+    month: number
+    day: number
+  }
+  workTime: number
+  isDraftTask: boolean
+}
 
 const Schedule = () => {
   const daysInWeek = ['CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']
+
+  const [tasks, setTasks] = useState<ITask[]>([])
+
+  const queue = useRef<any>([])
+  const style = useCallback(function (ele: any) {
+    const { startTimeHour, startTimeMinute, endTimeHour, endTimeMinute } = getTime(ele)
+    const height = Number(endTimeHour) - Number(startTimeHour)
+    const heightMinute = Number(endTimeMinute) - Number(startTimeMinute)
+
+    const collisi = collision2(queue.current, ele)
+
+    queue.current.push(ele)
+    const widt = collisi * 25
+    return {
+      top: `${Number(startTimeHour) * 20 + Number(startTimeMinute)}px`,
+      backgroundColor: ele.color,
+
+      width: `${90 - widt}%`,
+      height: `${Number(height * 20) + heightMinute}px`,
+      left: `${collisi === 0 ? 25 : collisi * 150}px`
+    }
+  }, [])
+
+  useEffect(() => {
+    getTaskToday().then((res) => {
+      //console.log(res)
+      setTasks(res.data.data)
+    })
+  }, [])
+
+  const mapTaskToCollisionList = (task: ITask[]) => {
+    return task.map((item) => {
+      return {
+        startTime: `${item.startTime.hour}:${item.startTime.minute}`,
+        endTime: `${item.startTime.hour + item.workTime}:${item.startTime.minute}`,
+        color: '#029be5',
+        title: item.id
+      }
+    })
+  }
+
   return (
     <Stack direction={{ xs: 'column' }} sx={{ border: '0.5px solid #DAE4EC' }}>
       <Box textAlign={'center'}>
@@ -25,29 +87,29 @@ const Schedule = () => {
       </Box>
 
       <Stack direction={'column'} sx={{ marginTop: '12px' }}>
-        {/* <table>
-          <tr>
-            <td>1</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>1</td>
-          </tr>
-        </table> */}
-        {/* {time.map((item) => (
-          <Grid key={item} container fontSize={'14px'} textAlign={'center'}>
-            <Grid item xs={3} border={'0.5px solid #DAE4EC'} color={'#102D42'}>
-              {item}
-            </Grid>
-            <Grid item xs={9} border={'0.5px solid #DAE4EC'} color={'#102D42'}>
-              <Grid container direction={'column'}>
-                <Grid item xs={6} border={'0.5px solid #DAE4EC'} color={'#102D42'}></Grid>
-                <Grid item xs={6} border={'0.5px solid #DAE4EC'} color={'#102D42'}></Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        ))} */}
+        <div className='calendar'>
+          <h3 style={{ textAlign: 'center' }}>calendar</h3>
+          <div className='container'>
+            {Array(25)
+              .fill(true)
+              .map((ele, index) => (
+                <div key={index} className='time'>
+                  <p>{index}</p>
+                </div>
+              ))}
+            {(() => {
+              queue.current = []
+            })()}
+            {sortIt(mapTaskToCollisionList(tasks)).map((ele: any, index: any) => (
+              <div key={index} className='schedule' style={style(ele)}>
+                <p>{ele.title}</p>
+                <p>
+                  {ele.startTime}-{ele.endTime}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </Stack>
     </Stack>
   )
