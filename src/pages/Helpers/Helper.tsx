@@ -4,10 +4,14 @@ import Stack from '@mui/material/Stack'
 import CardPost from '../../components/CardPost/CardPost'
 import Grid from '@mui/material/Grid'
 import DetailPost from './DetailPost'
-import Schedule from './Schedule'
+import Schedule from './Schedule/Schedule'
 import { useResposive } from '../../utils/hook'
 import { getActivePosts } from '../../apis/get-active-post'
 import { useEffect, useState } from 'react'
+import { applyPost } from '../../apis/post.api'
+import { Popup } from '../../components/Popup/Popup'
+import { Modal } from '../../components/Modal/Modal'
+import Loading from '../../components/Loading/Loading'
 export interface IPost {
   id: string
   createdAt: {
@@ -63,7 +67,20 @@ export interface IPost {
 const Helper = () => {
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
+  const agree = () => {
+    setOpen(false)
+  }
 
+  const disagree = () => {
+    setOpen(false)
+  }
+
+  const close = () => {
+    setOpen(false)
+  }
   useEffect(() => {
     getActivePosts().then((res) => {
       setListPost(res.data.data)
@@ -72,6 +89,22 @@ const Helper = () => {
   }, [])
 
   const { isFromLg, isFromMd } = useResposive()
+  const helperApplyPost = () => {
+    setIsLoading(true)
+    applyPost(activePost)
+      .then(() => {
+        setText('Đăng kí giúp việc thành công')
+        setOpen(true)
+      })
+      .catch(() => {
+        setText('Đã có lỗi xảy ra vui long thử lại')
+        setOpen(true)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+
   return (
     <Box>
       <Stack direction='row' spacing={2}>
@@ -87,9 +120,9 @@ const Helper = () => {
           </Grid>
         )}
         <Grid item xs={12} md={8} lg={4}>
-          {listPost.map((item) => (
+          {listPost.map((item, index) => (
             <CardPost
-              key={item.id}
+              key={`${index}${item.id}`}
               post={item}
               active={item.id === activePost}
               onClick={() => setActivePost(item.id)}
@@ -98,10 +131,12 @@ const Helper = () => {
         </Grid>
         {isFromLg && (
           <Grid item xs={6} lg={6}>
-            <DetailPost post={listPost.find((item) => item.id === activePost)}/>
+            <DetailPost post={listPost.find((item) => item.id === activePost)} onClick={() => helperApplyPost()} />
           </Grid>
         )}
       </Grid>
+      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      <Modal open={isLoading} Content={<Loading></Loading>} />
     </Box>
   )
 }

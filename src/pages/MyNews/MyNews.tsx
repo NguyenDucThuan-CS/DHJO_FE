@@ -1,12 +1,24 @@
 import { Stack, Box, Button, Grid } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useResposive } from '../../utils/hook'
 //import CardPost from '../../components/CardPost/CardPost'
 import DetailPost from '../Helpers/DetailPost'
-
+import { getAllOwnerPost } from '../../apis/post.api'
+import { IPost } from '../Helpers/Helper'
+import CardPost from '../../components/CardPost/CardPost'
 const MyNews = () => {
   const { isFromMd } = useResposive()
   const [tab, setTab] = useState<number>(0)
+  const [listPost, setListPost] = useState<IPost[]>([])
+  const [activePost, setActivePost] = useState<string>('')
+
+  useEffect(() => {
+    getAllOwnerPost().then((res) => {
+      setListPost(res.data.data)
+      setActivePost(res.data.data[0].id)
+    })
+  }, [])
+
   return (
     <Box>
       <Stack direction={'row'} gap={2} sx={{ marginBottom: '20px' }}>
@@ -29,11 +41,14 @@ const MyNews = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={5}>
-          {/* <CardPost />
-          <CardPost />
-          <CardPost />
-          <CardPost />
-          <CardPost /> */}
+          {listPost.map((item, index) => (
+            <CardPost
+              key={`${index}${item.id}`}
+              post={item}
+              active={item.id === activePost}
+              onClick={() => setActivePost(item.id)}
+            />
+          ))}
         </Grid>
         {isFromMd && (
           <Grid item xs={7}>

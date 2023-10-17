@@ -50,7 +50,7 @@ export default function CardPost({ post, active, onClick }: Props) {
               </Typography>
               <Typography sx={{ fontSize: '12px' }}>
                 <CalendarMonthIcon fontSize='inherit' />
-                {`${post.startTime.hour % 10}:${post.startTime.minute}${post.startTime.hour > 12 ? 'PM' : 'AM'}:${
+                {`${post.startTime.hour % 12}:${post.startTime.minute}${post.startTime.hour > 12 ? 'PM' : 'AM'}${
                   post.startDate.day
                 }/${post.startDate.month}/${post.startDate.year}`}
               </Typography>

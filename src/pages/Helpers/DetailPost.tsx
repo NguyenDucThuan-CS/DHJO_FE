@@ -6,18 +6,22 @@ import Stack from '@mui/material/Stack/Stack'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HomeIcon from '@mui/icons-material/Home'
-//import CardPost from '../../components/CardPost/CardPost'
 import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
 
-const DetailPost = ({ post }: { post?: IPost }) => {
+interface Props {
+  post?: IPost
+  onClick?: () => void
+}
+
+const DetailPost = ({ post, onClick }: Props) => {
   if (post)
     return (
       <Box>
         <Typography variant='h4' align='center'>
           Dọn dẹp nhà cửa
         </Typography>
-        <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained'>
+        <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
           Nhận việc ngay
         </Button>
         <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />

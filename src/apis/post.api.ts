@@ -76,3 +76,15 @@ export interface Post {
 export const createPost = (post: Post) => {
   return http.post(url, { ...post })
 }
+
+export const applyPost = (postId: string) => {
+  return http.post(url + '/helper/apply', null, {
+    params: {
+      postId
+    }
+  })
+}
+
+export const getAllOwnerPost = () => {
+  return http.get(url + '/owner/all')
+}
