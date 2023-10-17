@@ -29,7 +29,7 @@ const Schedule = () => {
   ]
 
   return (
-    <Stack direction={{ xs: 'column' }} sx={{ border: '0.5px solid #DAE4EC' }}>
+    <Stack direction={{ xs: 'column'}} sx={{ border: '0.5px solid #DAE4EC' }}>
       <Box textAlign={'center'}>
         <p>Tháng 3, 0223</p>
         <p>CN</p>

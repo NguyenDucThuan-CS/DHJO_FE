@@ -3,7 +3,6 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import { Box, Grid } from '@mui/material'
-import { Post } from '../../apis/post.api'
 import Stack from '@mui/material/Stack'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
@@ -11,14 +10,21 @@ import HomeIcon from '@mui/icons-material/Home'
 import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
 import Chip from '@mui/material/Chip'
+import { IPost } from '../../pages/Helpers/Helper'
 
 const MySpan = styled('span')({
   fontWeight: 'bolder'
 })
+interface Props {
+  post: IPost
+  active?: boolean
+  onClick?: () => void
+}
 
-export default function CardPost({ ...post }: Post) {
+export default function CardPost({ post, active, onClick }: Props) {
+  //console.log('post', post)
   return (
-    <Card>
+    <Card sx={{ border: `${active ? '1px solid red' : '0px solid red'}` }} onClick={onClick}>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={5} sm={5} md={5}>
@@ -40,33 +46,34 @@ export default function CardPost({ ...post }: Post) {
             <Stack direction='row' spacing={1}>
               <Typography sx={{ fontSize: '12px' }}>
                 <AttachMoneyIcon fontSize='inherit' />
-                {`25000 vnd/h`}
+                {`${post.fee} vnd/h`}
               </Typography>
               <Typography sx={{ fontSize: '12px' }}>
                 <CalendarMonthIcon fontSize='inherit' />
-                {'10:00'}
+                {`${post.startTime.hour % 10}:${post.startTime.minute}${post.startTime.hour > 12 ? 'PM' : 'AM'}:${
+                  post.startDate.day
+                }/${post.startDate.month}/${post.startDate.year}`}
               </Typography>
             </Stack>
             <Typography sx={{ fontSize: '12px' }}>
               <HomeIcon fontSize='inherit' />
-              {'39 Cao Lỗ, Phường 4, Quận 8, Thành phố Hồ Chí Minh'}
+              {`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}
             </Typography>
 
             <Stack direction='row' spacing={1}>
               <Typography sx={{ fontSize: '12px' }}>
                 <WcIcon fontSize='inherit' />
-                {`Nữ`}
+                {`${post.preferredGender}`}
               </Typography>
               <Typography sx={{ fontSize: '12px' }}>
                 <SchoolIcon fontSize='inherit' />
-                {'Tốt nghiệp cấp 3'}
+                {`${post.preferredEducation}`}
               </Typography>
             </Stack>
             <Stack direction='row' spacing={1}>
-              <Chip label='Chip Filled' sx={{ fontSize: '12px' }} />
-              <Chip label='Chip Filled' sx={{ fontSize: '12px' }} />
-              <Chip label='Chip Filled' sx={{ fontSize: '12px' }} />
-              <Chip label='Chip Filled' sx={{ fontSize: '12px' }} />
+              {post.skills.map((item) => (
+                <Chip key={item} label={item} sx={{ fontSize: '12px' }} />
+              ))}
             </Stack>
           </Grid>
         </Grid>
