@@ -12,6 +12,7 @@ import { applyPost } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
+
 export interface IPost {
   id: string
   createdAt: {
@@ -69,6 +70,8 @@ const Helper = () => {
   const [activePost, setActivePost] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
+  const [openTask, setOpenTask] = useState<boolean>(false)
+
   const [text, setText] = useState<string>('')
   const agree = () => {
     setOpen(false)
@@ -116,7 +119,11 @@ const Helper = () => {
       <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
         {isFromMd && (
           <Grid item xs={4} lg={2}>
-            <Schedule />
+            <Schedule
+              onClick={(id: string) => {
+                setOpenTask(true)
+              }}
+            />
           </Grid>
         )}
         <Grid item xs={12} md={8} lg={4}>
@@ -136,6 +143,11 @@ const Helper = () => {
         )}
       </Grid>
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      <Modal
+        open={openTask}
+        handleClose={() => setOpenTask(false)}
+        Content={<DetailPost post={listPost.find((item) => item.id === activePost)} isHideBtn={true}></DetailPost>}
+      />
       <Modal open={isLoading} Content={<Loading></Loading>} />
     </Box>
   )

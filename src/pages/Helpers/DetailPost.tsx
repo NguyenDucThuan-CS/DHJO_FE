@@ -12,18 +12,21 @@ import Chip from '@mui/material/Chip'
 interface Props {
   post?: IPost
   onClick?: () => void
+  isHideBtn?: boolean
 }
 
-const DetailPost = ({ post, onClick }: Props) => {
+const DetailPost = ({ post, onClick, isHideBtn }: Props) => {
   if (post)
     return (
       <Box>
         <Typography variant='h4' align='center'>
           Dọn dẹp nhà cửa
         </Typography>
-        <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
-          Nhận việc ngay
-        </Button>
+        {!isHideBtn && (
+          <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
+            Nhận việc ngay
+          </Button>
+        )}
         <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
         <Grid container spacing={2}>
           <Grid item xs={6}>

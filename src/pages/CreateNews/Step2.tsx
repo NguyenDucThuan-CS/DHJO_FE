@@ -62,12 +62,12 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       setTitle(post.title)
       setContent(post.content)
       setStartDate(dayjs(post.startDate, 'YYYY-MM-DD'))
-      setEndDate(dayjs(post.recurringPattern.endDate, 'YYYY-MM-DD'))
+      if (post.recurringPattern !== null) setEndDate(dayjs(post.recurringPattern.endDate, 'YYYY-MM-DD'))
 
       setStartTime(dayjs(`2022-04-17T${post.startTime.hour}:${post.startTime.minute}`))
       setFee(post.fee.toString())
-      setChecked(post.recurringPattern.endDate ? true : false)
-      setIdPeriod(post.recurringPattern.period.id)
+      if (post.recurringPattern !== null) setChecked(post.recurringPattern.endDate ? true : false)
+      if (post.recurringPattern !== null) setIdPeriod(post.recurringPattern.period.id)
       setWorkTime(post.workTime.toString())
     }
   }, [post])

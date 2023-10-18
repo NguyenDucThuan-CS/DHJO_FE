@@ -20,8 +20,11 @@ interface ITask {
   workTime: number
   isDraftTask: boolean
 }
+interface Props {
+  onClick?: (id: string) => void
+}
 
-const Schedule = () => {
+const Schedule = ({ onClick }: Props) => {
   const daysInWeek = ['CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']
 
   const [tasks, setTasks] = useState<ITask[]>([])
@@ -101,7 +104,7 @@ const Schedule = () => {
               queue.current = []
             })()}
             {sortIt(mapTaskToCollisionList(tasks)).map((ele: any, index: any) => (
-              <div key={index} className='schedule' style={style(ele)}>
+              <div key={index} className='schedule' onClick={() => onClick(ele.title)} style={style(ele)}>
                 <p>{ele.title}</p>
                 <p>
                   {ele.startTime}-{ele.endTime}
