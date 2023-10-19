@@ -4,7 +4,7 @@ import { getTime, sortIt, collision2 } from './../../../utils/schedule'
 import { useCallback, useRef, useEffect, useState } from 'react'
 import { getTaskToday } from '../../../apis/task.api'
 
-interface ITask {
+export interface ITask {
   id: string
   startTime: {
     hour: number

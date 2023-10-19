@@ -7,6 +7,10 @@ import Profiles from './pages/Profiles/Profies.tsx'
 import CreateNews from './pages/CreateNews/CreateNews.tsx'
 import Helper from './pages/Helpers/Helper.tsx'
 import ProfileHelper from './pages/ProfileHelper/Profies.tsx'
+import WorkingSchedule from './pages/WorkingSchedule/WorkingSchedule.tsx'
+import ActvitiveHelper from './pages/ActivitiveHelper/ActivitiveHelper.tsx'
+//import WorkingScheduleDemo from './pages/WorkingSchedule/WorkingScheduleDemo.tsx'
+
 
 function App() {
   return (
@@ -95,6 +99,23 @@ function App() {
         element={
           <PrivateRouter>
             <ProfileHelper />
+          </PrivateRouter>
+        }
+      />
+      <Route
+        path='/helper/schedules'
+        element={
+          <PrivateRouter>
+            <WorkingSchedule />
+          </PrivateRouter>
+        }
+      />
+
+      <Route
+        path='/helper/activitive'
+        element={
+          <PrivateRouter>
+            <ActvitiveHelper />
           </PrivateRouter>
         }
       />
