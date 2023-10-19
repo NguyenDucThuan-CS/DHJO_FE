@@ -6,6 +6,8 @@ import { getTaskToday } from '../../../apis/task.api'
 
 export interface ITask {
   id: string
+  postId: string
+  taskName: string
   startTime: {
     hour: number
     minute: number
@@ -62,7 +64,8 @@ const Schedule = ({ onClick }: Props) => {
         startTime: `${item.startTime.hour}:${item.startTime.minute}`,
         endTime: `${item.startTime.hour + item.workTime}:${item.startTime.minute}`,
         color: '#029be5',
-        title: item.id
+        title: item.taskName,
+        postId: item.postId
       }
     })
   }
@@ -104,7 +107,7 @@ const Schedule = ({ onClick }: Props) => {
               queue.current = []
             })()}
             {sortIt(mapTaskToCollisionList(tasks)).map((ele: any, index: any) => (
-              <div key={index} className='schedule' onClick={() => onClick(ele.title)} style={style(ele)}>
+              <div key={index} className='schedule' onClick={() => onClick(ele.postId)} style={style(ele)}>
                 <p>{ele.title}</p>
                 <p>
                   {ele.startTime}-{ele.endTime}

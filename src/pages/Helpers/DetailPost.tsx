@@ -16,11 +16,12 @@ interface Props {
 }
 
 const DetailPost = ({ post, onClick, isHideBtn }: Props) => {
+  console.log('possy', post)
   if (post)
     return (
       <Box>
         <Typography variant='h4' align='center'>
-          Dọn dẹp nhà cửa
+          {post.title}
         </Typography>
         {!isHideBtn && (
           <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>

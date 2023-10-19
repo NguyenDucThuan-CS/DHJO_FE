@@ -88,3 +88,11 @@ export const applyPost = (postId: string) => {
 export const getAllOwnerPost = () => {
   return http.get(url + '/owner/all')
 }
+
+export const getPostById = (postId: string) => {
+  return http.get(url, {
+    params: {
+      postId
+    }
+  })
+}

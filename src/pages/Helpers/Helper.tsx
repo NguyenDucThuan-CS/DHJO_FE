@@ -8,10 +8,12 @@ import Schedule from './Schedule/Schedule'
 import { useResposive } from '../../utils/hook'
 import { getActivePosts } from '../../apis/get-active-post'
 import { useEffect, useState } from 'react'
-import { applyPost } from '../../apis/post.api'
+import { applyPost, getPostById } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
+import { Post } from '../../apis/post.api'
+
 
 export interface IPost {
   id: string
@@ -63,6 +65,11 @@ export interface IPost {
   }
   skills: string[]
   recurringPattern: null
+  helpers: any[]
+  overdue: boolean
+  applied: boolean
+  confirmed: boolean
+  finished: boolean
 }
 
 const Helper = () => {
@@ -71,6 +78,7 @@ const Helper = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
   const [openTask, setOpenTask] = useState<boolean>(false)
+  const [postForTask, setPostForTask] = useState<any>(null)
 
   const [text, setText] = useState<string>('')
   const agree = () => {
@@ -86,12 +94,14 @@ const Helper = () => {
   }
   useEffect(() => {
     getActivePosts().then((res) => {
-      setListPost(res.data.data)
-      setActivePost(res.data.data[0].id)
+      //console.log("res", res)
+      setListPost(res.data.data.content[0])
+      setActivePost(res.data.data.content[0][0].id)
     })
   }, [])
 
   const { isFromLg, isFromMd } = useResposive()
+
   const helperApplyPost = () => {
     setIsLoading(true)
     applyPost(activePost)
@@ -107,7 +117,36 @@ const Helper = () => {
         setIsLoading(false)
       })
   }
-
+  const mapPost = (postForTask: any) => {
+    if (postForTask)
+      return {
+        id: postForTask.id as string,
+        createdAt: postForTask.createdAt,
+        modifiedAt: postForTask.modifiedAt,
+        deleted: postForTask.deleted,
+        title: postForTask.title,
+        content: postForTask.content,
+        startTime: postForTask.startTime,
+        startDate: postForTask.startDate,
+        workTime: postForTask.workTime,
+        fee: postForTask.fee,
+        preferredGender: postForTask.preferredGender?.name,
+        preferredEducation: postForTask.preferredEducation?.name,
+        house: {
+          houseName: postForTask.house.houseName,
+          houseType: postForTask.house.houseType.name,
+          floorArea: postForTask.house.floorArea,
+          houseNo: postForTask.house.houseNo,
+          street: postForTask.house.street,
+          ward: postForTask.house.ward.name,
+          district: postForTask.house.district.name,
+          province: postForTask.house.province.name
+        },
+        //house: postForTask.house,
+        skills: postForTask.skills?.map((item: any) => item.skillName),
+        recurringPattern: postForTask.recurringPattern
+      }
+  }
   return (
     <Box>
       <Stack direction='row' spacing={2}>
@@ -121,7 +160,10 @@ const Helper = () => {
           <Grid item xs={4} lg={2}>
             <Schedule
               onClick={(id: string) => {
-                setOpenTask(true)
+                getPostById(id).then((res) => {
+                  setPostForTask(res.data.data)
+                  setOpenTask(true)
+                })
               }}
             />
           </Grid>
@@ -146,7 +188,7 @@ const Helper = () => {
       <Modal
         open={openTask}
         handleClose={() => setOpenTask(false)}
-        Content={<DetailPost post={listPost.find((item) => item.id === activePost)} isHideBtn={true}></DetailPost>}
+        Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true}></DetailPost>}
       />
       <Modal open={isLoading} Content={<Loading></Loading>} />
     </Box>

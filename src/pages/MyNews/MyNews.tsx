@@ -11,14 +11,22 @@ const MyNews = () => {
   const [tab, setTab] = useState<number>(0)
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<string>('')
-
+  console.log('activePost', activePost)
   useEffect(() => {
     getAllOwnerPost().then((res) => {
-      setListPost(res.data.data)
-      setActivePost(res.data.data[0].id)
+      setListPost(res.data.data.content[0])
+      setActivePost(res.data.data.content[0][0].id)
     })
   }, [])
-
+  const filterPost = (listPost: IPost[]) => {
+    if (tab === 0) return listPost
+    if (tab === 1) return listPost.filter((item) => !item.applied && !item.confirmed && !item.finished && !item.overdue)
+    if (tab === 2) return listPost.filter((item) => item.applied === true)
+    if (tab === 3) return listPost.filter((item) => item.confirmed === true)
+    if (tab === 4) return listPost.filter((item) => item.finished === true)
+    if (tab === 5) return listPost.filter((item) => item.overdue === true)
+    return []
+  }
   return (
     <Box>
       <Stack direction={'row'} gap={2} sx={{ marginBottom: '20px' }}>
@@ -37,11 +45,14 @@ const MyNews = () => {
         <Button variant={`${tab === 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
           Tin đã hoàn thành
         </Button>
+        <Button variant={`${tab === 5 ? 'contained' : 'outlined'}`} onClick={() => setTab(5)}>
+          Tin đã quá hạn
+        </Button>
       </Stack>
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={5}>
-          {listPost.map((item, index) => (
+          {filterPost(listPost).map((item, index) => (
             <CardPost
               key={`${index}${item.id}`}
               post={item}
@@ -52,7 +63,7 @@ const MyNews = () => {
         </Grid>
         {isFromMd && (
           <Grid item xs={7}>
-            <DetailPost />
+            <DetailPost post={listPost.find((item) => item.id === activePost)} isHideBtn={true} />
           </Grid>
         )}
       </Grid>
