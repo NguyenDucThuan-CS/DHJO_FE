@@ -8,12 +8,10 @@ import Schedule from './Schedule/Schedule'
 import { useResposive } from '../../utils/hook'
 import { getActivePosts } from '../../apis/get-active-post'
 import { useEffect, useState } from 'react'
-import { applyPost, getPostById } from '../../apis/post.api'
+import { applyPost, getPostById, Post } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
-import { Post } from '../../apis/post.api'
-
 
 export interface IPost {
   id: string

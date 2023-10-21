@@ -11,7 +11,7 @@ const MyNews = () => {
   const [tab, setTab] = useState<number>(0)
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<string>('')
-  console.log('activePost', activePost)
+
   useEffect(() => {
     getAllOwnerPost().then((res) => {
       setListPost(res.data.data.content[0])

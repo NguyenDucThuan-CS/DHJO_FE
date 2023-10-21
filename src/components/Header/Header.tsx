@@ -75,7 +75,7 @@ function Header() {
   ]
 
   const pagesForOwner = [
-    { name: 'Trang chủ', to: '/' },
+    { name: 'Trang chủ', to: '/owner' },
     { name: 'Hồ sơ của bạn', to: '/owner/my-profiles' },
     { name: 'Tin đăng của bạn', to: '/owner/my-news' },
     { name: 'Người giúp việc yêu thích', to: '/owner/favorite-helpers' }
