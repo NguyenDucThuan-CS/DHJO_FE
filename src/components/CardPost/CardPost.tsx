@@ -11,6 +11,7 @@ import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
 import Chip from '@mui/material/Chip'
 import { IPost } from '../../pages/Helpers/Helper'
+import { ReactNode } from 'react'
 
 const MySpan = styled('span')({
   fontWeight: 'bolder'
@@ -19,12 +20,15 @@ interface Props {
   post: IPost
   active?: boolean
   onClick?: () => void
+  CardAction?: ReactNode
+  CardNote?: ReactNode
 }
 
-export default function CardPost({ post, active, onClick }: Props) {
+export default function CardPost({ post, active, onClick, CardAction, CardNote }: Props) {
   //console.log('post', post)
   return (
-    <Card sx={{ border: `${active ? '1px solid red' : '0px solid red'}` }} onClick={onClick}>
+    <Card sx={{ border: `${active ? '1px solid red' : '0px solid red'}`, position: 'relative' }} onClick={onClick}>
+      <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={5} sm={5} md={5}>
@@ -78,6 +82,7 @@ export default function CardPost({ post, active, onClick }: Props) {
           </Grid>
         </Grid>
       </CardContent>
+      {CardNote}
     </Card>
   )
 }

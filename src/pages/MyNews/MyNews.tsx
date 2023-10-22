@@ -1,16 +1,46 @@
 import { Stack, Box, Button, Grid } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useResposive } from '../../utils/hook'
-//import CardPost from '../../components/CardPost/CardPost'
 import DetailPost from '../Helpers/DetailPost'
-import { getAllOwnerPost } from '../../apis/post.api'
+import { getAllOwnerPost, deletePost } from '../../apis/post.api'
 import { IPost } from '../Helpers/Helper'
 import CardPost from '../../components/CardPost/CardPost'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { Popup } from '../../components/Popup/Popup'
+import { Modal } from '../../components/Modal/Modal'
+import Loading from '../../components/Loading/Loading'
 const MyNews = () => {
   const { isFromMd } = useResposive()
   const [tab, setTab] = useState<number>(0)
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<string>('')
+
+  const [open, setOpen] = useState<boolean>(false)
+  const [text, setText] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const agree = () => {
+    setOpen(false)
+    setIsLoading(true)
+    deletePost(activePost)
+      .then((res) => {
+        console.log(res)
+        setListPost((prev) => prev.filter((item) => item.id !== activePost))
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+
+  const disagree = () => {
+    setOpen(false)
+  }
+
+  const close = () => {
+    setOpen(false)
+  }
 
   useEffect(() => {
     getAllOwnerPost().then((res) => {
@@ -27,6 +57,68 @@ const MyNews = () => {
     if (tab === 5) return listPost.filter((item) => item.overdue === true)
     return []
   }
+
+  const renderActionForPost = (post: IPost) => {
+    if (post.applied || post.confirmed) return <></>
+    if (post.finished || post.overdue) {
+      return <ContentCopyIcon />
+    }
+    return (
+      <Stack direction={'row'}>
+        <div
+          onClick={() => {
+            console.log('kakak')
+          }}
+        >
+          <EditIcon />
+        </div>
+        <div
+          onClick={() => {
+            setOpen(true)
+            setText('Bạn có chắc chắn muốn xóa?')
+          }}
+        >
+          <DeleteIcon />
+        </div>
+      </Stack>
+    )
+  }
+
+  const renderNotePost = (post: IPost) => {
+    if (post.applied)
+      return (
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+          Tin chờ xác nhận
+        </Box>
+      )
+    if (post.confirmed) {
+      return (
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+          Tin đã xác nhận
+        </Box>
+      )
+    }
+    if (post.finished) {
+      return (
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+          Tin đã hoàn thành
+        </Box>
+      )
+    }
+    if (post.overdue) {
+      return (
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+          Tin đã hoàn quá hạn
+        </Box>
+      )
+    }
+    return (
+      <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+        Tin mới đăng
+      </Box>
+    )
+  }
+
   return (
     <Box>
       <Stack direction={'row'} gap={2} sx={{ marginBottom: '20px' }}>
@@ -58,6 +150,8 @@ const MyNews = () => {
               post={item}
               active={item.id === activePost}
               onClick={() => setActivePost(item.id)}
+              CardAction={renderActionForPost(item)}
+              CardNote={renderNotePost(item)}
             />
           ))}
         </Grid>
@@ -67,6 +161,8 @@ const MyNews = () => {
           </Grid>
         )}
       </Grid>
+      <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      <Modal open={isLoading} Content={<Loading></Loading>} />
     </Box>
   )
 }

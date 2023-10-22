@@ -96,3 +96,11 @@ export const getPostById = (postId: string) => {
     }
   })
 }
+
+export const deletePost = (postId: string) => {
+  return http.delete(url, {
+    params: {
+      postId
+    }
+  })
+}
