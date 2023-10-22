@@ -16,7 +16,6 @@ interface Props {
 }
 
 const DetailPost = ({ post, onClick, isHideBtn }: Props) => {
-  console.log('possy', post)
   if (post)
     return (
       <Box>

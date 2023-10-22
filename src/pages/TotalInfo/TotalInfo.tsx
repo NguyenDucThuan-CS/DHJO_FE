@@ -1,17 +1,27 @@
-import { Container, Stack } from '@mui/material'
+import { Container, Stack, Button } from '@mui/material'
 import { Overview } from './Overview'
 import { OverdueNews } from './OverdueNews'
 import { WaitingNews } from './WaitingNews'
+import { useNavigate } from 'react-router-dom'
 
 const TotalInfo = () => {
+  const navigate = useNavigate()
   return (
     <Container>
-      <Stack direction={'row'} gap={'20px'} alignItems={'flex-start'} justifyContent={'center'}>
+      <Stack direction={'row'} justifyContent={'flex-end'}>
+        <Button
+          onClick={() => navigate('/owner/create-news')}
+          variant='contained'
+          sx={{ marginRight: '0px', marginBottom: '20px' }}
+        >
+          Tạo tin đăng
+        </Button>
+      </Stack>
+
+      <Stack gap={'20px'} direction={'row'} flexWrap={'wrap'} alignItems={'flex-start'} justifyContent={'center'}>
         <Overview />
         <OverdueNews />
         <WaitingNews />
-      </Stack>
-      <Stack direction={'row'} gap={'20px'} alignItems={'flex-start'} justifyContent={'center'} marginTop={'20px'}>
         <Overview />
         <WaitingNews />
       </Stack>

@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 // import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { createPost } from '../../apis/post.api'
+import { useNavigate } from 'react-router-dom'
 
 const steps = ['Chọn nhà', 'Chi tiết', 'Chọn người giúp việc']
 
@@ -25,12 +26,14 @@ export default function CreateNews() {
   const { post } = useSelector((state: RootState) => {
     return state.storeInfoReducer
   })
+  const navigate = useNavigate()
   // const { house } = useSelector((state: RootState) => {
   //   return state.storeInfoReducer
   // })
 
   const agree = () => {
     setOpen(false)
+    navigate('/owner/my-news')
   }
 
   const disagree = () => {
