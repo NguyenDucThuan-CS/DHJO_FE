@@ -84,10 +84,13 @@ const slice = createSlice({
       state.post.fee = action.payload.fee
       state.post.recurringPattern = action.payload.recurringPattern
       state.post.workTime = action.payload.workTime
+    },
+    doUpdateInfo(state, action) {
+      state.post = action.payload
     }
   }
 })
 const { reducer: storeInfoReducer, actions } = slice
 
-export const { doUpdateInfoStep1, doUpdateInfoStep2 } = actions
+export const { doUpdateInfoStep1, doUpdateInfoStep2, doUpdateInfo } = actions
 export default storeInfoReducer

@@ -2,7 +2,7 @@ import { Stack, Box, Button, Grid } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useResposive } from '../../utils/hook'
 import DetailPost from '../Helpers/DetailPost'
-import { getAllOwnerPost, deletePost } from '../../apis/post.api'
+import { getAllOwnerPost, deletePost, getPostById } from '../../apis/post.api'
 import { IPost } from '../Helpers/Helper'
 import CardPost from '../../components/CardPost/CardPost'
 import EditIcon from '@mui/icons-material/Edit'
@@ -11,6 +11,10 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
+import { doUpdateInfo } from '../../redux/slice'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 const MyNews = () => {
   const { isFromMd } = useResposive()
   const [tab, setTab] = useState<number>(0)
@@ -20,7 +24,8 @@ const MyNews = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const dispatch = useDispatch()
+  const history = useNavigate()
   const agree = () => {
     setOpen(false)
     setIsLoading(true)
@@ -67,7 +72,15 @@ const MyNews = () => {
       <Stack direction={'row'}>
         <div
           onClick={() => {
-            console.log('kakak')
+            getPostById(post.id).then((res) => {
+              dispatch(
+                doUpdateInfo({
+                  ...res.data.data,
+                  startDate: `${res.data.data.startDate.year}-${res.data.data.startDate.month}-${res.data.data.startDate.day}`
+                })
+              )
+              history('/owner/create-news')
+            })
           }}
         >
           <EditIcon />

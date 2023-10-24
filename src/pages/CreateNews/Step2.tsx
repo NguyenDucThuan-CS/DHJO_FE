@@ -48,7 +48,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
     getPeriod().then((res) => setPeriod(res.data.data))
     getGender().then((res) => setGender(res.data.data))
   }, [])
-
+  //console.log('post', post)
   useEffect(() => {
     if (post.title) {
       setIdChosenSkill(
