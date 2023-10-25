@@ -103,7 +103,7 @@ const PerInfo = () => {
           setChosenEdu(values[0].data.data.education.id)
           setIdGender(values[0].data.data.gender.id)
           setIdChosenSkill(
-            values[0].data.data.skills.map((item) => ({
+            values[0].data.data.skills.map((item:any) => ({
               id: item.id,
               value: item.skillName
             }))

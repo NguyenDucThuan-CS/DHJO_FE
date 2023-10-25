@@ -2,7 +2,7 @@ import { Stack, Box, Button, Grid } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useResposive } from '../../utils/hook'
 import DetailPost from '../Helpers/DetailPost'
-import { getAllOwnerPost, deletePost, getPostById } from '../../apis/post.api'
+import { getAllOwnerPost, deletePost, getPostById, chooseHelper } from '../../apis/post.api'
 import { IPost } from '../Helpers/Helper'
 import CardPost from '../../components/CardPost/CardPost'
 import EditIcon from '@mui/icons-material/Edit'
@@ -14,7 +14,6 @@ import Loading from '../../components/Loading/Loading'
 import { doUpdateInfo } from '../../redux/slice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { chooseHelper } from '../../apis/post.api'
 
 const MyNews = () => {
   const { isFromMd } = useResposive()
@@ -34,8 +33,8 @@ const MyNews = () => {
     setOpen(false)
     if (modeModal === 'DELETE') {
       handleDeletePost()
+    }
   }
-}
   const handleDeletePost = () => {
     setIsLoading(true)
 
@@ -62,6 +61,14 @@ const MyNews = () => {
       setActivePost(res.data.data.content[0][0].id)
     })
   }, [])
+
+  useEffect(() => {
+    if (listPost.length && filterPost(listPost).length) {
+      setActivePost(filterPost(listPost)[0].id)
+    } else {
+      setActivePost('')
+    }
+  }, [tab])
 
   const filterPost = (listPost: IPost[]) => {
     if (tab === 0) return listPost
@@ -195,45 +202,49 @@ const MyNews = () => {
         </Button>
       </Stack>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={5}>
-          {filterPost(listPost).map((item, index) => (
-            <CardPost
-              key={`${index}${item.id}`}
-              post={item}
-              active={item.id === activePost}
-              onClick={() => setActivePost(item.id)}
-              CardAction={renderActionForPost(item)}
-              CardNote={renderNotePost(item)}
-            />
-          ))}
-        </Grid>
-        {isFromMd && (
-          <Grid item xs={7}>
-            <DetailPost
-              post={listPost.find((item) => item.id === activePost)}
-              isHideBtn={true}
-              listHelper={listPost.find((item) => item.id === activePost)?.helpers}
-              choose={(id) => {
-                setIsLoading(true)
-                chooseHelper(activePost, id)
-                  .then(() => {
-                    setOpen(true)
-                    setText('Chọn người giúp việc thành công')
-                    setModalMode('CHOOSE')
-                    getAllOwnerPost().then((res) => {
-                      setListPost(res.data.data.content[0])
-                      setActivePost(res.data.data.content[0][0].id)
-                    })
-                  })
-                  .finally(() => {
-                    setIsLoading(false)
-                  })
-              }}
-            />
+      {filterPost(listPost).length ? (
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={5}>
+            {filterPost(listPost).map((item, index) => (
+              <CardPost
+                key={`${index}${item.id}`}
+                post={item}
+                active={item.id === activePost}
+                onClick={() => setActivePost(item.id)}
+                CardAction={renderActionForPost(item)}
+                CardNote={renderNotePost(item)}
+              />
+            ))}
           </Grid>
-        )}
-      </Grid>
+          {isFromMd && (
+            <Grid item xs={7}>
+              <DetailPost
+                post={listPost.find((item) => item.id === activePost)}
+                isHideBtn={true}
+                listHelper={listPost.find((item) => item.id === activePost)?.helpers}
+                choose={(id) => {
+                  setIsLoading(true)
+                  chooseHelper(activePost, id)
+                    .then(() => {
+                      setOpen(true)
+                      setText('Chọn người giúp việc thành công')
+                      setModalMode('CHOOSE')
+                      getAllOwnerPost().then((res) => {
+                        setListPost(res.data.data.content[0])
+                        setActivePost(res.data.data.content[0][0].id)
+                      })
+                    })
+                    .finally(() => {
+                      setIsLoading(false)
+                    })
+                }}
+              />
+            </Grid>
+          )}
+        </Grid>
+      ) : (
+        <Box>Khong co tin dang</Box>
+      )}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal open={isLoading} Content={<Loading></Loading>} />
     </Box>
