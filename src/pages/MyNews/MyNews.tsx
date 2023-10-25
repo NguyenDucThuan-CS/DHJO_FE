@@ -25,12 +25,20 @@ const MyNews = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [modeModal, setModalMode] = useState<'DELETE' | 'CHOOSE' | ''>('')
+
   const dispatch = useDispatch()
   const history = useNavigate()
 
   const agree = () => {
     setOpen(false)
+    if (modeModal === 'DELETE') {
+      handleDeletePost()
+  }
+}
+  const handleDeletePost = () => {
     setIsLoading(true)
+
     deletePost(activePost)
       .then((res) => {
         console.log(res)
@@ -40,7 +48,6 @@ const MyNews = () => {
         setIsLoading(false)
       })
   }
-
   const disagree = () => {
     setOpen(false)
   }
@@ -121,6 +128,7 @@ const MyNews = () => {
           onClick={() => {
             setOpen(true)
             setText('Bạn có chắc chắn muốn xóa?')
+            setModalMode('DELETE')
           }}
         >
           <DeleteIcon />
@@ -212,6 +220,7 @@ const MyNews = () => {
                   .then(() => {
                     setOpen(true)
                     setText('Chọn người giúp việc thành công')
+                    setModalMode('CHOOSE')
                     getAllOwnerPost().then((res) => {
                       setListPost(res.data.data.content[0])
                       setActivePost(res.data.data.content[0][0].id)

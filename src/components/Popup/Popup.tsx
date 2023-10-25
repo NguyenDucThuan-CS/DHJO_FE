@@ -5,9 +5,9 @@ import { TransitionProps } from '@mui/material/transitions'
 
 interface PopupProps {
   open: boolean
-  handleClose: () => void
-  handleAgree: () => void
-  handleDisAgree: () => void
+  handleClose?: () => void
+  handleAgree?: () => void
+  handleDisAgree?: () => void
   text: string
 }
 const Transition = React.forwardRef(function Transition(
