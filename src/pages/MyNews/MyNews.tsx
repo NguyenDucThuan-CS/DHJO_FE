@@ -14,6 +14,7 @@ import Loading from '../../components/Loading/Loading'
 import { doUpdateInfo } from '../../redux/slice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { chooseHelper } from '../../apis/post.api'
 
 const MyNews = () => {
   const { isFromMd } = useResposive()
@@ -26,6 +27,7 @@ const MyNews = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useDispatch()
   const history = useNavigate()
+
   const agree = () => {
     setOpen(false)
     setIsLoading(true)
@@ -53,6 +55,7 @@ const MyNews = () => {
       setActivePost(res.data.data.content[0][0].id)
     })
   }, [])
+
   const filterPost = (listPost: IPost[]) => {
     if (tab === 0) return listPost
     if (tab === 1) return listPost.filter((item) => !item.applied && !item.confirmed && !item.finished && !item.overdue)
@@ -66,7 +69,30 @@ const MyNews = () => {
   const renderActionForPost = (post: IPost) => {
     if (post.applied || post.confirmed) return <></>
     if (post.finished || post.overdue) {
-      return <ContentCopyIcon />
+      return (
+        <div
+          onClick={() => {
+            getPostById(post.id).then((res) => {
+              dispatch(
+                doUpdateInfo({
+                  ...res.data.data,
+                  id: null,
+                  startDate: `${res.data.data.startDate.year}-${res.data.data.startDate.month}-${res.data.data.startDate.day}`,
+                  recurringPattern: res.data.data.recurringPattern
+                    ? {
+                        ...res.data.data.recurringPattern,
+                        endDate: `${res.data.data.recurringPattern.endDate.year}-${res.data.data.recurringPattern.endDate.month}-${res.data.data.recurringPattern.endDate.day}`
+                      }
+                    : null
+                })
+              )
+              history('/owner/create-news')
+            })
+          }}
+        >
+          <ContentCopyIcon />
+        </div>
+      )
     }
     return (
       <Stack direction={'row'}>
@@ -76,7 +102,13 @@ const MyNews = () => {
               dispatch(
                 doUpdateInfo({
                   ...res.data.data,
-                  startDate: `${res.data.data.startDate.year}-${res.data.data.startDate.month}-${res.data.data.startDate.day}`
+                  startDate: `${res.data.data.startDate.year}-${res.data.data.startDate.month}-${res.data.data.startDate.day}`,
+                  recurringPattern: res.data.data.recurringPattern
+                    ? {
+                        ...res.data.data.recurringPattern,
+                        endDate: `${res.data.data.recurringPattern.endDate.year}-${res.data.data.recurringPattern.endDate.month}-${res.data.data.recurringPattern.endDate.day}`
+                      }
+                    : null
                 })
               )
               history('/owner/create-news')
@@ -121,7 +153,7 @@ const MyNews = () => {
     if (post.overdue) {
       return (
         <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
-          Tin đã hoàn quá hạn
+          Tin đã quá hạn
         </Box>
       )
     }
@@ -170,7 +202,26 @@ const MyNews = () => {
         </Grid>
         {isFromMd && (
           <Grid item xs={7}>
-            <DetailPost post={listPost.find((item) => item.id === activePost)} isHideBtn={true} />
+            <DetailPost
+              post={listPost.find((item) => item.id === activePost)}
+              isHideBtn={true}
+              listHelper={listPost.find((item) => item.id === activePost)?.helpers}
+              choose={(id) => {
+                setIsLoading(true)
+                chooseHelper(activePost, id)
+                  .then(() => {
+                    setOpen(true)
+                    setText('Chọn người giúp việc thành công')
+                    getAllOwnerPost().then((res) => {
+                      setListPost(res.data.data.content[0])
+                      setActivePost(res.data.data.content[0][0].id)
+                    })
+                  })
+                  .finally(() => {
+                    setIsLoading(false)
+                  })
+              }}
+            />
           </Grid>
         )}
       </Grid>

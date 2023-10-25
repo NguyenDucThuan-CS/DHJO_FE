@@ -8,14 +8,32 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HomeIcon from '@mui/icons-material/Home'
 import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
-
+import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 interface Props {
   post?: IPost
   onClick?: () => void
   isHideBtn?: boolean
+  listHelper?: {
+    helperId: string
+    name: string
+    gender: {
+      id: string
+      name: string
+    }
+    birhday: string
+    education: {
+      id: string
+      name: string
+    }
+    skills: {
+      id: string
+      skillName: string
+    }[]
+  }[]
+  choose?: (id: string, flag: boolean) => void
 }
 
-const DetailPost = ({ post, onClick, isHideBtn }: Props) => {
+const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose }: Props) => {
   if (post)
     return (
       <Box>
@@ -65,11 +83,28 @@ const DetailPost = ({ post, onClick, isHideBtn }: Props) => {
           <Box> {post.content}</Box>
         </Box>
         <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
-        {/* <Box>
-        <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
-          Công việc đã hoàn thành
-        </Typography>
-      </Box> */}
+        <Box>
+          <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
+            Người giúp việc đăng kí
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              {listHelper?.map((item) => (
+                <HelperCard
+                  key={item.helperId}
+                  helperId={item.helperId}
+                  name={item.name}
+                  gender={item.gender}
+                  birhday={item.birhday}
+                  education={item.education}
+                  skills={item.skills}
+                  choose={choose}
+                  //isChosen={idChosen == item.id}
+                />
+              ))}
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     )
 }

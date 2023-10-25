@@ -10,7 +10,7 @@ const MySpan = styled('span')({
   fontWeight: 'bolder'
 })
 interface Props {
-  id: string
+  helperId: string
   name: string
   gender: {
     id: string
@@ -42,7 +42,7 @@ const getSkills = (
   }, '')
 }
 
-export default function HelperCard({ name, gender, birhday, education, skills, remove, id, choose, isChosen }: Props) {
+export default function HelperCard({ name, gender, birhday, education, skills, remove, helperId, choose, isChosen }: Props) {
   return (
     <Card>
       <CardContent>
@@ -80,18 +80,18 @@ export default function HelperCard({ name, gender, birhday, education, skills, r
       </CardContent>
       <CardActions>
         {remove && (
-          <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
+          <Button size='small' variant='contained' color='error' onClick={() => remove(helperId)}>
             Xóa
           </Button>
         )}
         {choose && !isChosen && (
-          <Button size='small' variant='contained' color='warning' onClick={() => choose(id, true)}>
+          <Button size='small' variant='contained' color='warning' onClick={() => choose(helperId, true)}>
             Chọn
           </Button>
         )}
 
         {choose && isChosen && (
-          <Button size='small' variant='contained' color='inherit' onClick={() => choose(id, false)}>
+          <Button size='small' variant='contained' color='inherit' onClick={() => choose(helperId, false)}>
             Bỏ chọn
           </Button>
         )}

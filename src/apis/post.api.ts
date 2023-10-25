@@ -104,3 +104,9 @@ export const deletePost = (postId: string) => {
     }
   })
 }
+
+export const chooseHelper = (postId: string, helperId: string) => {
+  return http.post(`${url}/owner/choose`, null ,{
+    params: { postId: postId, helperId: helperId }
+  })
+}
