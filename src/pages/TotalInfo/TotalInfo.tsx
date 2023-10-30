@@ -3,6 +3,8 @@ import { Overview } from './Overview'
 import { OverdueNews } from './OverdueNews'
 import { WaitingNews } from './WaitingNews'
 import { useNavigate } from 'react-router-dom'
+import MostFavoriteHelper from './FavoriteHelper'
+import MostFavoriteProfile from './FavoriteProfile'
 
 const TotalInfo = () => {
   const navigate = useNavigate()
@@ -22,8 +24,8 @@ const TotalInfo = () => {
         <Overview />
         <OverdueNews />
         <WaitingNews />
-        <Overview />
-        <WaitingNews />
+        <MostFavoriteHelper  />
+        <MostFavoriteProfile />
       </Stack>
     </Container>
   )

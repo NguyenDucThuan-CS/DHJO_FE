@@ -30,7 +30,7 @@ export default function ListHelperCard({ listHelpers, choose, idChosen }: Props)
           {listHelpers.map((item) => (
             <HelperCard
               key={item.id}
-              id={item.id}
+              helperId={item.id}
               name={item.name}
               gender={item.gender}
               birhday={item.birhday}

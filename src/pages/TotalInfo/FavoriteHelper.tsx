@@ -1,7 +1,10 @@
-import HelperCard from "../FavoriteHelpers/HelperCard/HelperCard"
+import Wrap from './Wrap'
+import Box from '@mui/material/Box'
 
-const FavoriteHelper = () => {
-    return <HelperCard />
+const MostFavoriteHelper = () => {
+  return <Wrap title='Người giúp việc được yêu thích nhất' width={250}>
+    <Box height={100}></Box>
+  </Wrap>
 }
 
-export default FavoriteHelper
+export default MostFavoriteHelper

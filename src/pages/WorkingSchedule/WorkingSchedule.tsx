@@ -107,7 +107,7 @@ export default function WorkingSchedule() {
       locale='en'
       events={tasks.map((item) => ({
         id: item.id,
-        label: item.id,
+        label: item.taskName,
         groupLabel: '',
         user: '',
         color: '#f28f6a',
