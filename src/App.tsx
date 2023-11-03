@@ -9,6 +9,7 @@ import Helper from './pages/Helpers/Helper.tsx'
 import ProfileHelper from './pages/ProfileHelper/Profies.tsx'
 import WorkingSchedule from './pages/WorkingSchedule/WorkingSchedule.tsx'
 import ActvitiveHelper from './pages/ActivitiveHelper/ActivitiveHelper.tsx'
+import DetailHelper from './pages/DetailHelper/DetailHelper.tsx'
 //import WorkingScheduleDemo from './pages/WorkingSchedule/WorkingScheduleDemo.tsx'
 
 function App() {
@@ -80,6 +81,15 @@ function App() {
         element={
           <PrivateRouter>
             <CreateNews />
+          </PrivateRouter>
+        }
+      />
+
+      <Route
+        path='owner/detail-helper'
+        element={
+          <PrivateRouter>
+            <DetailHelper />
           </PrivateRouter>
         }
       />

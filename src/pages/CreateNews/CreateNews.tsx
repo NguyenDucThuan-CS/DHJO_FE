@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import { Container } from '@mui/material'
 import Step1 from './Step1'
 import Step2 from './Step2'
-import Step3 from './Step3'
+//import Step3 from './Step3'
 import { useState, useRef } from 'react'
 import { Popup } from '../../components/Popup/Popup'
 import { useSelector } from 'react-redux'
@@ -17,7 +17,7 @@ import { RootState } from '../../redux/store'
 import { createPost } from '../../apis/post.api'
 import { useNavigate } from 'react-router-dom'
 
-const steps = ['Chọn nhà', 'Chi tiết', 'Chọn người giúp việc']
+const steps = ['Chọn nhà', 'Chi tiết']
 
 export default function CreateNews() {
   const [activeStep, setActiveStep] = React.useState(0)
@@ -63,16 +63,6 @@ export default function CreateNews() {
         setText('Vui nhap du thong tin')
         setOpen(true)
       }
-    } else if (activeStep === 2) {
-      return createPost(post)
-        .then(() => {
-          setText('Cập nhật bài post thành công')
-          setOpen(true)
-        })
-        .catch(() => {
-          setText('Đã có lỗi xảy ra vui long thử lại')
-          setOpen(true)
-        })
     }
   }
 
@@ -81,13 +71,21 @@ export default function CreateNews() {
   }
 
   const handleSumit = () => {
-    console.log('Đăng bài')
+    return createPost(post)
+      .then(() => {
+        setText('Cập nhật bài post thành công')
+        setOpen(true)
+      })
+      .catch(() => {
+        setText('Đã có lỗi xảy ra vui long thử lại')
+        setOpen(true)
+      })
   }
 
   const renderStep = (activeStep: number) => {
     if (activeStep === 0) return <Step1 ref={refStep1} />
     if (activeStep === 1) return <Step2 ref={refStep2} />
-    return <Step3 />
+    //return <Step3 />
   }
 
   return (
@@ -109,11 +107,11 @@ export default function CreateNews() {
         </Stepper>
         {activeStep === steps.length ? (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+            <Typography sx={{ mt: 2, mb: 1 }}>Đã hoàn thành các bước</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                Back
+                Quay lại
               </Button>
               <Button onClick={handleSumit}>Đăng bài</Button>
             </Box>
@@ -123,10 +121,10 @@ export default function CreateNews() {
             <Box sx={{ paddingTop: '20px' }}>{renderStep(activeStep)}</Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                Back
+                Quay lại
               </Button>
               <Box sx={{ flex: '1 1 auto' }} />
-              <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Finish' : 'Next'}</Button>
+              <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Kết thúc' : 'Tiếp tục'}</Button>
             </Box>
           </React.Fragment>
         )}
