@@ -42,7 +42,17 @@ const getSkills = (
   }, '')
 }
 
-export default function HelperCard({ name, gender, birhday, education, skills, remove, helperId, choose, isChosen }: Props) {
+export default function HelperCard({
+  name,
+  gender,
+  birhday,
+  education,
+  skills,
+  remove,
+  helperId,
+  choose,
+  isChosen
+}: Props) {
   return (
     <Card>
       <CardContent>

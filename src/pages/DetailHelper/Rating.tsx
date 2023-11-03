@@ -1,8 +1,9 @@
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack'
 
 export const Rating = (numStar: number) => {
-    return <Stack direction={'row'}>
-        <p>{ numStar }</p>
-        
+  return (
+    <Stack direction={'row'}>
+      <p>{numStar}</p>
     </Stack>
+  )
 }

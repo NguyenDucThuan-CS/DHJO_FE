@@ -1,11 +1,11 @@
-import { SmallStar } from '../../../assets/svg/SmallStar';
-import { LargeStar } from '../../../assets/svg/LargeStar';
-import { SmallStarGray } from '../../../assets/svg/SmallStarGray';
-import { LargeStarWhite } from '../../../assets/svg/LargeStarWhite';
+import { SmallStar } from '../../assets/svg/SmallStar';
+import { LargeStar } from '../../assets/svg/LargeStar';
+import { SmallStarGray } from '../../assets/svg/SmallStarGray';
+import { LargeStarWhite } from '../../assets/svg/LargeStarWhite';
 
 import './ListStar.scss';
 
-export const ListStar: React.FC<ListStar> = ({ number, score, isSmallStar = true, onClick = () => {} }) => {
+export const ListStar: React.FC<any> = ({ number, score, isSmallStar = true, onClick = () => {} }) => {
   const renderStar = (number: number) => {
     return [...Array(5)].map((item, index) => {
       index += 1;
