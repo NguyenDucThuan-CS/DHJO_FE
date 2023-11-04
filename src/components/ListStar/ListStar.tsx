@@ -3,7 +3,7 @@ import { LargeStar } from '../../assets/svg/LargeStar';
 import { SmallStarGray } from '../../assets/svg/SmallStarGray';
 import { LargeStarWhite } from '../../assets/svg/LargeStarWhite';
 
-import './ListStar.scss';
+import './ListStar.css';
 
 export const ListStar: React.FC<any> = ({ number, score, isSmallStar = true, onClick = () => {} }) => {
   const renderStar = (number: number) => {

@@ -2,7 +2,7 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize'
 import { styled } from '@mui/system'
 import Typography from '@mui/material/Typography'
 interface TextAreaProps {
-  label: string
+  label?: string
   onChange: (e:any) => void
   value?: string
 }
@@ -61,11 +61,11 @@ export default function Textarea({ label, onChange, value }: TextAreaProps) {
  
   return (
     <>
-      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>
+      {label && <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>}
       <StyledTextarea
         aria-label='minimum height'
         minRows={3}
-        placeholder='Minimum 3 rows'
+        placeholder='Nhập đánh giá'
         onChange={(e) => onChange(e.target.value)}
         value={value}
       />
