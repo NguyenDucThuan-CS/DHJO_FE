@@ -5,9 +5,22 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import { Box, Grid } from '@mui/material'
-
+import { useDispatch } from 'react-redux'
+import { doOpenModal, doUpdateHelperInfo } from '../../../redux/slice/modalDetai'
+import PersonIcon from '@mui/icons-material/Person'
+import ManIcon from '@mui/icons-material/Man'
+import CakeIcon from '@mui/icons-material/Cake'
+import Stack from '@mui/material/Stack'
+import SchoolIcon from '@mui/icons-material/School'
+import DiamondIcon from '@mui/icons-material/Diamond'
+import Chip from '@mui/material/Chip'
+import { ListStar } from '../../../components/ListStar/ListStar'
+import { AddFavorite } from '../../../assets/svg/AddFavorite'
+import { RemoveFavorite } from '../../../assets/RemoveFavorite'
+import { addFavoriteHelper } from '../../../apis/favaritehelper.api'
+import { toast } from 'react-toastify'
 const MySpan = styled('span')({
-  fontWeight: 'bolder'
+  marginLeft: '8px'
 })
 interface Props {
   helperId: string
@@ -45,67 +58,118 @@ const getSkills = (
 export default function HelperCard({
   name,
   gender,
-  birhday,
+  birthday,
   education,
   skills,
   remove,
   helperId,
   choose,
-  isChosen
-}: Props) {
+  isChosen, 
+  phone,
+  overallRating,
+  hideBtn
+}: any) {
+ const dispatch = useDispatch()
+
   return (
-    <Card>
-      <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={5} sm={5} md={5}>
-            <Box
-              component='img'
-              sx={{
-                width: '100%',
-                height: '100%'
-              }}
-              alt='The house from the offer.'
-              src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2'
-            />
-          </Grid>
+    <Box
+      sx = {{position:'relative'}}
+      onClick={() => {
+        dispatch(doOpenModal({}))
+        dispatch(doUpdateHelperInfo({
+          doB: `${birthday.day}/${birthday.month}/${birthday.year}`,
+          gender: gender.name,
+          edu: education.name,
+          skill: skills,
+          phone: phone,
+          name: name,
+          overallRating: overallRating
+        }))
+      }}
+    >
+      <span style = {{position:'absolute', top:'10px', right:'5px'}} onClick={(e) => {
+        e.stopPropagation()
+        addFavoriteHelper(helperId).then((res) => {
+          toast('Thêm vào danh sách yêu thích thnahf công')
+        })
+        .catch(() => toast('Có lỗi xảy ra'))
+      }}> 
+        <RemoveFavorite />
+      </span>
+      <Card>
+        <CardContent>
+          <Grid container spacing={2}>
+            <Grid item xs={5} sm={5} md={5}>
+              <Box
+                component='img'
+                sx={{
+                  width: '100%',
+                  height: '100%'
+                }}
+                alt='The house from the offer.'
+                src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2'
+              />
+            </Grid>
 
-          <Grid item xs={7} sm={7} md={7}>
-            <Typography>
-              <MySpan>{name}</MySpan>
-            </Typography>
-            <Typography>
-              <MySpan>{gender.name}</MySpan>
-            </Typography>
-            <Typography>
-              <MySpan> {birhday}</MySpan>
-            </Typography>
-            <Typography>
-              <MySpan> {education.name}</MySpan>
-            </Typography>
-            <Typography>
-              <MySpan> {getSkills(skills)}</MySpan>
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent>
-      <CardActions>
-        {remove && (
-          <Button size='small' variant='contained' color='error' onClick={() => remove(helperId)}>
-            Xóa
-          </Button>
-        )}
-        {choose && !isChosen && (
-          <Button size='small' variant='contained' color='warning' onClick={() => choose(helperId, true)}>
-            Chọn
-          </Button>
-        )}
+            <Grid item xs={7} sm={7} md={7}>
+              <Stack direction={'row'} alignItems={'center'}>
+                <PersonIcon />
+                <MySpan>{name}</MySpan>
+              </Stack>
+              <Stack direction={'row'} alignItems={'center'}>
+                <ManIcon />
+                <MySpan>{gender.name}</MySpan>
+              </Stack>
+              <Stack direction={'row'} alignItems={'center'}>
+                <CakeIcon />
+                <MySpan> {`${birthday.day}/${birthday.month}/${birthday.year}`}</MySpan>
+              </Stack>
 
-        {choose && isChosen && (
-          <Button size='small' variant='contained' color='inherit' onClick={() => choose(helperId, false)}>
-            Bỏ chọn
-          </Button>
-        )}
-      </CardActions>
-    </Card>
+              <Stack direction={'row'} alignItems={'center'}>
+                <SchoolIcon />
+                <MySpan> {education.name}</MySpan>
+              </Stack>
+
+              <Stack direction={'row'} alignItems={'center'}>
+                <DiamondIcon />
+                <Stack direction='row' spacing={1}>
+                  {skills.map((item:any) => (
+                    <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />
+                  ))}
+                </Stack>
+              </Stack>
+            </Grid>
+          </Grid>
+        </CardContent>
+        <Box sx = {{paddingLeft: '12px'}}><ListStar number = {4}></ListStar></Box>
+        <CardActions>
+          {remove && (
+            <Button size='small' variant='contained' color='error' onClick={(e) => {
+              e.stopPropagation()
+              remove(helperId)
+              }}>
+              Xóa
+            </Button>
+          )}
+          {choose && !isChosen && !hideBtn &&(
+            <Button size='small' variant='contained' color='warning' onClick={(e) => {
+              e.stopPropagation()
+              choose(helperId, true)
+            }}>
+              Chọn
+            </Button>
+          )}
+
+          {choose && isChosen && (
+            <Button size='small' variant='contained' color='inherit' onClick={(e) => {
+              e.stopPropagation()
+              choose(helperId, false)
+              }}>
+              Bỏ chọn
+            </Button>
+          )}
+        </CardActions>
+      </Card>
+    </Box>
   )
 }

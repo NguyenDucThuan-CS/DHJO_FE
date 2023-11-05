@@ -1,16 +1,17 @@
-import { Container, Stack, Button } from '@mui/material'
+import { Stack, Box } from '@mui/material'
 import { Overview } from './Overview'
 import { OverdueNews } from './OverdueNews'
 import { WaitingNews } from './WaitingNews'
 import { useNavigate } from 'react-router-dom'
 import MostFavoriteHelper from './FavoriteHelper'
 import MostFavoriteProfile from './FavoriteProfile'
-
+import Fab from '@mui/material/Fab'
+import AddIcon from '@mui/icons-material/Add'
 const TotalInfo = () => {
   const navigate = useNavigate()
   return (
-    <Container>
-      <Stack direction={'row'} justifyContent={'flex-end'}>
+    <Box>
+      {/* <Stack direction={'row'} justifyContent={'flex-end'}>
         <Button
           onClick={() => navigate('/owner/create-news')}
           variant='contained'
@@ -18,16 +19,24 @@ const TotalInfo = () => {
         >
           Tạo tin đăng
         </Button>
-      </Stack>
+      </Stack> */}
 
       <Stack gap={'20px'} direction={'row'} flexWrap={'wrap'} alignItems={'flex-start'} justifyContent={'center'}>
         <Overview />
         <OverdueNews />
         <WaitingNews />
-        <MostFavoriteHelper  />
+        <MostFavoriteHelper />
         <MostFavoriteProfile />
       </Stack>
-    </Container>
+      <Box
+        sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent: 'flex-end' }}
+        onClick={() => navigate('/owner/create-news')}
+      >
+        <Fab color='primary' aria-label='add'>
+          <AddIcon />
+        </Fab>
+      </Box>
+    </Box>
   )
 }
 

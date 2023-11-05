@@ -9,7 +9,7 @@ interface Props {
       id: string
       name: string
     }
-    birhday: string
+    birthday: any
     education: {
       id: string
       name: string
@@ -18,26 +18,32 @@ interface Props {
       id: string
       skillName: string
     }[]
+    phoneNum:string
+    overallRating: any
   }[]
   choose?: (id: string, flag: boolean) => void
   idChosen?: string
 }
+
 export default function ListHelperCard({ listHelpers, choose, idChosen }: Props) {
+  console.log("llsls", listHelpers)
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4}>
-          {listHelpers.map((item) => (
+          {listHelpers?.map((item) => (
             <HelperCard
               key={item.id}
               helperId={item.id}
               name={item.name}
               gender={item.gender}
-              birhday={item.birhday}
+              birthday={item.birthday}
               education={item.education}
               skills={item.skills}
               choose={choose}
               isChosen={idChosen == item.id}
+              phone={item.phoneNum}
+              overallRating={item.overallRating}
             />
           ))}
         </Grid>

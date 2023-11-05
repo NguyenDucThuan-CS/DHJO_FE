@@ -1,4 +1,4 @@
-import { Stack, Box, Button, Grid } from '@mui/material'
+import { Stack, Box, Button, Grid, Fab } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { useResposive } from '../../utils/hook'
 import DetailPost from '../Helpers/DetailPost'
@@ -14,6 +14,7 @@ import Loading from '../../components/Loading/Loading'
 import { doUpdateInfo } from '../../redux/slice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import AddIcon from '@mui/icons-material/Add';
 
 const MyNews = () => {
   const { isFromMd } = useResposive()
@@ -40,7 +41,6 @@ const MyNews = () => {
 
     deletePost(activePost)
       .then((res) => {
-        console.log(res)
         setListPost((prev) => prev.filter((item) => item.id !== activePost))
       })
       .finally(() => {
@@ -222,7 +222,7 @@ const MyNews = () => {
                 post={listPost.find((item) => item.id === activePost)}
                 isHideBtn={true}
                 listHelper={listPost.find((item) => item.id === activePost)?.helpers}
-                choose={(id) => {
+                choose={(id:any) => {
                   setIsLoading(true)
                   chooseHelper(activePost, id)
                     .then(() => {
@@ -247,6 +247,11 @@ const MyNews = () => {
       )}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal open={isLoading} Content={<Loading></Loading>} />
+      <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent:'flex-end'}}  onClick={() => history('/owner/create-news')}>
+        <Fab color='primary' aria-label='add'>
+          <AddIcon />
+        </Fab>
+      </Box>
     </Box>
   )
 }
