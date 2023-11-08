@@ -71,7 +71,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       setWorkTime(post.workTime.toString())
     }
   }, [post])
-  console.log('post', post)
+ 
   const handleChange = () => {
     setChecked(!checked)
   }

@@ -11,3 +11,16 @@ export const getActivePosts = () => {
     }
   })
 }
+
+export const filterActivePosts = (rest:any) => {
+  return http.get(url, {
+    params: {
+      pageNo: 0,
+      pageSize: 20,
+      sortBy: 'created_at',
+      sortDir: 'desc',
+      ...rest
+    }
+  })
+}
+

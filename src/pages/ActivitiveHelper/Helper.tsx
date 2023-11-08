@@ -15,7 +15,6 @@ import Loading from '../../components/Loading/Loading'
 import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import { FilterIcon } from '../../assets/svg/FilterIcon'
 import Typography from '@mui/material/Typography'
-import { Button } from '@mui/material'
 export interface IPost {
   id: string
   createdAt: {
@@ -73,7 +72,7 @@ export interface IPost {
   finished: boolean
 }
 
-const ActvitiveHelper = () => {
+const Helper = () => {
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -87,7 +86,6 @@ const ActvitiveHelper = () => {
   const [salaryOption, setSalaryOption] = useState<string>('0')
   const [distanceOption, setDistanceOption] = useState<string>('0')
 
-  const [tab, setTab] = useState<number>(0)
   const kindOfJobs = [
     {
       id: '1',
@@ -141,13 +139,14 @@ const ActvitiveHelper = () => {
   }
 
   const renderRecurring = (id: string) => {
-    if (id === '0') return "kkdkd"
+    if (id === '0') return null
     if (id === '1') return true
     if (id === '2') return false
   }
 
   useEffect(() => {
     getActivePosts().then((res) => {
+      //console.log("res", res)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -159,6 +158,7 @@ const ActvitiveHelper = () => {
       minFee: renderValueSalary(salaryOption),
       maxDistance: renderValueDistance(distanceOption)
     }).then((res) => {
+      //console.log("res", res)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -212,28 +212,11 @@ const ActvitiveHelper = () => {
   }
   return (
     <Box>
-      <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
-        <Button variant={`${tab === 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
-          Tất cả
-        </Button>
-        <Button variant={`${tab === 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
-          Đã nhận
-        </Button>
-        <Button variant={`${tab === 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
-          Đã được chấp nhận
-        </Button>
-        <Button variant={`${tab === 3 ? 'contained' : 'outlined'}`} onClick={() => setTab(3)}>
-          Từ chối
-        </Button>
-        <Button variant={`${tab === 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
-          Đã hoàn thành
-        </Button>
-      </Stack>
       <Stack direction='row' spacing={2}>
         {/* <SelectDropdown list={[]}></SelectDropdown>
-           <SelectDropdown list={[]}></SelectDropdown>
- 
-           <SelectDropdown list={[]}></SelectDropdown> */}
+          <SelectDropdown list={[]}></SelectDropdown>
+
+          <SelectDropdown list={[]}></SelectDropdown> */}
       </Stack>
       <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
         {isFromMd && (
@@ -250,7 +233,25 @@ const ActvitiveHelper = () => {
         )}
         <>
           <Grid item xs={12} md={8} lg={4}>
-            {listPost.length === 0 && 'chua co ti dang'}
+            <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
+              <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
+              <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
+              <SelectDropdown
+                list={distanceOptions}
+                id={distanceOption}
+                name={'Khoảng cách'}
+                setId={setDistanceOption}
+              />
+              <Box onClick = {() => getFilterActivePost()}>
+                <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>
+                  {'ffff'}
+                </Typography>
+                <FilterIcon />
+              </Box>
+            </Stack>
+            {
+              listPost.length === 0 && "chua co ti dang"
+            }
             {listPost?.map((item, index) => (
               <CardPost
                 key={`${index}${item.id}`}
@@ -282,4 +283,4 @@ const ActvitiveHelper = () => {
   )
 }
 
-export default ActvitiveHelper
+export default Helper

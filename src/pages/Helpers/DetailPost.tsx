@@ -9,6 +9,9 @@ import HomeIcon from '@mui/icons-material/Home'
 import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+
+import { useEffect, useRef } from 'react'
 // interface Props {
 //   post?: IPost
 //   onClick?: () => void
@@ -32,65 +35,73 @@ import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 //   }[]
 //   choose?: (id: string, flag: boolean) => void
 // }
+const position = [51.505, -0.09]
+const defaultZoom = 8
+const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter }: any) => {
+  const mapRef = useRef()
+  if (post) console.log('post', post)
+  return (
+    <Box>
+      <Typography variant='h4' align='center'>
+        {post?.title}
+      </Typography>
+      {!isHideBtn && (
+        <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
+          Nhận việc ngay
+        </Button>
+      )}
+      <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Stack direction='row' spacing={1} sx={{ marginBottom: '20px' }}>
+            {post?.skills.map((item: any) => <Chip key={item} label={item} sx={{ fontSize: '12px' }} />)}
+          </Stack>
 
-const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose }: any) => {
-  if (post)
-    console.log('post', post)
-    return (
-      <Box>
-        <Typography variant='h4' align='center'>
-          {post?.title}
-        </Typography>
-        {!isHideBtn && (
-          <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
-            Nhận việc ngay
-          </Button>
-        )}
-        <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Stack direction='row' spacing={1} sx={{ marginBottom: '20px' }}>
-              {post?.skills.map((item:any) => (
-                <Chip key={item} label={item} sx={{ fontSize: '12px' }} />
-              ))}
-            </Stack>
-
-            <Typography sx={{ marginBottom: '20px' }}>
-              <AttachMoneyIcon fontSize='inherit' />
-              {`${post?.fee} vnd/h`}
-            </Typography>
-            <Typography sx={{ marginBottom: '20px' }}>
-              <CalendarMonthIcon fontSize='inherit' />
-              {`${post?.startTime.hour % 10}:${post?.startTime.minute}${post?.startTime.hour > 12 ? 'PM' : 'AM'}:${
-                post?.startDate.day
-              }/${post?.startDate.month}/${post?.startDate.year}`}
-            </Typography>
-
-            <Typography>
-              <HomeIcon fontSize='inherit' />
-              {`${post?.house.street} ${post?.house.ward},${post?.house.district},${post?.house.province}`}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, omnis aperiam? Vel unde nobis laboriosam
-            nostrum, harum libero ipsam aliquid!
-          </Grid>
-        </Grid>
-        <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
-        <Box>
-          <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
-            Mô tả công việc
+          <Typography sx={{ marginBottom: '20px' }}>
+            <AttachMoneyIcon fontSize='inherit' />
+            {`${post?.fee} vnd/h`}
           </Typography>
-          <Box> {post?.content}</Box>
-        </Box>
-        <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+          <Typography sx={{ marginBottom: '20px' }}>
+            <CalendarMonthIcon fontSize='inherit' />
+            {`${post?.startTime.hour % 10}:${post?.startTime.minute}${post?.startTime.hour > 12 ? 'PM' : 'AM'}:${post
+              ?.startDate.day}/${post?.startDate.month}/${post?.startDate.year}`}
+          </Typography>
+
+          <Typography>
+            <HomeIcon fontSize='inherit' />
+            {`${post?.house.street} ${post?.house.ward},${post?.house.district},${post?.house.province}`}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            />
+            <Marker position={position}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+          </MapContainer>
+        </Grid>
+      </Grid>
+      <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+      <Box>
+        <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
+          Mô tả công việc
+        </Typography>
+        <Box> {post?.content}</Box>
+      </Box>
+      <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+      {!isHideFooter && (
         <Box>
           <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
-            Người giúp việc {post?.applied?'đăng kí':'nhận việc'}
+            Người giúp việc {post?.applied ? 'đăng kí' : 'nhận việc'}
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {listHelper?.map((item:any) => (
+              {listHelper?.map((item: any) => (
                 <HelperCard
                   key={item.helperId}
                   helperId={item.helperId}
@@ -102,15 +113,16 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose }: any) => {
                   choose={choose}
                   phone={item.phoneNum}
                   overallRating={item.overallRating}
-                  hideBtn = {!post?.applied}
+                  hideBtn={!post?.applied}
                   //isChosen={idChosen == item.id}
                 />
               ))}
             </Grid>
           </Grid>
         </Box>
-      </Box>
-    )
+      )}
+    </Box>
+  )
 }
 
 export default DetailPost

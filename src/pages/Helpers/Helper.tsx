@@ -6,13 +6,15 @@ import Grid from '@mui/material/Grid'
 import DetailPost from './DetailPost'
 import Schedule from './Schedule/Schedule'
 import { useResposive } from '../../utils/hook'
-import { getActivePosts } from '../../apis/get-active-post'
+import { getActivePosts, filterActivePosts } from '../../apis/get-active-post'
 import { useEffect, useState } from 'react'
 import { applyPost, getPostById, Post } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
-
+import SelectDropdown from '../../components/SelectDropdown/SelectDown'
+import { FilterIcon } from '../../assets/svg/FilterIcon'
+import Typography from '@mui/material/Typography'
 export interface IPost {
   id: string
   createdAt: {
@@ -79,6 +81,41 @@ const Helper = () => {
   const [postForTask, setPostForTask] = useState<any>(null)
 
   const [text, setText] = useState<string>('')
+
+  const [kindJob, setKindJob] = useState<string>('0')
+  const [salaryOption, setSalaryOption] = useState<string>('0')
+  const [distanceOption, setDistanceOption] = useState<string>('0')
+
+  const kindOfJobs = [
+    {
+      id: '1',
+      name: 'Lặp lại'
+    },
+    { id: '2', name: 'Không lặp lại' }
+  ]
+
+  const salaryOptions = [
+    {
+      id: '1',
+      name: '>100000'
+    },
+
+    { id: '2', name: '>200000' },
+    { id: '3', name: '>300000' },
+    { id: '4', name: '>400000' }
+  ]
+
+  const distanceOptions = [
+    {
+      id: '1',
+      name: '<5km'
+    },
+
+    { id: '2', name: '<10km' },
+    { id: '3', name: '<15km' },
+    { id: '4', name: '<20km' }
+  ]
+
   const agree = () => {
     setOpen(false)
   }
@@ -90,6 +127,23 @@ const Helper = () => {
   const close = () => {
     setOpen(false)
   }
+
+  const renderValueSalary = (id: string) => {
+    if (id === '0') return ''
+    return Number(id) * 1000000
+  }
+
+  const renderValueDistance = (id: string) => {
+    if (id === '0') return ''
+    return Number(id) * 5
+  }
+
+  const renderRecurring = (id: string) => {
+    if (id === '0') return ''
+    if (id === '1') return true
+    if (id === '2') return false
+  }
+
   useEffect(() => {
     getActivePosts().then((res) => {
       //console.log("res", res)
@@ -98,6 +152,17 @@ const Helper = () => {
     })
   }, [])
 
+  const getFilterActivePost = () => {
+    filterActivePosts({
+      isRecurring: renderRecurring(kindJob),
+      minFee: renderValueSalary(salaryOption),
+      maxDistance: renderValueDistance(distanceOption)
+    }).then((res) => {
+      //console.log("res", res)
+      setListPost(res.data.data.content[0])
+      setActivePost(res.data.data.content[0][0].id)
+    })
+  }
   const { isFromLg, isFromMd } = useResposive()
 
   const helperApplyPost = () => {
@@ -166,27 +231,52 @@ const Helper = () => {
             />
           </Grid>
         )}
-        <Grid item xs={12} md={8} lg={4}>
-          {listPost.map((item, index) => (
-            <CardPost
-              key={`${index}${item.id}`}
-              post={item}
-              active={item.id === activePost}
-              onClick={() => setActivePost(item.id)}
-            />
-          ))}
-        </Grid>
-        {isFromLg && (
-          <Grid item xs={6} lg={6}>
-            <DetailPost post={listPost.find((item) => item.id === activePost)} onClick={() => helperApplyPost()} />
+        <>
+          <Grid item xs={12} md={8} lg={4}>
+            <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
+              <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
+              <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
+              <SelectDropdown
+                list={distanceOptions}
+                id={distanceOption}
+                name={'Khoảng cách'}
+                setId={setDistanceOption}
+              />
+              <Box onClick = {() => getFilterActivePost()}>
+                <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>
+                  {'ffff'}
+                </Typography>
+                <FilterIcon />
+              </Box>
+            </Stack>
+            {
+              listPost.length === 0 && "chua co ti dang"
+            }
+            {listPost?.map((item, index) => (
+              <CardPost
+                key={`${index}${item.id}`}
+                post={item}
+                active={item.id === activePost}
+                onClick={() => setActivePost(item.id)}
+              />
+            ))}
           </Grid>
-        )}
+          {isFromLg && listPost.length && (
+            <Grid item xs={6} lg={6}>
+              <DetailPost
+                post={listPost.find((item) => item.id === activePost)}
+                onClick={() => helperApplyPost()}
+                isHideFooter={true}
+              />
+            </Grid>
+          )}
+        </>
       </Grid>
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal
         open={openTask}
         handleClose={() => setOpenTask(false)}
-        Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true}></DetailPost>}
+        Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
       <Modal open={isLoading} Content={<Loading></Loading>} />
     </Box>
