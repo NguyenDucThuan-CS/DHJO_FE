@@ -2,7 +2,6 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import { Box, Grid } from '@mui/material'
 import { useDispatch } from 'react-redux'
@@ -17,7 +16,7 @@ import Chip from '@mui/material/Chip'
 import { ListStar } from '../../../components/ListStar/ListStar'
 import { AddFavorite } from '../../../assets/svg/AddFavorite'
 import { RemoveFavorite } from '../../../assets/RemoveFavorite'
-import { addFavoriteHelper } from '../../../apis/favaritehelper.api'
+import { addFavoriteHelper, removeFavoriteHelper } from '../../../apis/favaritehelper.api'
 import { toast } from 'react-toastify'
 const MySpan = styled('span')({
   marginLeft: '8px'
@@ -70,7 +69,7 @@ export default function HelperCard({
   hideBtn
 }: any) {
  const dispatch = useDispatch()
-
+ 
   return (
     <Box
       sx = {{position:'relative'}}
@@ -89,12 +88,21 @@ export default function HelperCard({
     >
       <span style = {{position:'absolute', top:'10px', right:'5px'}} onClick={(e) => {
         e.stopPropagation()
-        addFavoriteHelper(helperId).then((res) => {
-          toast('Thêm vào danh sách yêu thích thnahf công')
-        })
-        .catch(() => toast('Có lỗi xảy ra'))
+        if(!window.location.pathname.includes('favorite-helpers')) {
+          addFavoriteHelper(helperId).then((res) => {
+            toast('Thêm vào danh sách yêu thích thành công')
+          })
+          .catch(() => toast('Có lỗi xảy ra'))
+        }
+        else {
+          removeFavoriteHelper(helperId).then((res) => {
+            toast('Loại khỏi vào danh sách yêu thích thành công')
+          })
+          .catch(() => toast('Có lỗi xảy ra'))
+        }
+        
       }}> 
-        <RemoveFavorite />
+        {window.location.pathname.includes('favorite-helpers') ? <RemoveFavorite />:<AddFavorite />}
       </span>
       <Card>
         <CardContent>

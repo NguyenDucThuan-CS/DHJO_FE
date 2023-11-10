@@ -33,7 +33,7 @@ export default function ListHelperCard({ listHelpers, choose, idChosen }: any) {
           {listHelpers?.map((item:any) => (
             <HelperCard
               key={item.id}
-              helperId={item.id}
+              helperId={item.helperId}
               name={item.name}
               gender={item.gender}
               birthday={item.birthday}

@@ -132,7 +132,7 @@ const ActvitiveHelper = () => {
 
   const renderValueSalary = (id: string) => {
     if (id === '0') return null
-    return Number(id) * 1000000
+    return Number(id) * 100000
   }
 
   const renderValueDistance = (id: string) => {
@@ -141,7 +141,7 @@ const ActvitiveHelper = () => {
   }
 
   const renderRecurring = (id: string) => {
-    if (id === '0') return "kkdkd"
+    if (id === '0') return null
     if (id === '1') return true
     if (id === '2') return false
   }

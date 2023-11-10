@@ -9,7 +9,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 import { useEffect, useRef } from 'react'
 // interface Props {
@@ -35,12 +35,9 @@ import { useEffect, useRef } from 'react'
 //   }[]
 //   choose?: (id: string, flag: boolean) => void
 // }
-const position = [51.505, -0.09]
-const defaultZoom = 8
 const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter }: any) => {
-  const mapRef = useRef()
-  if (post) console.log('post', post)
-  return (
+  
+  if (post) return (
     <Box>
       <Typography variant='h4' align='center'>
         {post?.title}
@@ -73,12 +70,18 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+          <MapContainer
+            center={[post.house.coordinate.latitude, post.house.coordinate.longitude]}
+            zoom={10000}
+            scrollWheelZoom={false}
+            style={{ width: '100%', height: '100%' }}
+            key = {post.id}
+          >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
             />
-            <Marker position={position}>
+            <Marker position={[post.house.coordinate.latitude, post.house.coordinate.longitude]}>
               <Popup>
                 A pretty CSS3 popup. <br /> Easily customizable.
               </Popup>

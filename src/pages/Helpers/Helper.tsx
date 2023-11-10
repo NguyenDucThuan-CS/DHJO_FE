@@ -129,24 +129,23 @@ const Helper = () => {
   }
 
   const renderValueSalary = (id: string) => {
-    if (id === '0') return ''
-    return Number(id) * 1000000
+    if (id === '0') return null
+    return Number(id) * 100000
   }
 
   const renderValueDistance = (id: string) => {
-    if (id === '0') return ''
+    if (id === '0') return null
     return Number(id) * 5
   }
 
   const renderRecurring = (id: string) => {
-    if (id === '0') return ''
+    if (id === '0') return null
     if (id === '1') return true
     if (id === '2') return false
   }
 
   useEffect(() => {
     getActivePosts().then((res) => {
-      //console.log("res", res)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -158,7 +157,6 @@ const Helper = () => {
       minFee: renderValueSalary(salaryOption),
       maxDistance: renderValueDistance(distanceOption)
     }).then((res) => {
-      //console.log("res", res)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -250,7 +248,7 @@ const Helper = () => {
               </Box>
             </Stack>
             {
-              listPost.length === 0 && "chua co ti dang"
+              listPost.length === 0 && "chua co tin dang"
             }
             {listPost?.map((item, index) => (
               <CardPost

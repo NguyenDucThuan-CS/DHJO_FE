@@ -12,11 +12,7 @@ export const addFavoriteHelper = (id:string) => {
 }
 
 export const removeFavoriteHelper = (id:string) => {
-    return http.delete(url,  {
-        params: {
-            helperId: id
-        }
-      })
+    return http.delete(url + `?helperId=${id}`)
 }
 
 export const getFavoriteHelpers = () => {
