@@ -35,7 +35,7 @@ import { useEffect, useRef } from 'react'
 //   }[]
 //   choose?: (id: string, flag: boolean) => void
 // }
-const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter }: any) => {
+const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter,clickRating  }: any) => {
   
   if (post) return (
     <Box>
@@ -117,6 +117,8 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                   phone={item.phoneNum}
                   overallRating={item.overallRating}
                   hideBtn={!post?.applied}
+                  rating = {post.finished}
+                  clickRating = {clickRating}
                   //isChosen={idChosen == item.id}
                 />
               ))}

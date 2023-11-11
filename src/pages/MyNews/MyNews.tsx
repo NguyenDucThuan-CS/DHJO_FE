@@ -14,6 +14,9 @@ import Loading from '../../components/Loading/Loading'
 import { doUpdateInfo } from '../../redux/slice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+
+import { doUpdatePostRating } from '../../redux/slice/modalDetai'
+import { doOpenModalRating } from '../../redux/slice/modalDetai'
 import AddIcon from '@mui/icons-material/Add';
 
 const MyNews = () => {
@@ -222,6 +225,10 @@ const MyNews = () => {
                 post={listPost.find((item) => item.id === activePost)}
                 isHideBtn={true}
                 listHelper={listPost.find((item) => item.id === activePost)?.helpers}
+                clickRating = {() => {
+                  dispatch(doOpenModalRating({}))
+                  dispatch(doUpdatePostRating(listPost.find((item) => item.id === activePost)?.id))
+                }}
                 choose={(id:any) => {
                   setIsLoading(true)
                   chooseHelper(activePost, id)

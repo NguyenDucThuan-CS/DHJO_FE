@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   open: false,
+  openRating: false,
+  helperRatingId: '',
+  postRatingId: '',
   helperInfo: {
     doB: '',
     gender: '',
@@ -27,8 +30,23 @@ const slice = createSlice({
     doCloseModal(state, action) {
       state.open = false
     },
+
+    doOpenModalRating(state, action) {
+      state.openRating = true
+    },
+    doCloseModalRating(state, action) {
+      state.openRating = false
+      state.helperRatingId = ""
+    },
+    doUpdateHelperRating(state, action) {
+      state.helperRatingId = action.payload
+    },
+
+    doUpdatePostRating(state, action) {
+      state.postRatingId = action.payload
+    },
+
     doUpdateHelperInfo(state, action) {
-      console.log('action.payload', action.payload)
       state.helperInfo = action.payload
     },
     doClearHelperInfo(state) {
@@ -49,5 +67,14 @@ const slice = createSlice({
 })
 const { reducer: modalHelperReducer, actions } = slice
 
-export const { doOpenModal, doCloseModal, doUpdateHelperInfo, doClearHelperInfo } = actions
+export const {
+  doOpenModal,
+  doCloseModal,
+  doUpdateHelperInfo,
+  doClearHelperInfo,
+  doCloseModalRating,
+  doOpenModalRating,
+  doUpdateHelperRating,
+  doUpdatePostRating
+} = actions
 export default modalHelperReducer

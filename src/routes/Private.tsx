@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import ModalDetailHelper from '../components/Modal/ModalDetailHelper'
+import ModalRatingHelper from '../components/Modal/ModalRatingHelper'
 import { Button } from '@mui/material'
 
 interface PrivateRouterProps {
@@ -14,6 +15,8 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
   const navigate = useNavigate()
 
   const { open } = useSelector((state: any) => state.modalHelperReducer)
+  const { openRating } = useSelector((state: any) => state.modalHelperReducer)
+
 
   const checkCorrectRole = () => {
     if (window.location.href.split('/').includes('helper') && readCookie('roles') === 'ROLE_HELPER') return true
@@ -33,7 +36,7 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
       <div style={{ padding: '20px', background: '#0000' }}>{children}</div>
 
       <ModalDetailHelper open={open} />
-
+      <ModalRatingHelper open = {openRating} />
       {/* <Footer /> */}
     </div>
   )

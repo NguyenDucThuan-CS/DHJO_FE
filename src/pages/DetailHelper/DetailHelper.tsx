@@ -95,7 +95,7 @@ const DetailHelper = () => {
               <ListStar number={numStar + 1} onClick = {setNumStar} isSmallStar = {false}/>
               <p style={{ marginTop: '10px', marginBottom: '10px', fontWeight: 'bold' }}>Đánh giá chung</p>
                <Textarea value={valueArea} onChange={setValueArea}/> */}
-              {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá'}
+              {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
               {helperInfo.overallRating.typicalRatings?.map((item: any) => (
                 <Box
                   sx={{

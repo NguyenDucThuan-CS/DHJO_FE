@@ -18,6 +18,8 @@ import { AddFavorite } from '../../../assets/svg/AddFavorite'
 import { RemoveFavorite } from '../../../assets/RemoveFavorite'
 import { addFavoriteHelper, removeFavoriteHelper } from '../../../apis/favaritehelper.api'
 import { toast } from 'react-toastify'
+import { doUpdateHelperRating } from '../../../redux/slice/modalDetai'
+
 const MySpan = styled('span')({
   marginLeft: '8px'
 })
@@ -63,46 +65,53 @@ export default function HelperCard({
   remove,
   helperId,
   choose,
-  isChosen, 
+  isChosen,
   phone,
   overallRating,
-  hideBtn
+  hideBtn,
+  rating,
+  clickRating
 }: any) {
- const dispatch = useDispatch()
- 
+  const dispatch = useDispatch()
+
   return (
     <Box
-      sx = {{position:'relative'}}
+      sx={{ position: 'relative' }}
       onClick={() => {
         dispatch(doOpenModal({}))
-        dispatch(doUpdateHelperInfo({
-          doB: `${birthday.day}/${birthday.month}/${birthday.year}`,
-          gender: gender.name,
-          edu: education.name,
-          skill: skills,
-          phone: phone,
-          name: name,
-          overallRating: overallRating
-        }))
+        dispatch(
+          doUpdateHelperInfo({
+            doB: `${birthday.day}/${birthday.month}/${birthday.year}`,
+            gender: gender.name,
+            edu: education.name,
+            skill: skills,
+            phone: phone,
+            name: name,
+            overallRating: overallRating
+          })
+        )
       }}
     >
-      <span style = {{position:'absolute', top:'10px', right:'5px'}} onClick={(e) => {
-        e.stopPropagation()
-        if(!window.location.pathname.includes('favorite-helpers')) {
-          addFavoriteHelper(helperId).then((res) => {
-            toast('Thêm vào danh sách yêu thích thành công')
-          })
-          .catch(() => toast('Có lỗi xảy ra'))
-        }
-        else {
-          removeFavoriteHelper(helperId).then((res) => {
-            toast('Loại khỏi vào danh sách yêu thích thành công')
-          })
-          .catch(() => toast('Có lỗi xảy ra'))
-        }
-        
-      }}> 
-        {window.location.pathname.includes('favorite-helpers') ? <RemoveFavorite />:<AddFavorite />}
+      <span
+        style={{ position: 'absolute', top: '10px', right: '5px' }}
+        onClick={(e) => {
+          e.stopPropagation()
+          if (!window.location.pathname.includes('favorite-helpers')) {
+            addFavoriteHelper(helperId)
+              .then((res) => {
+                toast('Thêm vào danh sách yêu thích thành công')
+              })
+              .catch(() => toast('Có lỗi xảy ra'))
+          } else {
+            removeFavoriteHelper(helperId)
+              .then((res) => {
+                toast('Loại khỏi vào danh sách yêu thích thành công')
+              })
+              .catch(() => toast('Có lỗi xảy ra'))
+          }
+        }}
+      >
+        {window.location.pathname.includes('favorite-helpers') ? <RemoveFavorite /> : <AddFavorite />}
       </span>
       <Card>
         <CardContent>
@@ -141,7 +150,7 @@ export default function HelperCard({
               <Stack direction={'row'} alignItems={'center'}>
                 <DiamondIcon />
                 <Stack direction='row' spacing={1}>
-                  {skills.map((item:any) => (
+                  {skills.map((item: any) => (
                     <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />
                   ))}
                 </Stack>
@@ -149,31 +158,62 @@ export default function HelperCard({
             </Grid>
           </Grid>
         </CardContent>
-        <Box sx = {{paddingLeft: '12px'}}><ListStar number = {4}></ListStar></Box>
+        <Box sx={{ paddingLeft: '12px' }}>
+          <ListStar number={4}></ListStar>
+        </Box>
         <CardActions>
           {remove && (
-            <Button size='small' variant='contained' color='error' onClick={(e) => {
-              e.stopPropagation()
-              remove(helperId)
-              }}>
+            <Button
+              size='small'
+              variant='contained'
+              color='error'
+              onClick={(e) => {
+                e.stopPropagation()
+                remove(helperId)
+              }}
+            >
               Xóa
             </Button>
           )}
-          {choose && !isChosen && !hideBtn &&(
-            <Button size='small' variant='contained' color='warning' onClick={(e) => {
-              e.stopPropagation()
-              choose(helperId, true)
-            }}>
+          {choose && !isChosen && !hideBtn && (
+            <Button
+              size='small'
+              variant='contained'
+              color='warning'
+              onClick={(e) => {
+                e.stopPropagation()
+                choose(helperId, true)
+              }}
+            >
               Chọn
             </Button>
           )}
 
           {choose && isChosen && (
-            <Button size='small' variant='contained' color='inherit' onClick={(e) => {
-              e.stopPropagation()
-              choose(helperId, false)
-              }}>
+            <Button
+              size='small'
+              variant='contained'
+              color='inherit'
+              onClick={(e) => {
+                e.stopPropagation()
+                choose(helperId, false)
+              }}
+            >
               Bỏ chọn
+            </Button>
+          )}
+
+          {rating && (
+            <Button
+              size='small'
+              variant='contained'
+              color='inherit'
+              onClick={(e) => {
+                e.stopPropagation()
+                clickRating()
+              }}
+            >
+              Đánh giá
             </Button>
           )}
         </CardActions>
