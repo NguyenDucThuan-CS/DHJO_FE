@@ -14,10 +14,11 @@ import { MenuList } from '../MenuList/MenuList'
 import { Wrapper } from './Wrapper'
 import IconHamburger from './IconButton'
 import { deteletAllCookie } from '../../utils/cookie'
-
+import Notification from '../Notification/Notification'
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
+  const [openNoti, setOpenNoti] = React.useState<boolean>(false)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -162,10 +163,15 @@ function Header() {
           </Button>
         ))}
       </Box>
-
-      <Badge badgeContent={17} color='error' sx={{ mr: 3 }}>
-        <NotificationsIcon />
-      </Badge>
+      <Box sx={{ position: 'relative' }}>
+        <Box onClick = {() => setOpenNoti(!openNoti)}>
+          <Badge badgeContent={17} color='error' sx={{ mr: 3 }}>
+            <NotificationsIcon />
+          </Badge>
+        </Box>
+        
+        {openNoti && <Notification />}
+      </Box>
 
       <Box sx={{ flexGrow: 0 }}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
