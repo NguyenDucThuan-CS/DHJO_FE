@@ -15,7 +15,6 @@ a:hover {
 
 #notification-list {
 	width: 300px;
-	overflow-y: scroll;
 }
 
 .dropdown-menu > .panel {

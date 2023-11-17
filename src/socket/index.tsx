@@ -2,6 +2,8 @@
 import React, { useEffect } from 'react'
 import { over } from 'stompjs'
 import SockJS from 'sockjs-client'
+import { getAuthInfo } from '../apis/auth.api'
+
 
 const Socket: React.FC = () => {
   let stompClient: any = null
@@ -18,7 +20,10 @@ const Socket: React.FC = () => {
   }
 
  useEffect(() => {
-  connect('thuan nguuyen')
+  getAuthInfo().then((res) => {
+    connect(res.data.data.username)
+  })
+  
  }, [])
 
   const onError = (err: any) => {
