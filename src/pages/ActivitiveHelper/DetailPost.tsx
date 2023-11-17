@@ -33,9 +33,8 @@ import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 //   choose?: (id: string, flag: boolean) => void
 // }
 
-const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter }: any) => {
+const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, contentBtn }: any) => {
   if (post)
-    console.log('post', post)
     return (
       <Box>
         <Typography variant='h4' align='center'>
@@ -43,7 +42,7 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
         </Typography>
         {!isHideBtn && (
           <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
-            Nhận việc ngay
+            {contentBtn}
           </Button>
         )}
         <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />

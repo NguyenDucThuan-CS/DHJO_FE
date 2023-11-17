@@ -25,7 +25,7 @@ const initialState = {
       id: '',
       name: ''
     },
-    finished: false,
+    postStatus: null,
     owner: null,
     house: {
       id: '',

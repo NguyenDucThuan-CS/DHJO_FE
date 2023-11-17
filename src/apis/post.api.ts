@@ -106,7 +106,13 @@ export const deletePost = (postId: string) => {
 }
 
 export const chooseHelper = (postId: string, helperId: string) => {
-  return http.post(`${url}/owner/choose`, null ,{
+  return http.post(`${url}/owner/choose`, null, {
     params: { postId: postId, helperId: helperId }
+  })
+}
+
+export const getPostHelperAll = () => {
+  return http.get(`${url}/helper/all`, {
+    params: { pageNo: 0, pageSize: 20, sortBy: 'created_at', sortDir: 'desc' }
   })
 }

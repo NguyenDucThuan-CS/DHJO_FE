@@ -45,7 +45,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
 
           <Grid item xs={7} sm={7} md={7}>
             <Typography>
-              <MySpan>{'Dọn dẹp nhà cửa'}</MySpan>
+              <MySpan>{post.title}</MySpan>
             </Typography>
             <Stack direction='row' spacing={1}>
               <Typography sx={{ fontSize: '12px' }}>

@@ -10,125 +10,130 @@ import ProfileHelper from './pages/ProfileHelper/Profies.tsx'
 import WorkingSchedule from './pages/WorkingSchedule/WorkingSchedule.tsx'
 import ActvitiveHelper from './pages/ActivitiveHelper/ActivitiveHelper.tsx'
 import DetailHelper from './pages/DetailHelper/DetailHelper.tsx'
+import Socket from './socket/index.tsx'
 //import WorkingScheduleDemo from './pages/WorkingSchedule/WorkingScheduleDemo.tsx'
 
 function App() {
   return (
-    <Routes>
-      <Route
-        path='/owner'
-        element={
-          <PrivateRouter>
-            <TotalInfo />
-          </PrivateRouter>
-        }
-      />
-      <Route
-        path='/login'
-        element={
-          <PublicRouter>
-            <Login />
-          </PublicRouter>
-        }
-      />
-      <Route
-        path='/register'
-        element={
-          <PublicRouter>
-            <Register />
-          </PublicRouter>
-        }
-      />
+    <>
+      <Routes>
+        <Route
+          path='/owner'
+          element={
+            <PrivateRouter>
+              <TotalInfo />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path='/login'
+          element={
+            <PublicRouter>
+              <Login />
+            </PublicRouter>
+          }
+        />
+        <Route
+          path='/register'
+          element={
+            <PublicRouter>
+              <Register />
+            </PublicRouter>
+          }
+        />
 
-      <Route
-        path='owner/my-news'
-        element={
-          <PrivateRouter>
-            <MyNews />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='owner/my-news'
+          element={
+            <PrivateRouter>
+              <MyNews />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='owner/my-profiles'
-        element={
-          <PrivateRouter>
-            <MyProfiles />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='owner/my-profiles'
+          element={
+            <PrivateRouter>
+              <MyProfiles />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='owner/favorite-helpers'
-        element={
-          <PrivateRouter>
-            <FavoriteHelpers />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='owner/favorite-helpers'
+          element={
+            <PrivateRouter>
+              <FavoriteHelpers />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='owner/profiles'
-        element={
-          <PrivateRouter>
-            <Profiles />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='owner/profiles'
+          element={
+            <PrivateRouter>
+              <Profiles />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='owner/create-news'
-        element={
-          <PrivateRouter>
-            <CreateNews />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='owner/create-news'
+          element={
+            <PrivateRouter>
+              <CreateNews />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='owner/detail-helper'
-        element={
-          <PrivateRouter>
-            <DetailHelper />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='owner/detail-helper'
+          element={
+            <PrivateRouter>
+              <DetailHelper />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='/helper'
-        element={
-          <PrivateRouter>
-            <Helper />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='/helper'
+          element={
+            <PrivateRouter>
+              <Helper />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='/helper/profiles'
-        element={
-          <PrivateRouter>
-            <ProfileHelper />
-          </PrivateRouter>
-        }
-      />
-      <Route
-        path='/helper/schedules'
-        element={
-          <PrivateRouter>
-            <WorkingSchedule />
-          </PrivateRouter>
-        }
-      />
+        <Route
+          path='/helper/profiles'
+          element={
+            <PrivateRouter>
+              <ProfileHelper />
+            </PrivateRouter>
+          }
+        />
+        <Route
+          path='/helper/schedules'
+          element={
+            <PrivateRouter>
+              <WorkingSchedule />
+            </PrivateRouter>
+          }
+        />
 
-      <Route
-        path='/helper/activitive'
-        element={
-          <PrivateRouter>
-            <ActvitiveHelper />
-          </PrivateRouter>
-        }
-      />
-    </Routes>
+        <Route
+          path='/helper/activitive'
+          element={
+            <PrivateRouter>
+              <ActvitiveHelper />
+            </PrivateRouter>
+          }
+        />
+      </Routes>
+
+      <Socket />
+    </>
   )
 }
 

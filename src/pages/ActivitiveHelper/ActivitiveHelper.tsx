@@ -12,9 +12,7 @@ import { applyPost, getPostById, Post } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
-import SelectDropdown from '../../components/SelectDropdown/SelectDown'
-import { FilterIcon } from '../../assets/svg/FilterIcon'
-import Typography from '@mui/material/Typography'
+import { getPostHelperAll } from '../../apis/post.api'
 import { Button } from '@mui/material'
 export interface IPost {
   id: string
@@ -83,40 +81,7 @@ const ActvitiveHelper = () => {
 
   const [text, setText] = useState<string>('')
 
-  const [kindJob, setKindJob] = useState<string>('0')
-  const [salaryOption, setSalaryOption] = useState<string>('0')
-  const [distanceOption, setDistanceOption] = useState<string>('0')
-
   const [tab, setTab] = useState<number>(0)
-  const kindOfJobs = [
-    {
-      id: '1',
-      name: 'Lặp lại'
-    },
-    { id: '2', name: 'Không lặp lại' }
-  ]
-
-  const salaryOptions = [
-    {
-      id: '1',
-      name: '>100000'
-    },
-
-    { id: '2', name: '>200000' },
-    { id: '3', name: '>300000' },
-    { id: '4', name: '>400000' }
-  ]
-
-  const distanceOptions = [
-    {
-      id: '1',
-      name: '<5km'
-    },
-
-    { id: '2', name: '<10km' },
-    { id: '3', name: '<15km' },
-    { id: '4', name: '<20km' }
-  ]
 
   const agree = () => {
     setOpen(false)
@@ -135,34 +100,14 @@ const ActvitiveHelper = () => {
     return Number(id) * 100000
   }
 
-  const renderValueDistance = (id: string) => {
-    if (id === '0') return null
-    return Number(id) * 5
-  }
-
-  const renderRecurring = (id: string) => {
-    if (id === '0') return null
-    if (id === '1') return true
-    if (id === '2') return false
-  }
 
   useEffect(() => {
-    getActivePosts().then((res) => {
+    getPostHelperAll().then((res) => {
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
   }, [])
 
-  const getFilterActivePost = () => {
-    filterActivePosts({
-      isRecurring: renderRecurring(kindJob),
-      minFee: renderValueSalary(salaryOption),
-      maxDistance: renderValueDistance(distanceOption)
-    }).then((res) => {
-      setListPost(res.data.data.content[0])
-      setActivePost(res.data.data.content[0][0].id)
-    })
-  }
   const { isFromLg, isFromMd } = useResposive()
 
   const helperApplyPost = () => {
@@ -210,6 +155,42 @@ const ActvitiveHelper = () => {
         recurringPattern: postForTask.recurringPattern
       }
   }
+
+  const renderTextForBtn = (post: any) => {
+    if(post) {
+      if (post.finished) return 'Đã hoàn thành'
+      if (post.applied) return 'Đã nhận'
+      if (post.confirmed) return 'Đã được xác nhận'
+      if (post.rejected) return 'Đã được từ chối'
+      return 'Nhận việc'
+    }
+    return "  "
+  }
+
+  const handleOnClick = (post: any) => {
+    if (!post.finished && !post.applied && !post.confirmed && !post.rejected) {
+      return helperApplyPost()
+    }
+    return
+  }
+
+  const filterPost = (listPost: any) => {
+    if (tab === 0) return listPost
+    if (tab === 1) return listPost.filter((post:any) => post.applied === true)
+    if (tab === 2) return listPost.filter((post:any) => post.confirmed === true)
+    if (tab === 3) return listPost.filter((post:any) => post.rejected === true)
+    if (tab === 4) return listPost.filter((post:any) => post.finished === true)
+    return []
+  }
+
+  useEffect(() => {
+    if (listPost.length && filterPost(listPost).length) {
+      setActivePost(filterPost(listPost)[0].id)
+    } else {
+      setActivePost('')
+    }
+  }, [tab])
+
   return (
     <Box>
       <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
@@ -250,8 +231,8 @@ const ActvitiveHelper = () => {
         )}
         <>
           <Grid item xs={12} md={8} lg={4}>
-            {listPost.length === 0 && 'chua co ti dang'}
-            {listPost?.map((item, index) => (
+            {filterPost(listPost).length === 0 && 'chua co ti dang'}
+            {filterPost(listPost)?.map((item:any, index:any) => (
               <CardPost
                 key={`${index}${item.id}`}
                 post={item}
@@ -264,8 +245,9 @@ const ActvitiveHelper = () => {
             <Grid item xs={6} lg={6}>
               <DetailPost
                 post={listPost.find((item) => item.id === activePost)}
-                onClick={() => helperApplyPost()}
+                onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
                 isHideFooter={true}
+                contentBtn={renderTextForBtn(listPost.find((item) => item.id === activePost))}
               />
             </Grid>
           )}
