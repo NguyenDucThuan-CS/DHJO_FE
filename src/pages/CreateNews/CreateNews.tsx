@@ -11,11 +11,13 @@ import Step2 from './Step2'
 //import Step3 from './Step3'
 import { useState, useRef } from 'react'
 import { Popup } from '../../components/Popup/Popup'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 // import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { createPost } from '../../apis/post.api'
 import { useNavigate } from 'react-router-dom'
+import { doClearInfo } from '../../redux/slice'
+import { toast } from 'react-toastify'
 
 const steps = ['Chọn nhà', 'Chi tiết']
 
@@ -27,6 +29,7 @@ export default function CreateNews() {
     return state.storeInfoReducer
   })
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   // const { house } = useSelector((state: RootState) => {
   //   return state.storeInfoReducer
   // })
@@ -73,12 +76,15 @@ export default function CreateNews() {
   const handleSumit = () => {
     return createPost(post)
       .then(() => {
-        setText('Cập nhật bài post thành công')
-        setOpen(true)
+        //setText('Cập nhật bài post thành công')
+        navigate('/owner/my-news')
+        dispatch(doClearInfo({}))
+        toast('Tạo bài post thành công')
+        //setOpen(true)
       })
       .catch(() => {
-        setText('Đã có lỗi xảy ra vui long thử lại')
-        setOpen(true)
+        toast('Đã có lỗi xảy ra vui long thử lại')
+        //setOpen(true)
       })
   }
 

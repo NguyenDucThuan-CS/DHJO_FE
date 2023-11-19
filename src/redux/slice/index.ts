@@ -87,10 +87,75 @@ const slice = createSlice({
     },
     doUpdateInfo(state, action) {
       state.post = action.payload
+    },
+    doClearInfo(state, action) {
+      state.post = {
+        id: null,
+        createdAt: null,
+        modifiedAt: null,
+        deleted: null,
+        title: '',
+        content: '',
+        startTime: {
+          hour: 0,
+          minute: 0,
+          second: 0,
+          nano: 0
+        },
+        startDate: '',
+        workTime: 0,
+        fee: 0,
+        preferredGender: {
+          id: '',
+          name: ''
+        },
+        preferredEducation: {
+          id: '',
+          name: ''
+        },
+        postStatus: null,
+        owner: null,
+        house: {
+          id: '',
+          houseName: '',
+          houseType: {
+            id: '',
+            name: ''
+          },
+          floorArea: 0,
+          houseNo: '',
+          street: '',
+          ward: {
+            code: '',
+            name: '',
+            type: ''
+          },
+          district: {
+            code: '',
+            name: '',
+            type: ''
+          },
+          province: {
+            code: '',
+            name: '',
+            type: '',
+            slug: ''
+          }
+        },
+        helper: null,
+        skills: [] as { id: string; skillName: string }[],
+        recurringPattern: {
+          endDate: '',
+          period: {
+            id: '',
+            name: ''
+          }
+        }
+      }
     }
   }
 })
 const { reducer: storeInfoReducer, actions } = slice
 
-export const { doUpdateInfoStep1, doUpdateInfoStep2, doUpdateInfo } = actions
+export const { doUpdateInfoStep1, doUpdateInfoStep2, doUpdateInfo, doClearInfo } = actions
 export default storeInfoReducer

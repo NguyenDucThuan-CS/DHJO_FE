@@ -5,12 +5,17 @@ import './Notification.css'
 
 const Notification = () => {
   const [list, setList] = useState<any>([])
+  const [pageNo, setPageNo] = useState<number>(0)
+  const [showMore, setShowMore] = useState<boolean>(true)
 
   useEffect(() => {
-    getNotification().then((res) => {
-      setList(res.data.data.content[0])
+    getNotification(pageNo).then((res) => {
+      setList([...res.data.data.content[0], ...list])
+      if(res.data.data.last) {
+        setShowMore(false)
+      }
     })
-  }, [])
+  }, [pageNo])
 
   const renderContent = (item: any) => {
     return item.notificationContent
@@ -44,15 +49,12 @@ const Notification = () => {
             <div id='notification-list' className='list-group list-group-alt'>
               <div>
                 <div className='noty-manager-list-item noty-manager-list-item-error'>
-                  {list.map((item: any) => {
+                  {list.map((item: any, index:any) => {
                     return (
-                      <div className='activity-item'>
+                      <div className='activity-item' key = {index}>
                         {' '}
                         <i className='fa fa-shopping-cart text-success'></i>{' '}
-                        <div className='activity'> {renderContent(item)} </div> c
-                        <div className='activity'> {renderContent(item)} </div>{' '}
-                        <div className='activity'> {renderContent(item)} </div>{' '}
-                        <div className='activity'> {renderContent(item)} </div>{' '}
+                        <div className='activity'> {renderContent(item)} </div>
                       </div>
                     )
                   })}
@@ -63,7 +65,9 @@ const Notification = () => {
               <a href='#' className='pull-right'>
                 <i className='fa fa-cog'></i>
               </a>
-              <a>Xem thêm</a>
+              {showMore && <a onClick = {() => {
+                setPageNo(pageNo + 1)
+              }}>Xem thêm</a>}
             </footer>
           </section>
         </div>

@@ -15,11 +15,17 @@ import { Wrapper } from './Wrapper'
 import IconHamburger from './IconButton'
 import { deteletAllCookie } from '../../utils/cookie'
 import Notification from '../Notification/Notification'
+import { useSelector } from 'react-redux'
+import { doClearInfo } from '../../redux/slice'
+import { useDispatch } from 'react-redux'
+import { doClearNotiNum } from '../../redux/slice/notification'
+
 function Header() {
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
   const [openNoti, setOpenNoti] = React.useState<boolean>(false)
-
+  const { numNoti } = useSelector((state:any) => state.notiReducer)
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -36,6 +42,7 @@ function Header() {
   }
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const logout = () => {
     deteletAllCookie()
@@ -164,8 +171,12 @@ function Header() {
         ))}
       </Box>
       <Box sx={{ position: 'relative' }}>
-        <Box onClick = {() => setOpenNoti(!openNoti)}>
-          <Badge badgeContent={17} color='error' sx={{ mr: 3 }}>
+        <Box onClick = {() => {
+          setOpenNoti(!openNoti)
+          dispatch(doClearNotiNum({}))
+        }
+      }>
+          <Badge badgeContent={numNoti} color='error' sx={{ mr: 3 }}>
             <NotificationsIcon />
           </Badge>
         </Box>

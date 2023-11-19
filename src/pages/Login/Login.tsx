@@ -8,6 +8,8 @@ import useStyles from './style'
 import { Wrapper } from './Wrapper'
 import { useNavigate } from 'react-router-dom'
 import { setCookie } from '../../utils/cookie'
+import { useDispatch } from 'react-redux'
+import { doStoreToken } from '../../redux/slice/currentUser'
 interface FormData {
   password: string
   username: string
@@ -30,6 +32,7 @@ export default function Login() {
   const classes = useStyles()
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -59,12 +62,12 @@ export default function Login() {
     try {
       const response = await login(data)
       if (response.status === 200) {
+        dispatch(doStoreToken(response.data.data.accessToken))
         setCookie(365, response.data.data.accessToken, 'tokenDHJO')
         setCookie(365, response.data.data.userId, 'userId')
         setCookie(365, response.data.data.roles[0], 'roles')
         setOpen(true)
         setText('Bạn đã đăng nhập thành công')
-
         success.current = true
         role.current = response.data.data.roles[0]
       }
