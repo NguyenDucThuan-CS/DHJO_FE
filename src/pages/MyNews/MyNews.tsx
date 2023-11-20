@@ -17,6 +17,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { doUpdatePostRating } from '../../redux/slice/modalDetai'
 import { doOpenModalRating } from '../../redux/slice/modalDetai'
+import { markPostAsFinished } from '../../apis/post.api'
+import { toast } from 'react-toastify'
+
 import AddIcon from '@mui/icons-material/Add';
 
 const MyNews = () => {
@@ -57,7 +60,12 @@ const MyNews = () => {
   const close = () => {
     setOpen(false)
   }
-
+ const getAllOwnerPosts = () =>  {
+    getAllOwnerPost().then((res) => {
+      setListPost(res.data.data.content[0])
+      setActivePost(res.data.data.content[0][0].id)
+    })
+  }
   useEffect(() => {
     getAllOwnerPost().then((res) => {
       setListPost(res.data.data.content[0])
@@ -244,6 +252,19 @@ const MyNews = () => {
                     .finally(() => {
                       setIsLoading(false)
                     })
+                }}
+                isConfirmBtn = {listPost.find((item) => item.id === activePost)?.confirmed}
+                onClickMarkPost = {() => {
+                  if(listPost.find((item) => item.id === activePost)?.id) {
+                    markPostAsFinished(listPost.find((item) => item.id === activePost)?.id || '').then((res) => {
+                      toast.success('Xác nhận thành công')
+                      getAllOwnerPosts()
+                    })
+                    .catch(() => {
+                      toast.error('Xác nhận thất bại')
+                    })
+                  }
+                  
                 }}
               />
             </Grid>

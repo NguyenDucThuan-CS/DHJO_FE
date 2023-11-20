@@ -116,3 +116,9 @@ export const getPostHelperAll = () => {
     params: { pageNo: 0, pageSize: 20, sortBy: 'created_at', sortDir: 'desc' }
   })
 }
+
+export const markPostAsFinished = (postId: string) => {
+  return http.post(`${url}/owner/mark-post-as-finished`,null, {
+    params: { postId: postId }
+  })
+}
