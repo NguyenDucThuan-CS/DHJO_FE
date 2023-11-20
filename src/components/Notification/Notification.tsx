@@ -36,16 +36,16 @@ const Notification = () => {
         boxShadow: `1px 2px 5px 0px rgba(0,0,0,0.75);`,
         padding: '10px',
         color: 'black',
-        borderRadius: '10px',
-        maxHeight: '200px',
+        maxHeight: '300px',
         overflowY: 'scroll',
         overflowX: 'hidden'
       }}
+      className='noti_list'
     >
       <ul className='notificationsbtn nav navbar-nav navbar-right'>
         <div id='notification-container' className='dropdown-menu' role='menu' aria-labelledby='drop3'>
           <section className='panel'>
-            <header className='panel-heading'>Thông báo</header>
+            <header className='panel-heading' style={{fontSize: '17px', fontWeight:'bold'}}>Thông báo</header>
             <div id='notification-list' className='list-group list-group-alt'>
               <div>
                 <div className='noty-manager-list-item noty-manager-list-item-error'>
