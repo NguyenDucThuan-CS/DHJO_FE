@@ -36,7 +36,7 @@ import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, contentBtn }: any) => {
   if (post)
     return (
-      <Box>
+      <Box style = {{background: 'white', padding: '15px'}}>
         <Typography variant='h4' align='center'>
           {post?.title}
         </Typography>
@@ -82,8 +82,9 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
           </Typography>
           <Box> {post?.content}</Box>
         </Box>
-        <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
+       
         {!isHideFooter && <Box>
+          <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
           <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
             Người giúp việc {post?.applied?'đăng kí':'nhận việc'}
           </Typography>

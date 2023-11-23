@@ -2,7 +2,8 @@ html {
   font-size: 16px;
   @media only screen and (max-width: 576px) {
     font-size: 14px;
-  }
+  };
+  background:#f3f5f7!important
 }
 
 
@@ -10,7 +11,8 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0; 
-  font-family: 'Roboto !important'
+  font-family: 'Roboto !important';
+  color: '#172530'
 }
 
 

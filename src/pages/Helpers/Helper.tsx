@@ -15,6 +15,7 @@ import Loading from '../../components/Loading/Loading'
 import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import { FilterIcon } from '../../assets/svg/FilterIcon'
 import Typography from '@mui/material/Typography'
+import Nofind from '../../components/NoFind/NoFind'
 export interface IPost {
   id: string
   createdAt: {
@@ -248,7 +249,7 @@ const Helper = () => {
               </Box>
             </Stack>
             {
-              listPost.length === 0 && "chua co tin dang"
+              listPost.length === 0 && <Nofind />
             }
             {listPost?.map((item, index) => (
               <CardPost

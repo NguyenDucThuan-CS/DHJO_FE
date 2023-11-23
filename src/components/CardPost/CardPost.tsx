@@ -14,7 +14,8 @@ import { IPost } from '../../pages/Helpers/Helper'
 import { ReactNode } from 'react'
 
 const MySpan = styled('span')({
-  fontWeight: 'bolder'
+  fontWeight: 'bolder',
+  fontSize: '20px'
 })
 interface Props {
   post: IPost
@@ -27,7 +28,7 @@ interface Props {
 export default function CardPost({ post, active, onClick, CardAction, CardNote }: Props) {
   //console.log('post', post)
   return (
-    <Card sx={{ border: `${active ? '1px solid red' : '0px solid red'}`, position: 'relative', paddingRight: '10px', paddingBottom: '10px' }} onClick={onClick}>
+    <Card sx={{ border: `${active ? '1px solid #33c172' : '0px solid red'}`, boxShadow:`${active ? '0 10px 30px rgba(14,166,59,.2)' : 'unset'}`, position: 'relative', paddingRight: '10px', paddingBottom: '10px' }} onClick={onClick}>
       <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}
       <CardContent>
         <Grid container spacing={2}>
@@ -48,35 +49,35 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
               <MySpan>{post.title}</MySpan>
             </Typography>
             <Stack direction='row' spacing={1}>
-              <Typography sx={{ fontSize: '12px' }}>
+              <Typography sx={{ fontSize: '14px' }}>
                 <AttachMoneyIcon fontSize='inherit' />
                 {`${post.fee} vnd/h`}
               </Typography>
-              <Typography sx={{ fontSize: '12px' }}>
+              <Typography sx={{ fontSize: '14px' }}>
                 <CalendarMonthIcon fontSize='inherit' />
                 {`${post.startTime.hour % 12}:${post.startTime.minute}${post.startTime.hour > 12 ? 'PM' : 'AM'}${
                   post.startDate.day
                 }/${post.startDate.month}/${post.startDate.year}`}
               </Typography>
             </Stack>
-            <Typography sx={{ fontSize: '12px' }}>
+            <Typography sx={{ fontSize: '14px' }}>
               <HomeIcon fontSize='inherit' />
               {`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}
             </Typography>
 
             <Stack direction='row' spacing={1}>
-              <Typography sx={{ fontSize: '12px' }}>
+              <Typography sx={{ fontSize: '14px' }}>
                 <WcIcon fontSize='inherit' />
                 {`${post.preferredGender}`}
               </Typography>
-              <Typography sx={{ fontSize: '12px' }}>
+              <Typography sx={{ fontSize: '14px' }}>
                 <SchoolIcon fontSize='inherit' />
                 {`${post.preferredEducation}`}
               </Typography>
             </Stack>
             <Stack direction='row' spacing={1}>
               {post.skills.map((item) => (
-                <Chip key={item} label={item} sx={{ fontSize: '12px' }} />
+                <Chip key={item} label={item} sx={{ fontSize: '14px' }} />
               ))}
             </Stack>
           </Grid>

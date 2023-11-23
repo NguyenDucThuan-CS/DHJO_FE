@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack/Stack'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HomeIcon from '@mui/icons-material/Home'
-import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
@@ -37,10 +36,10 @@ import { toast } from 'react-toastify'
 //   choose?: (id: string, flag: boolean) => void
 // }
 const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, clickRating, isConfirmBtn, onClickMarkPost }: any) => {
-  console.log('post', post)
+
   if (post)
     return (
-      <Box>
+      <Box sx = {{background: 'white', padding:'15px', position:'sticky', top: 0}}>
         <Typography variant='h4' align='center'>
           {post?.title}
         </Typography>

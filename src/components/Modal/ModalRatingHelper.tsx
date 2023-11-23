@@ -8,9 +8,7 @@ import { useState } from 'react'
 import Button from '@mui/material/Button'
 import { rateHelper } from '../../apis/rating.api'
 import { toast } from 'react-toastify'
-// interface Props {
-//   open: boolean
-// }
+
 
 const ModalRatingHelper = ({ open }: any) => {
   const [valueArea, setValueArea] = useState<string>('')
@@ -19,7 +17,7 @@ const ModalRatingHelper = ({ open }: any) => {
   const { postRatingId } = useSelector((state: any) => {
     return state.modalHelperReducer
   })
-  console.log("postRatissngId", postRatingId)
+
   const ContentRating = () => {
     return (
       <Box>

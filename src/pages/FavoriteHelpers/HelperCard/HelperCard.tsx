@@ -99,15 +99,15 @@ export default function HelperCard({
           if (!window.location.pathname.includes('favorite-helpers')) {
             addFavoriteHelper(helperId)
               .then((res) => {
-                toast('Thêm vào danh sách yêu thích thành công')
+                toast.success('Thêm vào danh sách yêu thích thành công')
               })
               .catch(() => toast('Có lỗi xảy ra'))
           } else {
             removeFavoriteHelper(helperId)
               .then((res) => {
-                toast('Loại khỏi vào danh sách yêu thích thành công')
+                toast.success('Loại khỏi vào danh sách yêu thích thành công')
               })
-              .catch(() => toast('Có lỗi xảy ra'))
+              .catch(() => toast.error('Có lỗi xảy ra'))
           }
         }}
       >

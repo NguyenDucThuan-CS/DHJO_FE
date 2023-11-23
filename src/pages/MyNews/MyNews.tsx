@@ -21,6 +21,7 @@ import { markPostAsFinished } from '../../apis/post.api'
 import { toast } from 'react-toastify'
 
 import AddIcon from '@mui/icons-material/Add';
+import Nofind from '../../components/NoFind/NoFind'
 
 const MyNews = () => {
   const { isFromMd } = useResposive()
@@ -158,27 +159,27 @@ const MyNews = () => {
   const renderNotePost = (post: IPost) => {
     if (post.applied)
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'red'}>
           Tin chờ xác nhận
         </Box>
       )
     if (post.confirmed) {
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'green'}>
           Tin đã xác nhận
         </Box>
       )
     }
     if (post.finished) {
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'orange'}>
           Tin đã hoàn thành
         </Box>
       )
     }
     if (post.overdue) {
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'blue'}>
           Tin đã quá hạn
         </Box>
       )
@@ -216,16 +217,19 @@ const MyNews = () => {
       {filterPost(listPost).length ? (
         <Grid container spacing={2}>
           <Grid item xs={12} md={5}>
-            {filterPost(listPost).map((item, index) => (
-              <CardPost
-                key={`${index}${item.id}`}
-                post={item}
-                active={item.id === activePost}
-                onClick={() => setActivePost(item.id)}
-                CardAction={renderActionForPost(item)}
-                CardNote={renderNotePost(item)}
-              />
-            ))}
+            <Stack direction={'column'} gap = {'10px'}>
+              {filterPost(listPost).map((item, index) => (
+                <CardPost
+                  key={`${index}${item.id}`}
+                  post={item}
+                  active={item.id === activePost}
+                  onClick={() => setActivePost(item.id)}
+                  CardAction={renderActionForPost(item)}
+                  CardNote={renderNotePost(item)}
+                />
+              ))}
+            </Stack>
+           
           </Grid>
           {isFromMd && (
             <Grid item xs={7}>
@@ -271,7 +275,7 @@ const MyNews = () => {
           )}
         </Grid>
       ) : (
-        <Box>Khong co tin dang</Box>
+        <Nofind />
       )}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal open={isLoading} Content={<Loading></Loading>} />

@@ -12,7 +12,8 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { useState, useEffect } from 'react'
 import getDashboardInfo from '../../apis/dashboard.api'
-import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
+import ListHelperCard from '../FavoriteHelpers/ListHelperCard/ListHelperCard'
+import Nofind from '../../components/NoFind/NoFind'
 
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
@@ -24,7 +25,7 @@ const renderHelper = (helpers: any) => {
   ))
 }
 export function WaitingNews(list: any) {
-  if (!list.list?.length) return <div>Chưa có tin đăng</div>
+  if (!list.list?.length) return <Nofind />
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
@@ -54,7 +55,7 @@ export function WaitingNews(list: any) {
 }
 
 export function FinishedNews(list: any) {
-  if (!list.list?.length) return <div>Chưa có tin đăng</div>
+  if (!list.list?.length) return <Nofind />
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
@@ -92,7 +93,7 @@ const TotalInfo = () => {
       setDasboardInfo(res.data.data)
     })
   }, [])
-
+  
   return (
     <>
       <Box sx={{ width: '80%', margin: 'auto' }}>
@@ -120,10 +121,8 @@ const TotalInfo = () => {
         </Box>
 
         <Box sx={{ marginTop: '20px' }}>
-          <div>Top rated NGV</div>
-          <Stack direction={'row'} gap='20px'>
-            {/* <HelperCard /> */}
-          </Stack>
+          <div style={{fontWeight: 'bold', fontSize:'20px', marginBottom:'10px'}}>Top rated NGV</div>
+          {dashboardInfo?.topRatedHelpers.length ? <ListHelperCard listHelpers = {dashboardInfo?.topRatedHelpers}/>:<Nofind />}
         </Box>
       </Box>
       <Box

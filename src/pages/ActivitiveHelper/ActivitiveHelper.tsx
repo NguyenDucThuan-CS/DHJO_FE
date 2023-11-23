@@ -14,6 +14,7 @@ import { Modal } from '../../components/Modal/Modal'
 import Loading from '../../components/Loading/Loading'
 import { getPostHelperAll } from '../../apis/post.api'
 import { Button } from '@mui/material'
+import Nofind from '../../components/NoFind/NoFind'
 export interface IPost {
   id: string
   createdAt: {
@@ -93,11 +94,6 @@ const ActvitiveHelper = () => {
 
   const close = () => {
     setOpen(false)
-  }
-
-  const renderValueSalary = (id: string) => {
-    if (id === '0') return null
-    return Number(id) * 100000
   }
 
 
@@ -231,7 +227,8 @@ const ActvitiveHelper = () => {
         )}
         <>
           <Grid item xs={12} md={8} lg={4}>
-            {filterPost(listPost).length === 0 && 'chua co ti dang'}
+            {filterPost(listPost).length === 0 && <Nofind />}
+            <Stack direction={'column'} gap = {'10px'}>
             {filterPost(listPost)?.map((item:any, index:any) => (
               <CardPost
                 key={`${index}${item.id}`}
@@ -240,6 +237,8 @@ const ActvitiveHelper = () => {
                 onClick={() => setActivePost(item.id)}
               />
             ))}
+            </Stack>
+            
           </Grid>
           {isFromLg && listPost.length && (
             <Grid item xs={6} lg={6}>

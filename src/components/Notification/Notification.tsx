@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { getNotification } from '../../apis/notification.api'
+import NoNoti from '../NoNoti/NoNoti'
 import './Notification.css'
 
 const Notification = () => {
@@ -34,7 +35,6 @@ const Notification = () => {
         zIndex: 9999,
         background: 'white',
         boxShadow: `1px 2px 5px 0px rgba(0,0,0,0.75);`,
-        padding: '10px',
         color: 'black',
         maxHeight: '300px',
         overflowY: 'scroll',
@@ -45,19 +45,23 @@ const Notification = () => {
       <ul className='notificationsbtn nav navbar-nav navbar-right'>
         <div id='notification-container' className='dropdown-menu' role='menu' aria-labelledby='drop3'>
           <section className='panel'>
-            <header className='panel-heading' style={{fontSize: '17px', fontWeight:'bold'}}>Thông báo</header>
+            <header className='panel-heading' style={{fontSize: '17px', fontWeight:'bold', padding:'20px'}}>Thông báo</header>
             <div id='notification-list' className='list-group list-group-alt'>
               <div>
                 <div className='noty-manager-list-item noty-manager-list-item-error'>
-                  {list.map((item: any, index:any) => {
+                  {list?.map((item: any, index:any) => {
                     return (
-                      <div className='activity-item' key = {index}>
+                      <div className='activity-item' key = {index} style={{background: item.read ? 'unset':'#f3f5f7', borderTop: '1px solid #f5f5f5'}}>
                         {' '}
                         <i className='fa fa-shopping-cart text-success'></i>{' '}
                         <div className='activity'> {renderContent(item)} </div>
                       </div>
                     )
                   })}
+
+                  {
+                    !list.length && <NoNoti />
+                  }
                 </div>
               </div>
             </div>
