@@ -70,7 +70,7 @@ export default function HelperCard({
   overallRating,
   hideBtn,
   rating,
-  clickRating
+  clickRating,
 }: any) {
   const dispatch = useDispatch()
 
