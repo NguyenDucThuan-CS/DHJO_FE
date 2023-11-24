@@ -11,7 +11,8 @@ import Loading from '../../../components/Loading/Loading'
 import { updateHouseOwner, getHousesOfOwer, getHouseById, deleteHouseById } from '../../../apis/house.api'
 import { Popup } from '../../../components/Popup/Popup'
 import { useForm } from 'react-hook-form'
-
+import UploadImage from '../../../components/ImageUpload/ImageUpload'
+import { updateHouseImg } from '../../../apis/img.api'
 interface Province {
   code: string
   name: string
@@ -48,7 +49,7 @@ const HomeProfiles = () => {
 
   const [text, setText] = useState<string>('')
   const { register, getValues, setValue } = useForm<FormData>()
-
+  const [img, setImg] = useState('')
   useEffect(() => {
     setIsLoading(true)
     Promise.all([getAllProvine(), getHouseType(), getHousesOfOwer()]).then((res) => {
@@ -95,6 +96,14 @@ const HomeProfiles = () => {
     }
   }, [idDistrict])
 
+  const toBase64 = (file:any) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+});
+
+
   const createNewHouse = () => {
     setIsLoading(true)
     updateHouseOwner({
@@ -108,14 +117,14 @@ const HomeProfiles = () => {
       district: listDistrict.find((item) => item.code === idDistrict),
       province: listProvince.find((item) => item.code === idProvince)
     })
-      .then(() => {
+      .then(async (res) => {
         setIsLoading(false)
-        setText(idHouse ? 'Cập nhật thành công' : 'Tạo căn nhà thành công')
-        setOpenPopup(true)
+        //setText(idHouse ? 'Cập nhật thành công' : 'Tạo căn nhà thành công')
+        updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)})
+        console.log('res', res)
       })
       .catch((err) => {
         console.log(err)
-        setOpenPopup(true)
         setIsLoading(false)
       })
   }
@@ -152,9 +161,18 @@ const HomeProfiles = () => {
     clearData()
     getHousesOfOwer().then((res) => setListHouses(res.data.data))
   }
+
+  
+  const [initiImg, setInitImg] = useState('')
+
+  const handleSetImg = (img: any) => {
+    setImg(img)
+  }
+
   const ContentModal = () => {
     return (
       <Box>
+        <UploadImage handleSetImg={handleSetImg} initImg={img} disabled = {false}/>
         <form>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4}>

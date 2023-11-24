@@ -71,9 +71,10 @@ export default function HelperCard({
   hideBtn,
   rating,
   clickRating,
+  isFavourite
 }: any) {
   const dispatch = useDispatch()
-
+  //console.log('kksks',isFavourite)
   return (
     <Box
       sx={{ position: 'relative' }}
@@ -92,7 +93,7 @@ export default function HelperCard({
         )
       }}
     >
-      <span
+      {/* <span
         style={{ position: 'absolute', top: '10px', right: '5px' }}
         onClick={(e) => {
           e.stopPropagation()
@@ -112,7 +113,36 @@ export default function HelperCard({
         }}
       >
         {window.location.pathname.includes('favorite-helpers') ? <RemoveFavorite /> : <AddFavorite />}
-      </span>
+      </span> */}
+      {!isFavourite ? (
+        <span
+          style={{ position: 'absolute', top: '10px', right: '5px' }}
+          onClick={(e) => {
+            e.stopPropagation()
+            addFavoriteHelper(helperId)
+              .then((res) => {
+                toast.success('Thêm vào danh sách yêu thích thành công')
+              })
+              .catch(() => toast('Có lỗi xảy ra'))
+          }}
+        >
+          <AddFavorite />
+        </span>
+      ) : (
+        <span
+        style={{ position: 'absolute', top: '10px', right: '5px' }}
+          onClick={(e) => {
+            e.stopPropagation()
+            removeFavoriteHelper(helperId)
+              .then((res) => {
+                toast.success('Loại khỏi vào danh sách yêu thích thành công')
+              })
+              .catch(() => toast.error('Có lỗi xảy ra'))
+          }}
+        >
+          <RemoveFavorite />
+        </span>
+      )}
       <Card>
         <CardContent>
           <Grid container spacing={2}>

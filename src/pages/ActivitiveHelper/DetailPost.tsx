@@ -103,6 +103,7 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                   phone={item.phoneNum}
                   overallRating={item.overallRating}
                   hideBtn = {!post?.applied}
+                  isFavourite = {post.isFavourite}
                   //isChosen={idChosen == item.id}
                 />
               ))}

@@ -128,6 +128,7 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                     hideBtn={!post?.applied}
                     rating={post.finished}
                     clickRating={clickRating}
+                    isFavourite = {post.isFavourite}
                     //isChosen={idChosen == item.id}
                   />
                 ))}

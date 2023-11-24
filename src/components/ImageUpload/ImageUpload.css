@@ -1,0 +1,37 @@
+.upload-file .dropzone {
+  background-color: #f4f4f7;
+  padding: 16px;
+  border: 1px dashed #c7c7c7;
+  text-align: center;
+  border-radius: 5px;
+  margin-bottom: 4px;
+}
+
+.upload-file .thumbs-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.upload-file .thumb {
+  display: inline-flex;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #bdbdbd;
+  box-sizing: border-box;
+}
+.upload-file .thumb-inner {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.upload-file .img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
