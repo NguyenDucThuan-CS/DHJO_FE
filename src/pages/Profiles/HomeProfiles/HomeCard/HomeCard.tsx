@@ -21,6 +21,7 @@ interface HomeCardProps {
   remove?: (id: string) => void
   choose?: (id: string, flag: boolean) => void
   isChosen?: boolean
+  img?: string
 }
 export default function HomeCard({
   homeName,
@@ -31,7 +32,8 @@ export default function HomeCard({
   remove,
   id,
   choose,
-  isChosen
+  isChosen,
+  img
 }: HomeCardProps) {
   return (
     <Card>
@@ -40,10 +42,10 @@ export default function HomeCard({
           component='img'
           sx={{
             width: '50%',
-            height: '100%'
+            height: '150px'
           }}
           alt='The house from the offer.'
-          src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2'
+          src={`data:image;base64,${img}`}
         />
 
         <CardContent sx = {{padding: 0, paddingLeft: '10px'}}>

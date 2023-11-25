@@ -29,7 +29,7 @@ const UploadImage = ({ handleSetImg, initImg, disabled }: any) => {
       setFiles([]);
     } else setFiles([
       Object.assign(initImg, {
-        preview: URL.createObjectURL(initImg),
+        preview: initImg,
       }),
     ]);
   }, [initImg]);

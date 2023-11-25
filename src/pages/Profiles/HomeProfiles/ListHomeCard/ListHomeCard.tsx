@@ -26,6 +26,10 @@ export interface House {
     type: string
     slug: string
   }
+  image: {
+    base64String: string,
+    id: string
+  }
 }
 interface ListHousesProps {
   listHouses: House[]
@@ -51,6 +55,7 @@ const ListHomeCard = ({ listHouses, edit, remove, choose, idChosen }: ListHouses
               remove={remove}
               choose={choose}
               isChosen={idChosen === i.id}
+              img = {i.image?.base64String || ''}
             />
           </Grid>
         ))}

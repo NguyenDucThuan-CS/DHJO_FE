@@ -13,6 +13,8 @@ import { Popup } from '../../../components/Popup/Popup'
 import { useForm } from 'react-hook-form'
 import UploadImage from '../../../components/ImageUpload/ImageUpload'
 import { updateHouseImg } from '../../../apis/img.api'
+import { toast } from 'react-toastify'
+
 interface Province {
   code: string
   name: string
@@ -49,7 +51,7 @@ const HomeProfiles = () => {
 
   const [text, setText] = useState<string>('')
   const { register, getValues, setValue } = useForm<FormData>()
-  const [img, setImg] = useState('')
+  const [img, setImg] = useState<any>('')
   useEffect(() => {
     setIsLoading(true)
     Promise.all([getAllProvine(), getHouseType(), getHousesOfOwer()]).then((res) => {
@@ -102,7 +104,12 @@ const HomeProfiles = () => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
 });
+async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
 
+  const res: Response = await fetch(dataUrl);
+  const blob: Blob = await res.blob();
+  return new File([blob], fileName, { type: 'image/png' });
+}
 
   const createNewHouse = () => {
     setIsLoading(true)
@@ -119,13 +126,15 @@ const HomeProfiles = () => {
     })
       .then(async (res) => {
         setIsLoading(false)
-        //setText(idHouse ? 'Cập nhật thành công' : 'Tạo căn nhà thành công')
-        updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)})
-        console.log('res', res)
+        updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)}).then((res) => {
+          toast.success('Cập nhật căn nhà thành công')
+        })
+       
       })
       .catch((err) => {
         console.log(err)
         setIsLoading(false)
+        toast.error('Cập nhật căn nhà thất bại')
       })
   }
 
@@ -172,7 +181,7 @@ const HomeProfiles = () => {
   const ContentModal = () => {
     return (
       <Box>
-        <UploadImage handleSetImg={handleSetImg} initImg={img} disabled = {false}/>
+        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {false}/>
         <form>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
@@ -250,7 +259,8 @@ const HomeProfiles = () => {
       </Box>
     )
   }
-
+  console.log("kskks", listHouse)
+ 
   const ActionsModal = () => {
     return (
       <Button variant='outlined' onClick={createNewHouse}>
@@ -258,7 +268,7 @@ const HomeProfiles = () => {
       </Button>
     )
   }
-
+ 
   const editHome = async (id: string) => {
     const res = await getHouseById({ id })
     const data = res.data.data
@@ -268,6 +278,9 @@ const HomeProfiles = () => {
     setIdHouseType(data.houseType.id)
     setIdWard(data.ward.code)
     setIdDistrict(data.district.code)
+
+    if(data.image) setInitImg(`data:image;base64,${data.image.base64String}`)
+
 
     setValue('houseName', data.houseName)
     setValue('floorArea', data.floorArea)
