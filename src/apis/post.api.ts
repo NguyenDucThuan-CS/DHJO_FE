@@ -122,3 +122,11 @@ export const markPostAsFinished = (postId: string) => {
     params: { postId: postId }
   })
 }
+
+export const ownerGetPostById = (id: string) => {
+  return http.get(`${url}/owner`, {
+    params: {
+      postId: id
+    }
+  })
+}

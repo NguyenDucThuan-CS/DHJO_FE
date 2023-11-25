@@ -18,7 +18,7 @@ const MySpan = styled('span')({
   fontSize: '20px'
 })
 interface Props {
-  post: IPost
+  post: any
   active?: boolean
   onClick?: () => void
   CardAction?: ReactNode
@@ -26,7 +26,7 @@ interface Props {
 }
 
 export default function CardPost({ post, active, onClick, CardAction, CardNote }: Props) {
-  //console.log('post', post)
+  console.log('post', post)
   return (
     <Card sx={{ border: `${active ? '1px solid #33c172' : '0px solid red'}`, boxShadow:`${active ? '0 10px 30px rgba(14,166,59,.2)' : 'unset'}`, position: 'relative', paddingRight: '10px', paddingBottom: '10px' }} onClick={onClick}>
       <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}
@@ -40,7 +40,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                 height: '100%'
               }}
               alt='The house from the offer.'
-              src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2'
+              src={post.house.base64Image ? `data:image;base64,${post.house.base64Image}` :`https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2`}
             />
           </Grid>
 
@@ -76,8 +76,8 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
               </Typography>
             </Stack>
             <Stack direction='row' spacing={1}>
-              {post.skills.map((item) => (
-                <Chip key={item} label={item} sx={{ fontSize: '14px' }} />
+              {post.skills.map((item:any) => (
+                <Chip key={item} label={item.toLocaleLowerCase()} sx={{ fontSize: '14px', border:'solid 2px #1977d2', textTransform: 'none' }} />
               ))}
             </Stack>
           </Grid>

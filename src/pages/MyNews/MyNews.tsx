@@ -28,12 +28,14 @@ const MyNews = () => {
   const { isFromMd } = useResposive()
   const search = useLocation().search;
   const tabUrl = new URLSearchParams(search).get('tab');
+  const postId = new URLSearchParams(search).get('postId');
+
   const [tab, setTab] = useState<any>(tabUrl || 0)
 
 
   const [listPost, setListPost] = useState<IPost[]>([])
-  const [activePost, setActivePost] = useState<string>('')
-
+  const [activePost, setActivePost] = useState<any>(postId || '')
+  console.log('activePost', activePost)
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -199,22 +201,22 @@ const MyNews = () => {
   return (
     <Box>
       <Stack direction={'row'} gap={2} sx={{ marginBottom: '20px' }}>
-        <Button variant={`${tab == 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
+        <Button variant={`${tab == 0 ? 'contained' : 'outlined'}` } sx = {{textTransform: 'none'}} onClick={() => setTab(0)}>
           Tất cả
         </Button>
-        <Button variant={`${tab == 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
+        <Button variant={`${tab == 1 ? 'contained' : 'outlined'}`} sx = {{textTransform: 'none'}} onClick={() => setTab(1)}>
           Tin mới đăng
         </Button>
-        <Button variant={`${tab == 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
+        <Button variant={`${tab == 2 ? 'contained' : 'outlined'}`} sx = {{textTransform: 'none'}} onClick={() => setTab(2)}>
           Tin chờ xác nhận
         </Button>
-        <Button variant={`${tab == 3 ? 'contained' : 'outlined'}`} onClick={() => setTab(3)}>
+        <Button variant={`${tab == 3 ? 'contained' : 'outlined'}`} sx = {{textTransform: 'none'}} onClick={() => setTab(3)}>
           Tin đã xác nhận
         </Button>
-        <Button variant={`${tab == 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
+        <Button variant={`${tab == 4 ? 'contained' : 'outlined'}`} sx = {{textTransform: 'none'}} onClick={() => setTab(4)}>
           Tin đã hoàn thành
         </Button>
-        <Button variant={`${tab == 5 ? 'contained' : 'outlined'}`} onClick={() => setTab(5)}>
+        <Button variant={`${tab == 5 ? 'contained' : 'outlined'}`} sx = {{textTransform: 'none'}}   onClick={() => setTab(5)}>
           Tin đã quá hạn
         </Button>
       </Stack>

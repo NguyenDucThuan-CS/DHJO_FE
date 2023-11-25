@@ -107,7 +107,7 @@ const Schedule = ({ onClick }: Props) => {
               queue.current = []
             })()}
             {sortIt(mapTaskToCollisionList(tasks)).map((ele: any, index: any) => (
-              <div key={index} className='schedule' onClick={() => onClick(ele.postId)} style={style(ele)}>
+              <div key={index} className='schedule' onClick={() => onClick && onClick(ele.postId)} style={style(ele)}>
                 <p>{ele.title}</p>
                 <p>
                   {ele.startTime}-{ele.endTime}

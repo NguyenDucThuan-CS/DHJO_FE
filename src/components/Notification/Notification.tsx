@@ -2,12 +2,15 @@ import { Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { getNotification } from '../../apis/notification.api'
 import NoNoti from '../NoNoti/NoNoti'
+import { useNavigate } from 'react-router-dom'
 import './Notification.css'
-
+import { ownerGetPostById } from '../../apis/post.api'
 const Notification = () => {
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
   const [showMore, setShowMore] = useState<boolean>(true)
+  const history = useNavigate()
+
 
   useEffect(() => {
     getNotification(pageNo).then((res) => {
@@ -17,9 +20,27 @@ const Notification = () => {
       }
     })
   }, [pageNo])
-
+  const renderTab = (item: any) => {
+    //if (tab == 0) return listPost
+    if(!item.applied && !item.confirmed && !item.finished && !item.overdue) return 1
+    if (item.applied === true) return 2
+    if (item.confirmed === true) return 3
+    if (item.finished === true) return 4
+    if (item.overdue === true) return 5
+    
+    return 0
+  }
   const renderContent = (item: any) => {
-    return <div className='activity'>{item.notificationContent
+    const handleClick = () => {
+      if(item.entityType == 'Post') {
+        ownerGetPostById(item.entityId).then((res) => {
+          const tab = renderTab(res.data.data) 
+          history(`/owner/my-news?tab=${tab}&&postId=${item.entityId}`)
+        })
+      }
+    }
+
+    return <div className='activity' onClick = {handleClick}>{item.notificationContent
     .replace('{{actorUsername}}', item.actorUsername)
     .replace('{{entityType}}', item.entityType === 'Post' ? 'bài đăng' : '')}</div>
   }
