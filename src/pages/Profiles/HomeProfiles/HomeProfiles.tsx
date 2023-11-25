@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form'
 import UploadImage from '../../../components/ImageUpload/ImageUpload'
 import { updateHouseImg } from '../../../apis/img.api'
 import { toast } from 'react-toastify'
-
+import { toBase64 } from '../../../utils/common'
 interface Province {
   code: string
   name: string
@@ -52,6 +52,7 @@ const HomeProfiles = () => {
   const [text, setText] = useState<string>('')
   const { register, getValues, setValue } = useForm<FormData>()
   const [img, setImg] = useState<any>('')
+
   useEffect(() => {
     setIsLoading(true)
     Promise.all([getAllProvine(), getHouseType(), getHousesOfOwer()]).then((res) => {
@@ -98,18 +99,13 @@ const HomeProfiles = () => {
     }
   }, [idDistrict])
 
-  const toBase64 = (file:any) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-});
-async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
+ 
+// async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
 
-  const res: Response = await fetch(dataUrl);
-  const blob: Blob = await res.blob();
-  return new File([blob], fileName, { type: 'image/png' });
-}
+//   const res: Response = await fetch(dataUrl);
+//   const blob: Blob = await res.blob();
+//   return new File([blob], fileName, { type: 'image/png' });
+// }
 
   const createNewHouse = () => {
     setIsLoading(true)
@@ -178,10 +174,14 @@ async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
     setImg(img)
   }
 
+  const handleSetInitImg = (img: any) => {
+    setInitImg(img)
+  }
+
   const ContentModal = () => {
     return (
       <Box>
-        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {false}/>
+        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {false} handleSetInitImg = {handleSetInitImg}/>
         <form>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
@@ -259,7 +259,7 @@ async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
       </Box>
     )
   }
-  console.log("kskks", listHouse)
+ 
  
   const ActionsModal = () => {
     return (

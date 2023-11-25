@@ -22,10 +22,15 @@ import { toast } from 'react-toastify'
 
 import AddIcon from '@mui/icons-material/Add';
 import Nofind from '../../components/NoFind/NoFind'
+import { useLocation } from 'react-router-dom'
 
 const MyNews = () => {
   const { isFromMd } = useResposive()
-  const [tab, setTab] = useState<number>(0)
+  const search = useLocation().search;
+  const tabUrl = new URLSearchParams(search).get('tab');
+  const [tab, setTab] = useState<any>(tabUrl || 0)
+
+
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<string>('')
 
@@ -83,12 +88,12 @@ const MyNews = () => {
   }, [tab])
 
   const filterPost = (listPost: IPost[]) => {
-    if (tab === 0) return listPost
-    if (tab === 1) return listPost.filter((item) => !item.applied && !item.confirmed && !item.finished && !item.overdue)
-    if (tab === 2) return listPost.filter((item) => item.applied === true)
-    if (tab === 3) return listPost.filter((item) => item.confirmed === true)
-    if (tab === 4) return listPost.filter((item) => item.finished === true)
-    if (tab === 5) return listPost.filter((item) => item.overdue === true)
+    if (tab == 0) return listPost
+    if (tab == 1) return listPost.filter((item) => !item.applied && !item.confirmed && !item.finished && !item.overdue)
+    if (tab == 2) return listPost.filter((item) => item.applied === true)
+    if (tab == 3) return listPost.filter((item) => item.confirmed === true)
+    if (tab == 4) return listPost.filter((item) => item.finished === true)
+    if (tab == 5) return listPost.filter((item) => item.overdue === true)
     return []
   }
 
@@ -194,22 +199,22 @@ const MyNews = () => {
   return (
     <Box>
       <Stack direction={'row'} gap={2} sx={{ marginBottom: '20px' }}>
-        <Button variant={`${tab === 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
+        <Button variant={`${tab == 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
           Tất cả
         </Button>
-        <Button variant={`${tab === 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
+        <Button variant={`${tab == 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
           Tin mới đăng
         </Button>
-        <Button variant={`${tab === 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
+        <Button variant={`${tab == 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
           Tin chờ xác nhận
         </Button>
-        <Button variant={`${tab === 3 ? 'contained' : 'outlined'}`} onClick={() => setTab(3)}>
+        <Button variant={`${tab == 3 ? 'contained' : 'outlined'}`} onClick={() => setTab(3)}>
           Tin đã xác nhận
         </Button>
-        <Button variant={`${tab === 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
+        <Button variant={`${tab == 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
           Tin đã hoàn thành
         </Button>
-        <Button variant={`${tab === 5 ? 'contained' : 'outlined'}`} onClick={() => setTab(5)}>
+        <Button variant={`${tab == 5 ? 'contained' : 'outlined'}`} onClick={() => setTab(5)}>
           Tin đã quá hạn
         </Button>
       </Stack>

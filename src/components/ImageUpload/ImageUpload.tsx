@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 import './ImageUpload.css';
-
-const UploadImage = ({ handleSetImg, initImg, disabled }: any) => {
+import { toBase64 } from '../../utils/common';
+const UploadImage = ({ handleSetImg, initImg, disabled,handleSetInitImg }: any) => {
   const [files, setFiles] = useState<any>([]);
   const { getRootProps, getInputProps, open } = useDropzone({
     noClick: true,
@@ -14,13 +14,9 @@ const UploadImage = ({ handleSetImg, initImg, disabled }: any) => {
       "image/jpg": [".jpg"],
       "image/jpeg": [".jpeg"],
     },
-    onDrop: (acceptedFiles:any) => {
+    onDrop: async (acceptedFiles:any) => {
       handleSetImg(acceptedFiles[0])
-      setFiles([
-        Object.assign(acceptedFiles[0], {
-          preview: URL.createObjectURL(acceptedFiles[0]),
-        }),
-      ]);
+      handleSetInitImg(await toBase64(acceptedFiles[0]))
     },
   });
 

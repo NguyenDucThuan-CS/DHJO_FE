@@ -19,9 +19,9 @@ const Notification = () => {
   }, [pageNo])
 
   const renderContent = (item: any) => {
-    return item.notificationContent
-      .replace('{{actorUsername}}', item.actorUsername)
-      .replace('{{entityType}}', item.entityType === 'Post' ? 'bài đăng' : '')
+    return <div className='activity'>{item.notificationContent
+    .replace('{{actorUsername}}', item.actorUsername)
+    .replace('{{entityType}}', item.entityType === 'Post' ? 'bài đăng' : '')}</div>
   }
 
   return (
@@ -54,7 +54,7 @@ const Notification = () => {
                       <div className='activity-item' key = {index} style={{background: item.read ? 'unset':'#f3f5f7', borderTop: '1px solid #f5f5f5'}}>
                         {' '}
                         <i className='fa fa-shopping-cart text-success'></i>{' '}
-                        <div className='activity'> {renderContent(item)} </div>
+                        {renderContent(item)}
                       </div>
                     )
                   })}
