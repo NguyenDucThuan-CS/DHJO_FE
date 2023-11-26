@@ -125,15 +125,15 @@ export default function Register() {
             }}
           ></Input>
           <FormControl>
-            <FormLabel id='demo-controlled-radio-buttons-group'>Vai trò</FormLabel>
+            <FormLabel id='demo-controlled-radio-buttons-group' sx = {{fontWeight: 'bold'}}>Bạn đang tìm</FormLabel>
             <RadioGroup
               aria-labelledby='demo-controlled-radio-buttons-group'
               name='controlled-radio-buttons-group'
               value={role}
               onChange={handleChangeRole}
             >
-              <FormControlLabel value='owner' control={<Radio />} label='Chủ nhà' />
-              <FormControlLabel value='helper' control={<Radio />} label='Người giúp việc' />
+              <FormControlLabel value='owner' control={<Radio />} label='Người giúp việc' />
+              <FormControlLabel value='helper' control={<Radio />} label='Công việc' />
             </RadioGroup>
           </FormControl>
 

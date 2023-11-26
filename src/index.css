@@ -3,7 +3,7 @@ html {
   @media only screen and (max-width: 576px) {
     font-size: 14px;
   };
-  background:#f3f5f7!important
+  background:#f3f5f7 !important
 }
 
 * {

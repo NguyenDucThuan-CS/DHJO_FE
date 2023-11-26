@@ -15,9 +15,6 @@ export const Wrapper = ({ children, title }: WrapperProps) => {
       <CssBaseline />
       <Grid className={classes.paper} item xs={10} sm={8} md={4} component={Paper} elevation={1} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlined />
-          </Avatar>
           <Typography component='h1' variant='h5'>
             {title}
           </Typography>
