@@ -18,6 +18,8 @@ import { getGender } from '../../apis/gender.api'
 import { useSelector, useDispatch } from 'react-redux'
 import { doUpdateInfoStep2 } from '../../redux/slice'
 import { RootState } from '../../redux/store'
+import { toast } from 'react-toastify'
+import { errorToast } from '../../utils/common'
 //const Step1
 const Step2 = React.forwardRef(function Step2(props, ref) {
   const [checked, setChecked] = useState<boolean>(false)
@@ -77,10 +79,36 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
   }
 
   const validate = () => {
-    if (!idChosenSkill.length || !chosenEdu || !idGender || !title || !content || fee == '0' || workTime == '0') {
+    /* if (!idChosenSkill.length || !chosenEdu || !idGender || !title || !content || fee == '0' || workTime == '0') {
+      return false
+    } */
+    if(!idChosenSkill.length) {
+      errorToast('Vui lòng chọn kĩ năng')
       return false
     }
-    if (checked && !idPeriod) {
+    if(!chosenEdu) {
+      errorToast('Vui lòng chọn trình độ học vấn')
+      return false
+    }
+    if(!idGender) {
+      errorToast('Vui lòng chọn giới tính')
+      return false
+    }
+    if(!title) {
+      errorToast('Vui lòng nhập tiêu đề')
+      return false
+    }
+    if(!content) {
+      errorToast('Vui lòng nhập chi tiết tin đăng')
+      return false
+    }
+
+    if(!fee) {
+      errorToast('Vui lòng nhập đơn giá')
+      return false
+    }
+    if(checked && !idPeriod) {
+      errorToast('Vui lòng chọn chu kì lập lại')
       return false
     }
     return true

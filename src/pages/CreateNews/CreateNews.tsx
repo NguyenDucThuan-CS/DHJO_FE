@@ -18,6 +18,7 @@ import { createPost } from '../../apis/post.api'
 import { useNavigate } from 'react-router-dom'
 import { doClearInfo } from '../../redux/slice'
 import { toast } from 'react-toastify'
+import { useEffect } from 'react'
 
 const steps = ['Chọn nhà', 'Chi tiết']
 
@@ -56,16 +57,14 @@ export default function CreateNews() {
       if (refStep1?.current?.handlePassStep()) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       } else {
-        setText('Vui long chon nha')
-        setOpen(true)
+        toast.error('Vui lòng chọn căn nhà')
       }
     } else if (activeStep === 1) {
       if (refStep2.current.handlePassStep()) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
-      } else {
-        setText('Vui nhap du thong tin')
-        setOpen(true)
-      }
+      } /* else {
+        toast.error('Vui lòng nhập đầy đủ thông tin')
+      } */
     }
   }
 
@@ -93,6 +92,11 @@ export default function CreateNews() {
     if (activeStep === 1) return <Step2 ref={refStep2} />
     //return <Step3 />
   }
+  useEffect(() => {
+    return () => {
+      dispatch(doClearInfo({}))
+    }
+  }, [])
 
   return (
     <Box sx={{ width: { xs: '100%' } }}>

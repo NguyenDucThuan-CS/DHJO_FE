@@ -53,7 +53,6 @@ const Schedule = ({ onClick }: Props) => {
 
   useEffect(() => {
     getTaskToday().then((res) => {
-      //console.log(res)
       setTasks(res.data.data)
     })
   }, [])
