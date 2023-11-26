@@ -16,3 +16,13 @@ export const updateHouseImg = ({ id, base64String }: any) => {
     { params: { houseId: id } }
   )
 }
+
+export const updateImgUser = ({ id, base64String }: any) => {
+  return http.post(
+    url + '/user',
+    {
+      id,
+      base64String
+    }
+  )
+}

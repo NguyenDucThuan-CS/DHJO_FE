@@ -280,8 +280,6 @@ const HomeProfiles = () => {
     setIdDistrict(data.district.code)
 
     if(data.image) setInitImg(`data:image;base64,${data.image.base64String}`)
-
-
     setValue('houseName', data.houseName)
     setValue('floorArea', data.floorArea)
     setValue('houseNo', data.houseNo)

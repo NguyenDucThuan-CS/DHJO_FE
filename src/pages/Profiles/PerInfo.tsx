@@ -12,6 +12,10 @@ import { objToFormData } from '../../utils/api'
 import { readCookie } from '../../utils/cookie'
 import { getImg } from '../../apis/img.api'
 import EditIcon from '@mui/icons-material/Edit'
+import UploadImage from '../../components/ImageUpload/ImageUpload'
+import { updateImgUser } from '../../apis/img.api'
+import { toBase64 } from '../../utils/common'
+
 const PerInfo = () => {
   interface FormData {
     phoneNum?: string
@@ -48,26 +52,28 @@ const PerInfo = () => {
     setDisabled(true)
   }
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
+    //updateProfileOwner({...data})
     Promise.all([
       updateProfileOwner({ ...data }),
-      new Promise((resolve) => {
-        if (img) {
-          resolve(
-            fetch('http://localhost:8080/api/image', {
-              method: 'POST',
-              body: objToFormData({
-                profileImage: img
-              }),
-              headers: {
-                Authorization: `Bearer ${readCookie('tokenDHJO')}`
-              }
-            })
-          )
-        } else {
-          resolve(true)
-        }
-      })
+      updateImgUser({id:null, base64String: await toBase64(img)})
+      // new Promise((resolve) => {
+      //   if (img) {
+      //     resolve(
+      //       fetch('http://localhost:8080/api/image', {
+      //         method: 'POST',
+      //         body: objToFormData({
+      //           profileImage: img
+      //         }),
+      //         headers: {
+      //           Authorization: `Bearer ${readCookie('tokenDHJO')}`
+      //         }
+      //       })
+      //     )
+      //   } else {
+      //     resolve(true)
+      //   }
+      // })
     ]).then(() => {
       setOpen(true)
       setText('Cập nhật thông tin thành công')
@@ -92,6 +98,15 @@ const PerInfo = () => {
         console.log('err', err)
       })
   }, [])
+  const [initiImg, setInitImg] = useState('')
+
+  const handleSetImg = (img: any) => {
+    setImg(img)
+  }
+
+  const handleSetInitImg = (img: any) => {
+    setInitImg(img)
+  }
 
   return (
     <Container sx={{ width: { xs: '100%', md: '50%' } }}>
@@ -104,7 +119,8 @@ const PerInfo = () => {
         >
           <EditIcon />
         </span>
-        <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
+        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {disabled} handleSetInitImg = {handleSetInitImg} />
+        {/* <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} /> */}
         <Input
           label='Họ tên'
           error={errors.name?.message ? true : false}

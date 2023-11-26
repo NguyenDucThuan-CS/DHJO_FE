@@ -47,25 +47,23 @@ const UploadImage = ({ handleSetImg, initImg, disabled,handleSetInitImg }: any) 
 
   return (
     <Box className='upload-file'>
-      {!disabled && (
+      {files.length > 0 && (
+        <>
+          <aside className="thumbs-container">{thumbs}</aside>
+        </>
+      )}
+      { (
         <Box {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
-          <Typography>
+          {/* <Typography>
             Kéo và thả hình ảnh hoặc bấm vào đây để tải lên
-          </Typography>
-          <Button variant="outlined" type="button" onClick={open}>
+          </Typography> */}
+          <Button disabled = {disabled} variant="outlined" type="button" onClick={open}>
             Chọn hình ảnh
           </Button>
         </Box>
       )}
-      {files.length > 0 && (
-        <>
-          <Typography>
-            Hình ảnh
-          </Typography>
-          <aside className="thumbs-container">{thumbs}</aside>
-        </>
-      )}
+      
     </Box>
   );
 };
