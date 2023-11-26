@@ -102,8 +102,11 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
             }
           : null
       }).then((res) => {
-        if(res.data.data) {
-          
+        if(!res.data.data) {
+          setStartDateError('Thời gian làm việc đã bị trùng với một tin đăng khác')
+        }
+        else if(res.data.data) {
+          setStartDateError('')
         }
       })
     }
@@ -249,42 +252,6 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           isRequired={true}
         ></Textarea>
       </Grid>
-
-      <Grid item xs={12} sm={6} md={4}>
-        <Box>
-          <FormControlLabel control={<Switch checked={checked} onChange={handleChange} />} label='Set tin định kì' />
-
-          {checked && (
-            <Box sx={{ background: 'rgba(0, 0, 0, 0.08)', padding: '10px' }}>
-              <Typography>Tin đăng sẽ được set định kì sau khi hoàn thành</Typography>
-              <SelectDropdown
-                list={period}
-                id={idPeriod}
-                name={'Chu kì lặp lại'}
-                setId={(newValue) => {
-                  setIdPeriod(newValue)
-                  setPeriodError('')
-                }}
-                isRequired={true}
-                helperText={periodError}
-                error={periodError ? true : false}
-              />
-              <SelectDate
-                value={endDate}
-                setValue={(newValue) => {
-                  setEndDate(newValue)
-                  setendDateError('')
-                }}
-                name={'Ngày kết thúc'}
-                isRequired={true}
-                error={endDateError ? true : false}
-                helperText={endDateError}
-              ></SelectDate>
-            </Box>
-          )}
-        </Box>
-      </Grid>
-
       <Grid item xs={12} sm={6} md={4}>
         <SelectDropdown list={gender} id={idGender} name={'Giới tính'} setId={setIdGender} />
       </Grid>
@@ -331,6 +298,41 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           error={workTimeError ? true : false}
           helperText={workTimeError}
         ></Input>
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <Box>
+          <FormControlLabel control={<Switch checked={checked} onChange={handleChange} />} label='Set tin định kì' />
+          {true && (
+            <Box sx={{ background: 'rgba(0, 0, 0, 0.08)', padding: '10px' }}>
+              <Typography>Tin đăng sẽ được set định kì sau khi hoàn thành</Typography>
+              <SelectDropdown
+                list={period}
+                id={idPeriod}
+                name={'Chu kì lặp lại'}
+                setId={(newValue) => {
+                  setIdPeriod(newValue)
+                  setPeriodError('')
+                }}
+                isRequired={true}
+                helperText={periodError}
+                error={periodError ? true : false}
+                disabled = {checked ? false : true}
+              />
+              <SelectDate
+                value={endDate}
+                setValue={(newValue) => {
+                  setEndDate(newValue)
+                  setendDateError('')
+                }}
+                name={'Ngày kết thúc'}
+                isRequired={true}
+                error={endDateError ? true : false}
+                helperText={endDateError}
+                disabled = {checked ? false : true}
+              ></SelectDate>
+            </Box>
+          )}
+        </Box>
       </Grid>
     </Grid>
   )
