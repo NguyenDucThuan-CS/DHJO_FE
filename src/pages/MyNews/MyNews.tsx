@@ -22,8 +22,8 @@ import { toast } from 'react-toastify'
 
 import AddIcon from '@mui/icons-material/Add';
 import Nofind from '../../components/NoFind/NoFind'
+import { doClearInfo } from '../../redux/slice'
 import { useLocation } from 'react-router-dom'
-
 const MyNews = () => {
   const { isFromMd } = useResposive()
   const search = useLocation().search;
@@ -35,7 +35,6 @@ const MyNews = () => {
 
   const [listPost, setListPost] = useState<IPost[]>([])
   const [activePost, setActivePost] = useState<any>(postId || '')
-  console.log('activePost', activePost)
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -286,7 +285,10 @@ const MyNews = () => {
       )}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal open={isLoading} Content={<Loading></Loading>} />
-      <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent:'flex-end'}}  onClick={() => history('/owner/create-news')}>
+      <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent:'flex-end'}}  onClick={() => {
+          dispatch(doClearInfo({}))
+          history('/owner/create-news')
+        }}>
         <Fab color='primary' aria-label='add'>
           <AddIcon />
         </Fab>

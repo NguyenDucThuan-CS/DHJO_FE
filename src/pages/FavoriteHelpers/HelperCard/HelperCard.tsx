@@ -11,14 +11,12 @@ import ManIcon from '@mui/icons-material/Man'
 import CakeIcon from '@mui/icons-material/Cake'
 import Stack from '@mui/material/Stack'
 import SchoolIcon from '@mui/icons-material/School'
-import DiamondIcon from '@mui/icons-material/Diamond'
 import Chip from '@mui/material/Chip'
 import { ListStar } from '../../../components/ListStar/ListStar'
 import { AddFavorite } from '../../../assets/svg/AddFavorite'
 import { RemoveFavorite } from '../../../assets/RemoveFavorite'
 import { addFavoriteHelper, removeFavoriteHelper } from '../../../apis/favaritehelper.api'
 import { toast } from 'react-toastify'
-import { doUpdateHelperRating } from '../../../redux/slice/modalDetai'
 
 const MySpan = styled('span')({
   marginLeft: '8px'
@@ -45,16 +43,16 @@ interface Props {
   isChosen?: boolean
 }
 
-const getSkills = (
-  skills: {
-    id: string
-    skillName: string
-  }[]
-) => {
-  return skills.reduce((total, current) => {
-    return total + current.skillName
-  }, '')
-}
+// const getSkills = (
+//   skills: {
+//     id: string
+//     skillName: string
+//   }[]
+// ) => {
+//   return skills.reduce((total, current) => {
+//     return total + current.skillName
+//   }, '')
+// }
 
 export default function HelperCard({
   name,
@@ -74,7 +72,6 @@ export default function HelperCard({
   isFavourite
 }: any) {
   const dispatch = useDispatch()
-  //console.log('kksks',isFavourite)
   return (
     <Box
       sx={{ position: 'relative' }}
@@ -93,27 +90,7 @@ export default function HelperCard({
         )
       }}
     >
-      {/* <span
-        style={{ position: 'absolute', top: '10px', right: '5px' }}
-        onClick={(e) => {
-          e.stopPropagation()
-          if (!window.location.pathname.includes('favorite-helpers')) {
-            addFavoriteHelper(helperId)
-              .then((res) => {
-                toast.success('Thêm vào danh sách yêu thích thành công')
-              })
-              .catch(() => toast('Có lỗi xảy ra'))
-          } else {
-            removeFavoriteHelper(helperId)
-              .then((res) => {
-                toast.success('Loại khỏi vào danh sách yêu thích thành công')
-              })
-              .catch(() => toast.error('Có lỗi xảy ra'))
-          }
-        }}
-      >
-        {window.location.pathname.includes('favorite-helpers') ? <RemoveFavorite /> : <AddFavorite />}
-      </span> */}
+     
       {!isFavourite ? (
         <span
           style={{ position: 'absolute', top: '10px', right: '5px' }}
@@ -177,8 +154,7 @@ export default function HelperCard({
                 <MySpan> {education.name}</MySpan>
               </Stack>
 
-              <Stack direction={'row'} alignItems={'center'}>
-                <DiamondIcon />
+              <Stack direction={'row'} alignItems={'center'} sx = {{marginTop:'5px'}}>
                 <Stack direction='row' spacing={1}>
                   {skills.map((item: any) => (
                     <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />

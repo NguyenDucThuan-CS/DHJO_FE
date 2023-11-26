@@ -6,12 +6,11 @@ html {
   background:#f3f5f7!important
 }
 
-
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0; 
-  font-family: 'Roboto !important';
+  font-family: 'Roboto';
   color: '#172530'
 }
 

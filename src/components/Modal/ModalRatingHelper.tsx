@@ -87,6 +87,7 @@ const ModalRatingHelper = ({ open }: any) => {
           </Box>
           <Button
             onClick={() => {
+              console.log("122345")
               rateHelper(postRatingId, {
                 score: numStar + 1,
                 comment: valueArea
@@ -94,7 +95,7 @@ const ModalRatingHelper = ({ open }: any) => {
                 .then(() => {
                   toast('Đánh giá người giúp việc thành công')
                 })
-                .then(() => {
+                .catch(() => {
                   toast('Đã có lỗi xảy ra')
                 })
                 .finally(() => {

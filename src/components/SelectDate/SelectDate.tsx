@@ -20,7 +20,7 @@ export default function SelectDate({ value, setValue, name, disabled, isRequired
       <DatePicker
         value={value}
         format='DD/MM/YYYY'
-        onChange={(newValue) => setValue(newValue)}
+        onChange={setValue}
         disabled={disabled}
         slotProps={{
           textField: {

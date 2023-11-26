@@ -102,7 +102,7 @@ const TotalInfo = () => {
           <CardInfo title={'Tổng tiền đã chi'} color='#4286f4' number={dashboardInfo?.totalFeeSpent} />
           <CardInfo title={'Tổng chờ xác nhận'} color='#eb4235' number={dashboardInfo?.confirmingPostsNumber} />
           <CardInfo title={'Tổng đã hoàn thành'} color='#59b76e' number={dashboardInfo?.finishedPostsNumber} />
-          <CardInfo title={'Tổng sắp quá hạn'} color='#6f3ad8' number={dashboardInfo?.expiringPostsNumber} />
+          <CardInfo title={'Tổng tin sắp quá hạn'} color='#6f3ad8' number={dashboardInfo?.expiringPostsNumber} />
         </Stack>
         <Box sx={{ marginTop: '20px' }}>
           <Stack direction={'row'} sx={{ marginTop: '20px', marginBottom: '20px', gap: '20px' }}>

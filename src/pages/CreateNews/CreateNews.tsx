@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography'
 import { Container } from '@mui/material'
 import Step1 from './Step1'
 import Step2 from './Step2'
-//import Step3 from './Step3'
 import { useState, useRef } from 'react'
 import { Popup } from '../../components/Popup/Popup'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,7 +16,6 @@ import { createPost } from '../../apis/post.api'
 import { useNavigate } from 'react-router-dom'
 import { doClearInfo } from '../../redux/slice'
 import { toast } from 'react-toastify'
-import { useEffect } from 'react'
 
 const steps = ['Chọn nhà', 'Chi tiết']
 
@@ -28,6 +26,8 @@ export default function CreateNews() {
   const { post } = useSelector((state: RootState) => {
     return state.storeInfoReducer
   })
+
+  console.log(post)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   // const { house } = useSelector((state: RootState) => {
@@ -88,11 +88,12 @@ export default function CreateNews() {
     if (activeStep === 1) return <Step2 ref={refStep2} />
     //return <Step3 />
   }
-  useEffect(() => {
-    return () => {
-      dispatch(doClearInfo({}))
-    }
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     console.log('clean up data')
+  //     //dispatch(doClearInfo({}))
+  //   }
+  // }, [])
 
   return (
     <Box sx={{ width: { xs: '100%' } }}>
@@ -114,6 +115,13 @@ export default function CreateNews() {
         {activeStep === steps.length ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>Đã hoàn thành các bước</Typography>
+            <Box>
+              Căn nhà đã chọn
+            </Box>
+
+            <Box>
+              Chi tiết tin đăng
+            </Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>

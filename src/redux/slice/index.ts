@@ -75,8 +75,8 @@ const slice = createSlice({
     },
     doUpdateInfoStep2(state, action) {
       state.post.skills = action.payload.skills
-      state.post.preferredEducation = action.payload.preferredEducation
-      state.post.preferredGender = action.payload.preferredGender
+      state.post.preferredEducation = action.payload.preferredEducation ? action.payload.preferredEducation : null
+      state.post.preferredGender = action.payload.preferredGender ? action.payload.preferredGender : null
       state.post.title = action.payload.title
       state.post.content = action.payload.content
       state.post.startDate = action.payload.startDate

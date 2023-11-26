@@ -2,9 +2,7 @@ import DetailHelper from '../../pages/DetailHelper/DetailHelper'
 import { Modal } from './Modal'
 import { doCloseModal } from '../../redux/slice/modalDetai'
 import { useDispatch } from 'react-redux'
-// interface Props {
-//   open: boolean
-// }
+
 const ModalDetailHelper = ({ open }: any) => {
   const dispatch = useDispatch()
   return <Modal open={open} Content={<DetailHelper />} handleClose={() => {

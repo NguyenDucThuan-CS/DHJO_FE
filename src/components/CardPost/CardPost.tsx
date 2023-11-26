@@ -26,7 +26,6 @@ interface Props {
 }
 
 export default function CardPost({ post, active, onClick, CardAction, CardNote }: Props) {
-  console.log('post', post)
   return (
     <Card sx={{ border: `${active ? '1px solid #33c172' : '0px solid red'}`, boxShadow:`${active ? '0 10px 30px rgba(14,166,59,.2)' : 'unset'}`, position: 'relative', paddingRight: '10px', paddingBottom: '10px' }} onClick={onClick}>
       <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}

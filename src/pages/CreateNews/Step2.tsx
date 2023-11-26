@@ -71,8 +71,8 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           value: item.skillName
         }))
       )
-      setChosenEdu(post.preferredEducation.id)
-      setIdGender(post.preferredGender.id)
+      if(post.preferredEducation) setChosenEdu(post.preferredEducation.id)
+      if(post.preferredGender) setIdGender(post.preferredGender.id)
       setTitle(post.title)
       setContent(post.content)
       setStartDate(dayjs(post.startDate, 'YYYY-MM-DD'))
@@ -169,10 +169,10 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       <Grid item xs={12} sm={6} md={4}>
         <InputMultipleOption
           label='Kỹ năng cần thiết'
-          options={skills.map((item) => ({
+          options={skills.length ? skills.map((item) => ({
             id: item.id,
             value: item.skillName
-          }))}
+          })): []}
           setSelectedOptions={setIdChosenSkill}
           defaultValue={idChosenSkill}
         />
@@ -187,7 +187,10 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <Input
           label='Đơn giá (vnd/h)'
           type='number'
-          onChange={(e) => setFee(e.target.value)}
+          onChange={(e) => {
+            setFee(e.target.value)
+            setFeeError('')
+          }}
           value={fee}
           isRequired={true}
           error = {feeError?true:false} 
@@ -217,10 +220,18 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
                 list={period}
                 id={idPeriod}
                 name={'Chu kì lặp lại'}
-                setId={setIdPeriod}
+                setId={(newValue) => {
+                  setIdPeriod(newValue)
+                  setPeriodError('')
+                }}
                 isRequired={true}
+                helperText={periodError}
+                error = {periodError ? true:false}                
               />
-              <SelectDate value={endDate} setValue={setEndDate} name={'Ngày kết thúc'} isRequired={true} ></SelectDate>
+              <SelectDate value={endDate} setValue={(newValue) => {
+                setEndDate(newValue)
+                setendDateError('')
+              }} name={'Ngày kết thúc'} isRequired={true} error = {endDateError?true: false} helperText={endDateError}></SelectDate>
             </Box>
           )}
         </Box>
@@ -230,14 +241,20 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <SelectDropdown list={gender} id={idGender} name={'Giới tính'} setId={setIdGender} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <SelectDate value={startDate} setValue={setStartDate} name={'Ngày làm việc'} isRequired={true} error = {startDateError?true:false} 
+        <SelectDate value={startDate} setValue={(newValue) => {
+          setStartDate(newValue)
+          setStartDateError('')
+        }} name={'Ngày làm việc'} isRequired={true} error = {startDateError?true:false} 
           helperText = {startDateError}></SelectDate>
         <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
           <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom: 0 }}>
             Thời gian bắt đầu
             {<span style={{ color: 'red' }}> (*)</span>}
           </Typography>
-          <SelectTime label='Thời gian bắt đầu' value={startTime} setValue={setStartTime} isRequired={true} error = {startTimeError?true:false} 
+          <SelectTime label='Thời gian bắt đầu' value={startTime} setValue={(newValue) => {
+            setStartTime(newValue)
+            setStartTimeError('')
+          }} isRequired={true} error = {startTimeError?true:false} 
           helperText = {startTimeError}/>
         </Box>
       </Grid>
@@ -247,7 +264,10 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           label='Thời gian làm việc (h)'
           type='number'
           value={workTime}
-          onChange={(e) => setWorkTime(e.target.value)}
+          onChange={(e) => {
+            setWorkTime(e.target.value)
+            setWorkTimeError('')
+          }}
           error = {workTimeError?true:false} 
           helperText = {workTimeError}
         ></Input>

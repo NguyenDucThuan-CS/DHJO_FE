@@ -37,30 +37,22 @@ export default function HomeCard({
 }: HomeCardProps) {
   return (
     <Card>
-      <Stack direction={'row'} padding = {'10px'}>
+      <Stack direction={'row'} padding={'10px'}>
         <Box
           component='img'
           sx={{
             width: '50%',
-            height: '150px'
+            height: '100px'
           }}
           alt='The house from the offer.'
           src={`data:image;base64,${img}`}
         />
 
-        <CardContent sx = {{padding: 0, paddingLeft: '10px'}}>
-          <Typography>
-            <MySpan>Tên nhà: {homeName}</MySpan>
-          </Typography>
-          <Typography>
-            <MySpan>Loại nhà: {homeType}</MySpan>
-          </Typography>
-          <Typography>
-            <MySpan>Diện tích sàn: {floorArea}</MySpan>
-          </Typography>
-          <Typography>
-            <MySpan>Địa chỉ: {address}</MySpan>
-          </Typography>
+        <CardContent sx={{ padding: '0 !important',paddingLeft: '10px !important' }}>
+          <Box>{homeName}</Box>
+          <Box>{homeType}</Box>
+          <Box>{floorArea}</Box>
+          <Box>{address}</Box>
         </CardContent>
       </Stack>
 

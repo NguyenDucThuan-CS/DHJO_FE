@@ -15,7 +15,7 @@ const DetailHelper = () => {
   const [numStar, setNumStar] = useState<number>(0)
 
   const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
- 
+  console.log('heheh', helperInfo)
   const renderNumberStars = () => {
     if (helperInfo.overallRating.avgScore === -1) {
       return 3
@@ -89,14 +89,8 @@ const DetailHelper = () => {
             </Box>
           ) : (
             <Stack>
-              {/* <p style={{ marginTop: '10px', marginBottom: '10px', fontSize: '17px', fontWeight: 'bold' }}>
-                Đánh giá chất lượng ngv của bạn
-              </p>
-              <ListStar number={numStar + 1} onClick = {setNumStar} isSmallStar = {false}/>
-              <p style={{ marginTop: '10px', marginBottom: '10px', fontWeight: 'bold' }}>Đánh giá chung</p>
-               <Textarea value={valueArea} onChange={setValueArea}/> */}
               {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
-              {helperInfo.overallRating.typicalRatings?.map((item: any) => (
+              {helperInfo.overallRating.typicalRatings?.map((item: any, index:any) => (
                 <Box
                   sx={{
                     background: '#F4FCFF',
@@ -106,13 +100,13 @@ const DetailHelper = () => {
                     borderRadius: '15px'
                   }}
                 >
-                  <p style={{ color: 'black', fontWeight: 'bold' }}>Đánh giá 1</p>
+                  <p style={{ color: 'black', fontWeight: 'bold' }}>Đánh giá {index + 1}</p>
                   <Stack direction={'row'}>
-                    <span>4</span>
-                    <ListStar number={4} />
+                    <span>{item.score}</span>
+                    <ListStar number={item.score} />
                   </Stack>
 
-                  <p>Good</p>
+                  <p>{item.comment}</p>
                 </Box>
               ))}
 

@@ -241,24 +241,24 @@ const Helper = () => {
                 name={'Khoảng cách'}
                 setId={setDistanceOption}
               />
-              <Box onClick = {() => getFilterActivePost()}>
+              <Box onClick={() => getFilterActivePost()}>
                 <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>
                   {'ffff'}
                 </Typography>
                 <FilterIcon />
               </Box>
             </Stack>
-            {
-              listPost.length === 0 && <Nofind />
-            }
-            {listPost?.map((item, index) => (
-              <CardPost
-                key={`${index}${item.id}`}
-                post={item}
-                active={item.id === activePost}
-                onClick={() => setActivePost(item.id)}
-              />
-            ))}
+            <Stack direction={'column'} gap={'5px'}>
+              {listPost.length === 0 && <Nofind />}
+              {listPost?.map((item, index) => (
+                <CardPost
+                  key={`${index}${item.id}`}
+                  post={item}
+                  active={item.id === activePost}
+                  onClick={() => setActivePost(item.id)}
+                />
+              ))}
+            </Stack>
           </Grid>
           {isFromLg && listPost.length && (
             <Grid item xs={6} lg={6}>
