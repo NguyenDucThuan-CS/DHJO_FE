@@ -11,6 +11,7 @@ interface InputProps {
   disabled?: boolean
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: string
+  isRequired?: boolean
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -21,11 +22,14 @@ export const Input: React.FC<InputProps> = ({
   type,
   disabled,
   onChange,
-  value
+  value,
+  isRequired
 }) => {
   return (
     <Box>
-      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>
+      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>
+        {label} {isRequired && <span style={{ color: 'red' }}>(*)</span>}
+      </Typography>
       <TextField
         type={type ? type : 'text'}
         error={error}

@@ -18,7 +18,6 @@ import { getGender } from '../../apis/gender.api'
 import { useSelector, useDispatch } from 'react-redux'
 import { doUpdateInfoStep2 } from '../../redux/slice'
 import { RootState } from '../../redux/store'
-import { toast } from 'react-toastify'
 import { errorToast } from '../../utils/common'
 //const Step1
 const Step2 = React.forwardRef(function Step2(props, ref) {
@@ -32,14 +31,14 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
   const [gender, setGender] = useState<{ id: string; name: string }[]>([])
   const [idGender, setIdGender] = useState<string>('')
   const [idPeriod, setIdPeriod] = useState<string>('')
-  const [fee, setFee] = useState<string>('0')
+  const [fee, setFee] = useState<string>('')
   const [content, setContent] = useState<string>('')
 
   const [idChosenSkill, setIdChosenSkill] = useState<{ id: string; value: string }[]>([])
   const [chosenEdu, setChosenEdu] = useState<string>('')
   const [title, setTitle] = useState<string>('')
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'))
-  const [workTime, setWorkTime] = useState<string>('0')
+  const [workTime, setWorkTime] = useState<string>('')
 
   const dispatch = useDispatch()
   const { post } = useSelector((state: RootState) => state.storeInfoReducer)
@@ -167,17 +166,17 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Input label='Tên công việc' value={title} onChange={(e) => setTitle(e.target.value)}></Input>
+        <Input label='Tên công việc' value={title} onChange={(e) => setTitle(e.target.value)} isRequired = {true}></Input>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Input label='Đơn giá (vnd/h)' type='number' onChange={(e) => setFee(e.target.value)} value={fee}></Input>
+        <Input label='Đơn giá (vnd/h)' type='number' onChange={(e) => setFee(e.target.value)} value={fee} isRequired = {true}></Input>
       </Grid>
 
       <Grid item xs={12} sm={6} md={4}>
         <SelectDropdown list={eduLevels} id={chosenEdu} name={'Trình độ học vấn tối thiểu'} setId={setChosenEdu} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Textarea label='Chi tiết công việc' value={content} onChange={setContent}></Textarea>
+        <Textarea label='Chi tiết công việc' value={content} onChange={setContent} isRequired = {true}></Textarea>
       </Grid>
 
       <Grid item xs={12} sm={6} md={4}>
@@ -187,8 +186,8 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           {checked && (
             <Box sx={{ background: 'rgba(0, 0, 0, 0.08)', padding: '10px' }}>
               <Typography>Tin đăng sẽ được set định kì sau khi hoàn thành</Typography>
-              <SelectDropdown list={period} id={idPeriod} name={'Chu kì lặp lại'} setId={setIdPeriod} />
-              <SelectDate value={endDate} setValue={setEndDate} name={'Ngày kết thúc'}></SelectDate>
+              <SelectDropdown list={period} id={idPeriod} name={'Chu kì lặp lại'} setId={setIdPeriod} isRequired = {true}/>
+              <SelectDate value={endDate} setValue={setEndDate} name={'Ngày kết thúc'} isRequired={true}></SelectDate>
             </Box>
           )}
         </Box>
@@ -198,13 +197,14 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <SelectDropdown list={gender} id={idGender} name={'Giới tính'} setId={setIdGender} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <SelectDate value={startDate} setValue={setStartDate} name={'Ngày làm việc'}></SelectDate>
+        <SelectDate value={startDate} setValue={setStartDate} name={'Ngày làm việc'} isRequired = {true}></SelectDate>
         <Box sx={{ display: 'flex' }}>
           <SelectTime label='Thời gian bắt đầu' value={startTime} setValue={setStartTime} />
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <Input
+          isRequired = {true}
           label='Thời gian làm việc (h)'
           type='number'
           value={workTime}

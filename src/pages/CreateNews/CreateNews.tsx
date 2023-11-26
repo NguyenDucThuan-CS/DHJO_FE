@@ -12,7 +12,6 @@ import Step2 from './Step2'
 import { useState, useRef } from 'react'
 import { Popup } from '../../components/Popup/Popup'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { createPost } from '../../apis/post.api'
 import { useNavigate } from 'react-router-dom'
@@ -75,15 +74,12 @@ export default function CreateNews() {
   const handleSumit = () => {
     return createPost(post)
       .then(() => {
-        //setText('Cập nhật bài post thành công')
         navigate('/owner/my-news')
         dispatch(doClearInfo({}))
         toast('Tạo bài post thành công')
-        //setOpen(true)
       })
       .catch(() => {
         toast('Đã có lỗi xảy ra vui long thử lại')
-        //setOpen(true)
       })
   }
 

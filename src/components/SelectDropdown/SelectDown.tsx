@@ -14,9 +14,10 @@ interface SelectDropdownDrops {
   id?: string
   setId: (id: string) => void
   disabled?: boolean
+  isRequired?: boolean
 }
 
-export default function SelectDropdown({ list, name, id, setId, disabled }: SelectDropdownDrops) {
+export default function SelectDropdown({ list, name, id, setId, disabled, isRequired }: SelectDropdownDrops) {
   const handleChange = (event: SelectChangeEvent) => {
     setId(event.target.value)
   }
@@ -24,7 +25,7 @@ export default function SelectDropdown({ list, name, id, setId, disabled }: Sele
   return (
     <Box>
       <FormControl fullWidth size='small' disabled={disabled}>
-        <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}</Typography>
+        <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}{isRequired && <span style={{ color: 'red' }}>(*)</span>}</Typography>
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'
@@ -32,9 +33,6 @@ export default function SelectDropdown({ list, name, id, setId, disabled }: Sele
           value={id}
           onChange={handleChange}
         >
-          <MenuItem key={0} value={'0'}>
-            {'-----'}
-          </MenuItem>
           {list.map((item) => (
             <MenuItem key={item.id} value={item.id}>
               {item.name}
