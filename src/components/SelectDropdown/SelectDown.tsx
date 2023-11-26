@@ -25,7 +25,7 @@ export default function SelectDropdown({ list, name, id, setId, disabled, isRequ
   return (
     <Box>
       <FormControl fullWidth size='small' disabled={disabled}>
-        <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}{isRequired && <span style={{ color: 'red' }}>(*)</span>}</Typography>
+        <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom:'7px' }}>{name}{isRequired && <span style={{ color: 'red' }}>(*)</span>}</Typography>
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'

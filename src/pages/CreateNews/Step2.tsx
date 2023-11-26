@@ -110,8 +110,12 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       setStartDateError('Vui lòng nhập ngày làm việc')
     }
 
-    if(!startDate) {
-      setStartTimeError('Vui lòng nhập thời gian làm việc')
+    if(!workTime) {
+      setWorkTimeError('Vui lòng nhập thời gian làm việC')
+    }
+
+    if(!startTime) {
+      setStartTimeError('Vui lòng nhập thời gian bắt đầu')
     }
     if (checked) {
       if(!idPeriod) setPeriodError('Vui lòng nhập chu kì lặp lại')
@@ -174,7 +178,10 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Input label='Tên công việc' error = {titleError?true:false} helperText = {titleError} value={title} onChange={(e) => setTitle(e.target.value)} isRequired={true}></Input>
+        <Input label='Tên công việc' error = {titleError?true:false} helperText = {titleError} value={title} onChange={(e) => {
+          setTitle(e.target.value)
+          setTitleError('')
+        }} isRequired={true}></Input>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <Input
@@ -192,8 +199,11 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <SelectDropdown list={eduLevels} id={chosenEdu} name={'Trình độ học vấn tối thiểu'} setId={setChosenEdu} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Textarea label='Chi tiết công việc'  error = {feeError?true:false} 
-          helperText = {feeError} value={content} onChange={setContent} isRequired={true}></Textarea>
+        <Textarea label='Chi tiết công việc'  error = {contentError?true:false} 
+          helperText = {contentError} value={content} onChange={(e) => {
+            setContent(e.target.value)
+            setContentError('')
+            }} isRequired={true}></Textarea>
       </Grid>
 
       <Grid item xs={12} sm={6} md={4}>
@@ -210,7 +220,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
                 setId={setIdPeriod}
                 isRequired={true}
               />
-              <SelectDate value={endDate} setValue={setEndDate} name={'Ngày kết thúc'} isRequired={true}></SelectDate>
+              <SelectDate value={endDate} setValue={setEndDate} name={'Ngày kết thúc'} isRequired={true} ></SelectDate>
             </Box>
           )}
         </Box>
@@ -220,13 +230,15 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <SelectDropdown list={gender} id={idGender} name={'Giới tính'} setId={setIdGender} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <SelectDate value={startDate} setValue={setStartDate} name={'Ngày làm việc'} isRequired={true}></SelectDate>
+        <SelectDate value={startDate} setValue={setStartDate} name={'Ngày làm việc'} isRequired={true} error = {startDateError?true:false} 
+          helperText = {startDateError}></SelectDate>
         <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
           <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom: 0 }}>
             Thời gian bắt đầu
             {<span style={{ color: 'red' }}> (*)</span>}
           </Typography>
-          <SelectTime label='Thời gian bắt đầu' value={startTime} setValue={setStartTime} isRequired={true} />
+          <SelectTime label='Thời gian bắt đầu' value={startTime} setValue={setStartTime} isRequired={true} error = {startTimeError?true:false} 
+          helperText = {startTimeError}/>
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
@@ -236,6 +248,8 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           type='number'
           value={workTime}
           onChange={(e) => setWorkTime(e.target.value)}
+          error = {workTimeError?true:false} 
+          helperText = {workTimeError}
         ></Input>
       </Grid>
     </Grid>

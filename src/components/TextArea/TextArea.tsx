@@ -64,15 +64,16 @@ export default function Textarea({ label, onChange, value, isRequired, error, he
  
   return (
     <>
-      {label && <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}{isRequired && <span style={{ color: 'red' }}> (*)</span>}</Typography>}
+      {label && <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom:'7px' }}>{label}{isRequired && <span style={{ color: 'red' }}> (*)</span>}</Typography>}
       <StyledTextarea
         aria-label='minimum height'
         minRows={3}
         placeholder='Nhập đánh giá'
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChange}
         value={value}
+        sx = {{border: error ? '1px solid #d32f2f':'unset'}}
       />
-      
+      {helperText && <p style = {{fontSize:'0.75rem', color:'#d32f2f', paddingLeft:'14px', paddingTop:'3px'}}>{helperText}</p>}
     </>
   )
 }

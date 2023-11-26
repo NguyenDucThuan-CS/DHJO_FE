@@ -10,8 +10,10 @@ interface SelectimeProps {
   value: Dayjs | null
   setValue: (value: Dayjs | null) => void
   isRequired?: boolean
+  helperText?:string
+  error?: boolean
 }
-export default function SelectTime({ label, value, setValue, isRequired }: SelectimeProps) {
+export default function SelectTime({ label, value, setValue, isRequired, helperText, error }: SelectimeProps) {
   //const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17T15:30'))
 
   return (
@@ -20,9 +22,17 @@ export default function SelectTime({ label, value, setValue, isRequired }: Selec
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={['TimePicker', 'TimePicker']}>
           <TimePicker
-            slotProps={{ textField: { size: 'small' } }}
+             slotProps={{
+              textField: {
+                size: "small",
+                fullWidth: true,
+                helperText: helperText,
+                error: error,
+              },
+            }}
             value={value}
             onChange={(newValue) => setValue(newValue)}
+            
           />
         </DemoContainer>
       </LocalizationProvider>
