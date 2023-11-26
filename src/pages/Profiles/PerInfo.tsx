@@ -11,7 +11,7 @@ import { rules } from '../../utils/rules'
 import { objToFormData } from '../../utils/api'
 import { readCookie } from '../../utils/cookie'
 import { getImg } from '../../apis/img.api'
-
+import EditIcon from '@mui/icons-material/Edit'
 const PerInfo = () => {
   interface FormData {
     phoneNum?: string
@@ -95,11 +95,16 @@ const PerInfo = () => {
 
   return (
     <Container sx={{ width: { xs: '100%', md: '50%' } }}>
-      <Button variant='outlined' onClick={() => setDisabled(false)}>
-        Chinh sua
-      </Button>
-      <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
       <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <span
+          style={{ position: 'absolute', top: '10px', right: '10px' }}
+          onClick={() => {
+            setDisabled(false)
+          }}
+        >
+          <EditIcon />
+        </span>
+        <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
         <Input
           label='Họ tên'
           error={errors.name?.message ? true : false}
@@ -113,6 +118,7 @@ const PerInfo = () => {
               }
             })
           }}
+          width = {'60%'}
         />
         <Input
           error={errors.phoneNum?.message ? true : false}
@@ -122,6 +128,7 @@ const PerInfo = () => {
           register={{
             ...register('phoneNum', rules.phone)
           }}
+          width = {'60%'}
         />
         <Input
           error={errors.identificationNum?.message ? true : false}
@@ -136,6 +143,7 @@ const PerInfo = () => {
               }
             })
           }}
+          width = {'60%'}
         />
         {!disabled && (
           <Button type='submit' variant='outlined'>

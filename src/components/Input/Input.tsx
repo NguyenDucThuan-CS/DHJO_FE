@@ -11,7 +11,8 @@ interface InputProps {
   disabled?: boolean
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   value?: string
-  isRequired?: boolean
+  isRequired?: boolean,
+  width?:any
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -23,10 +24,11 @@ export const Input: React.FC<InputProps> = ({
   disabled,
   onChange,
   value,
-  isRequired
+  isRequired,
+  width
 }) => {
   return (
-    <Box>
+    <Box sx = {{width: width ? `${width}`:'unset'}}>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>
         {label} {isRequired && <span style={{ color: 'red' }}> (*)</span>}
       </Typography>

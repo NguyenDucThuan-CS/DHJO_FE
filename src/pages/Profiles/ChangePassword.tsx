@@ -7,6 +7,7 @@ import { readCookie } from '../../utils/cookie'
 import { updateAuthInfo, getAuthInfo } from '../../apis/auth.api'
 import useStyles from './style'
 import { Popup } from '../../components/Popup/Popup'
+import EditIcon from '@mui/icons-material/Edit'
 interface FormData {
   username?: string
   oldPassword?: string
@@ -72,11 +73,20 @@ const ChangePassword = () => {
   }, [])
   return (
     <Container sx={{ width: { xs: '100%', md: '50%' } }}>
-      <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
+      {/* <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
         Chinh sua
-      </Button>
+      </Button> */}
       <form className={classes.form} noValidate onSubmit={onSubmit}>
+      <span
+          style={{ position: 'absolute', top: '10px', right: '10px' }}
+          onClick={() => {
+            setDisabled(false)
+          }}
+        >
+          <EditIcon />
+        </span>
         <Input
+            width = {'60%'}
           error={errors.username?.message ? true : false}
           helperText={errors.username?.message}
           label='Tên đăng nhập'
@@ -91,6 +101,7 @@ const ChangePassword = () => {
           }}
         />
         <Input
+          width = {'60%'}
           error={errors.email?.message ? true : false}
           helperText={errors.email?.message}
           label='Email'
@@ -102,6 +113,7 @@ const ChangePassword = () => {
 
         {disabled && (
           <Input
+          width = {'60%'}
             error={errors.oldPassword?.message ? true : false}
             helperText={errors.oldPassword?.message}
             label='Mật khẩu'
@@ -120,6 +132,7 @@ const ChangePassword = () => {
         {!disabled && (
           <>
             <Input
+              width = {'60%'}
               error={errors.newPassword?.message ? true : false}
               helperText={errors.newPassword?.message}
               label='Mật khẩu mới'
@@ -135,6 +148,7 @@ const ChangePassword = () => {
               }}
             />
             <Input
+              width = {'60%'}
               error={errors.confirmPassword?.message ? true : false}
               helperText={errors.confirmPassword?.message}
               label='Nhập lại mật khẩu'

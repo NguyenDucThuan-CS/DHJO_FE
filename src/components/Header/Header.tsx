@@ -16,12 +16,13 @@ import IconHamburger from './IconButton'
 import { deteletAllCookie } from '../../utils/cookie'
 import Notification from '../Notification/Notification'
 import { useSelector } from 'react-redux'
-import { doClearInfo } from '../../redux/slice'
 import { useDispatch } from 'react-redux'
 import { doClearNotiNum } from '../../redux/slice/notification'
+import logoImg  from '../../assets/img/logo.png'
+import { readCookie } from '../../utils/cookie'
+
 
 function Header() {
-
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
   const [openNoti, setOpenNoti] = React.useState<boolean>(false)
@@ -107,11 +108,20 @@ function Header() {
     }
     return ownerSetting
   }
+  const clickLogo = () => {
+    if(window.location.href.split('/').includes('owner')) {
+      navigate('/owner')
+    }
+    else {
+      navigate('/helper')
+    }
+  }
+
+
 
   return (
     <Wrapper>
-      <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-      <Logo variant={'h6'} display={{ xs: 'none', md: 'flex' }} />
+      <img src = {logoImg} style={{width:'120px', height:'50px', marginRight: '10px'}} onClick={clickLogo}/>
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
         <IconHamburger onClick={handleOpenNavMenu} />
         <MenuList

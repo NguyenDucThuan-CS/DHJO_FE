@@ -6,7 +6,7 @@ const CardInfo = ({title, color, number}:any) => {
       background: color,
       width: 'auto',
       height: '100px',
-      borderRadius: '30px',
+      borderRadius: '5px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
