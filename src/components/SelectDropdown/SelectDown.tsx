@@ -36,7 +36,7 @@ export default function SelectDropdown({ list, name, id, setId, disabled, isRequ
           value={id}
           onChange={handleChange}
           error = {error}
-          
+          sx = {{background:'white'}}
           //helperText = {helperText}
         >
           {list.map((item) => (

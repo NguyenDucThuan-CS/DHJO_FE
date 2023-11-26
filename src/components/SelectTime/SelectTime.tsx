@@ -32,7 +32,7 @@ export default function SelectTime({ label, value, setValue, isRequired, helperT
             }}
             value={value}
             onChange={(newValue) => setValue(newValue)}
-            
+            sx = {{background:'white'}}
           />
         </DemoContainer>
       </LocalizationProvider>

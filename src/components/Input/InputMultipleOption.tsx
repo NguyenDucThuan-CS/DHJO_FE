@@ -34,6 +34,7 @@ export default function InputMultipleOption({
         value={defaultValue}
         renderInput={(params) => <TextField {...params} sx={{ flexWrap: 'nowrap' }} />}
         disabled={disabled}
+        sx = {{background: 'white'}}
       />
     </Stack>
   )

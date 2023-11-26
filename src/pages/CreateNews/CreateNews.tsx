@@ -26,14 +26,9 @@ export default function CreateNews() {
   const { post } = useSelector((state: RootState) => {
     return state.storeInfoReducer
   })
-
-  console.log(post)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // const { house } = useSelector((state: RootState) => {
-  //   return state.storeInfoReducer
-  // })
-
+  
   const agree = () => {
     setOpen(false)
     navigate('/owner/my-news')
@@ -49,8 +44,7 @@ export default function CreateNews() {
 
   const refStep1 = useRef<any>(null)
   const refStep2 = useRef<any>(null)
-  //const refStep3 = useRef(null)
-
+ 
   const handleNext = () => {
     if (activeStep === 0) {
       if (refStep1?.current?.handlePassStep()) {
@@ -88,16 +82,9 @@ export default function CreateNews() {
     if (activeStep === 1) return <Step2 ref={refStep2} />
     //return <Step3 />
   }
-  // useEffect(() => {
-  //   return () => {
-  //     console.log('clean up data')
-  //     //dispatch(doClearInfo({}))
-  //   }
-  // }, [])
-
+ 
   return (
     <Box sx={{ width: { xs: '100%' } }}>
-      <Typography>Tạo tin đăng</Typography>
       <Container sx={{ width: { xs: '100%', md: '80%' } }}>
         <Stepper activeStep={activeStep}>
           {steps.map((label) => {

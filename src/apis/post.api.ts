@@ -130,3 +130,7 @@ export const ownerGetPostById = (id: string) => {
     }
   })
 }
+
+export const checkConflictWithActivePost = (obj:any) => {
+  return http.post(`${url}/owner/check-conflict`,obj)
+}

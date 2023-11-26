@@ -10,7 +10,6 @@ import HomeIcon from '@mui/icons-material/Home'
 import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
 import Chip from '@mui/material/Chip'
-import { IPost } from '../../pages/Helpers/Helper'
 import { ReactNode } from 'react'
 
 const MySpan = styled('span')({
@@ -67,11 +66,11 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
             <Stack direction='row' spacing={1}>
               <Typography sx={{ fontSize: '14px' }}>
                 <WcIcon fontSize='inherit' />
-                {`${post.preferredGender}`}
+                {post.preferredGender ? `${post.preferredGender}`:'Không yêu cầu'}
               </Typography>
               <Typography sx={{ fontSize: '14px' }}>
                 <SchoolIcon fontSize='inherit' />
-                {`${post.preferredEducation}`}
+                {post.preferredEducation ? `${post.preferredEducation}`: 'Không yêu cầu'}
               </Typography>
             </Stack>
             <Stack direction='row' spacing={1}>

@@ -41,7 +41,7 @@ export const Input: React.FC<InputProps> = ({
         required
         disabled={disabled}
         onChange={onChange}
-        sx={{ mt: '5px' }}
+        sx={{ mt: '5px', background: 'white'}}
         value={value}
         {...register}
       />

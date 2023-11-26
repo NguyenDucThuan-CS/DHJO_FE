@@ -18,7 +18,8 @@ import { getGender } from '../../apis/gender.api'
 import { useSelector, useDispatch } from 'react-redux'
 import { doUpdateInfoStep2 } from '../../redux/slice'
 import { RootState } from '../../redux/store'
-import { errorToast } from '../../utils/common'
+import { checkConflictWithActivePost } from '../../apis/post.api'
+//import { errorToast } from '../../utils/common'
 //const Step1
 const Step2 = React.forwardRef(function Step2(props, ref) {
   const [checked, setChecked] = useState<boolean>(false)
@@ -42,8 +43,6 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
 
   const dispatch = useDispatch()
   const { post } = useSelector((state: RootState) => state.storeInfoReducer)
-  //
-
   const [titleError, setTitleError] = useState<string>('')
   const [contentError, setContentError] = useState<string>('')
   const [startDateError, setStartDateError] = useState<string>('')
@@ -54,15 +53,13 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
 
   const [endDateError, setendDateError] = useState<string>('')
 
-
-
   useEffect(() => {
     getAllSkills().then((res) => setSkills(res.data.data))
     getEduLevel().then((res) => setEdulevels(res.data.data))
     getPeriod().then((res) => setPeriod(res.data.data))
     getGender().then((res) => setGender(res.data.data))
   }, [])
-  //console.log('post', post)
+
   useEffect(() => {
     if (post.title) {
       setIdChosenSkill(
@@ -71,8 +68,8 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           value: item.skillName
         }))
       )
-      if(post.preferredEducation) setChosenEdu(post.preferredEducation.id)
-      if(post.preferredGender) setIdGender(post.preferredGender.id)
+      if (post.preferredEducation) setChosenEdu(post.preferredEducation.id)
+      if (post.preferredGender) setIdGender(post.preferredGender.id)
       setTitle(post.title)
       setContent(post.content)
       setStartDate(dayjs(post.startDate, 'YYYY-MM-DD'))
@@ -86,12 +83,38 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
     }
   }, [post])
 
+  useEffect(() => {
+    if (startDate && startTime && workTime) {
+      checkConflictWithActivePost({
+        houseId: post.house.id,
+        startTime: {
+          hour: startTime?.hour(),
+          minute: startTime?.minute(),
+          second: 0,
+          nano: 0
+        },
+        startDate: dayjs(startDate).format('YYYY-MM-DD'),
+        workTime: workTime,
+        recurringPattern: checked
+          ? {
+              endDate: dayjs(endDate).format('YYYY-MM-DD'),
+              period: period.find((item) => item.id === idPeriod)
+            }
+          : null
+      }).then((res) => {
+        if(res.data.data) {
+          
+        }
+      })
+    }
+  }, [startDate, startTime, checked, workTime, endDate, period])
+
   const handleChange = () => {
     setChecked(!checked)
   }
 
   const validate = () => {
-    let isValid = true;
+    let isValid = true
 
     if (!title) {
       setTitleError('Vui lòng nhập tiêu đề')
@@ -106,21 +129,22 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       setFeeError('Vui lòng nhập đơn giá')
       isValid = false
     }
-    if(!startDate) {
+    if (!startDate) {
       setStartDateError('Vui lòng nhập ngày làm việc')
     }
 
-    if(!workTime) {
+    if (!workTime) {
       setWorkTimeError('Vui lòng nhập thời gian làm việC')
     }
 
-    if(!startTime) {
+    if (!startTime) {
       setStartTimeError('Vui lòng nhập thời gian bắt đầu')
     }
     if (checked) {
-      if(!idPeriod) setPeriodError('Vui lòng nhập chu kì lặp lại')
-      if(!endDate) setendDateError('Vui lòng nhập ngày kết thúc')
+      if (!idPeriod) setPeriodError('Vui lòng nhập chu kì lặp lại')
+      if (!endDate) setendDateError('Vui lòng nhập ngày kết thúc')
     }
+
     return isValid
   }
 
@@ -169,19 +193,30 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       <Grid item xs={12} sm={6} md={4}>
         <InputMultipleOption
           label='Kỹ năng cần thiết'
-          options={skills.length ? skills.map((item) => ({
-            id: item.id,
-            value: item.skillName
-          })): []}
+          options={
+            skills.length
+              ? skills.map((item) => ({
+                  id: item.id,
+                  value: item.skillName
+                }))
+              : []
+          }
           setSelectedOptions={setIdChosenSkill}
           defaultValue={idChosenSkill}
         />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Input label='Tên công việc' error = {titleError?true:false} helperText = {titleError} value={title} onChange={(e) => {
-          setTitle(e.target.value)
-          setTitleError('')
-        }} isRequired={true}></Input>
+        <Input
+          label='Tên công việc'
+          error={titleError ? true : false}
+          helperText={titleError}
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value)
+            setTitleError('')
+          }}
+          isRequired={true}
+        ></Input>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <Input
@@ -193,8 +228,8 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           }}
           value={fee}
           isRequired={true}
-          error = {feeError?true:false} 
-          helperText = {feeError}
+          error={feeError ? true : false}
+          helperText={feeError}
         ></Input>
       </Grid>
 
@@ -202,11 +237,17 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <SelectDropdown list={eduLevels} id={chosenEdu} name={'Trình độ học vấn tối thiểu'} setId={setChosenEdu} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <Textarea label='Chi tiết công việc'  error = {contentError?true:false} 
-          helperText = {contentError} value={content} onChange={(e) => {
+        <Textarea
+          label='Chi tiết công việc'
+          error={contentError ? true : false}
+          helperText={contentError}
+          value={content}
+          onChange={(e) => {
             setContent(e.target.value)
             setContentError('')
-            }} isRequired={true}></Textarea>
+          }}
+          isRequired={true}
+        ></Textarea>
       </Grid>
 
       <Grid item xs={12} sm={6} md={4}>
@@ -226,12 +267,19 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
                 }}
                 isRequired={true}
                 helperText={periodError}
-                error = {periodError ? true:false}                
+                error={periodError ? true : false}
               />
-              <SelectDate value={endDate} setValue={(newValue) => {
-                setEndDate(newValue)
-                setendDateError('')
-              }} name={'Ngày kết thúc'} isRequired={true} error = {endDateError?true: false} helperText={endDateError}></SelectDate>
+              <SelectDate
+                value={endDate}
+                setValue={(newValue) => {
+                  setEndDate(newValue)
+                  setendDateError('')
+                }}
+                name={'Ngày kết thúc'}
+                isRequired={true}
+                error={endDateError ? true : false}
+                helperText={endDateError}
+              ></SelectDate>
             </Box>
           )}
         </Box>
@@ -241,21 +289,33 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
         <SelectDropdown list={gender} id={idGender} name={'Giới tính'} setId={setIdGender} />
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
-        <SelectDate value={startDate} setValue={(newValue) => {
-          setStartDate(newValue)
-          setStartDateError('')
-        }} name={'Ngày làm việc'} isRequired={true} error = {startDateError?true:false} 
-          helperText = {startDateError}></SelectDate>
+        <SelectDate
+          value={startDate}
+          setValue={(newValue) => {
+            setStartDate(newValue)
+            setStartDateError('')
+          }}
+          name={'Ngày làm việc'}
+          isRequired={true}
+          error={startDateError ? true : false}
+          helperText={startDateError}
+        ></SelectDate>
         <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '10px' }}>
           <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom: 0 }}>
             Thời gian bắt đầu
             {<span style={{ color: 'red' }}> (*)</span>}
           </Typography>
-          <SelectTime label='Thời gian bắt đầu' value={startTime} setValue={(newValue) => {
-            setStartTime(newValue)
-            setStartTimeError('')
-          }} isRequired={true} error = {startTimeError?true:false} 
-          helperText = {startTimeError}/>
+          <SelectTime
+            label='Thời gian bắt đầu'
+            value={startTime}
+            setValue={(newValue) => {
+              setStartTime(newValue)
+              setStartTimeError('')
+            }}
+            isRequired={true}
+            error={startTimeError ? true : false}
+            helperText={startTimeError}
+          />
         </Box>
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
@@ -268,8 +328,8 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
             setWorkTime(e.target.value)
             setWorkTimeError('')
           }}
-          error = {workTimeError?true:false} 
-          helperText = {workTimeError}
+          error={workTimeError ? true : false}
+          helperText={workTimeError}
         ></Input>
       </Grid>
     </Grid>

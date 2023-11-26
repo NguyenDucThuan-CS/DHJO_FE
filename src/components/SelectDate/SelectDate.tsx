@@ -18,6 +18,7 @@ export default function SelectDate({ value, setValue, name, disabled, isRequired
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom: '6px' }}>{name}{isRequired && <span style={{ color: 'red' }}> (*)</span>}</Typography>
       <DatePicker
+        sx= {{background:'white'}} 
         value={value}
         format='DD/MM/YYYY'
         onChange={setValue}
