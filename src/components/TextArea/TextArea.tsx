@@ -6,6 +6,8 @@ interface TextAreaProps {
   onChange: (e:any) => void
   value?: string
   isRequired? : boolean
+  error?: boolean
+  helperText?: string
 }
 const blue = {
   100: '#DAECFF',
@@ -58,11 +60,11 @@ const StyledTextarea = styled(TextareaAutosize)(
   }
 `
 )
-export default function Textarea({ label, onChange, value, isRequired }: TextAreaProps) {
+export default function Textarea({ label, onChange, value, isRequired, error, helperText }: TextAreaProps) {
  
   return (
     <>
-      {label && <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}{isRequired && <span style={{ color: 'red' }}>(*)</span>}</Typography>}
+      {label && <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}{isRequired && <span style={{ color: 'red' }}> (*)</span>}</Typography>}
       <StyledTextarea
         aria-label='minimum height'
         minRows={3}
@@ -70,6 +72,7 @@ export default function Textarea({ label, onChange, value, isRequired }: TextAre
         onChange={(e) => onChange(e.target.value)}
         value={value}
       />
+      
     </>
   )
 }

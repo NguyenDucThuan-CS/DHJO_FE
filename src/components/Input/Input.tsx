@@ -28,7 +28,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <Box>
       <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>
-        {label} {isRequired && <span style={{ color: 'red' }}>(*)</span>}
+        {label} {isRequired && <span style={{ color: 'red' }}> (*)</span>}
       </Typography>
       <TextField
         type={type ? type : 'text'}

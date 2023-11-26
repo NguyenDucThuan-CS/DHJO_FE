@@ -14,7 +14,7 @@ interface SelectDateProps {
 export default function SelectDate({ value, setValue, name, disabled, isRequired }: SelectDateProps) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}{isRequired && <span style={{ color: 'red' }}>(*)</span>}</Typography>
+      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{name}{isRequired && <span style={{ color: 'red' }}> (*)</span>}</Typography>
       <DatePicker
         value={value}
         format='DD/MM/YYYY'

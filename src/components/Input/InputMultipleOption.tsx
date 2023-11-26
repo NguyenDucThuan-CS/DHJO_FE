@@ -20,7 +20,7 @@ export default function InputMultipleOption({
 }: InputMultipleOptionProps) {
   return (
     <Stack sx={{ width: '100%' }}>
-      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold' }}>{label}</Typography>
+      <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', marginBottom:'5px' }}>{label}</Typography>
       <Autocomplete
         multiple
         id='size-small-outlined-multi'
@@ -31,7 +31,6 @@ export default function InputMultipleOption({
           return option.value
         }}
         onChange={(event, value) => setSelectedOptions(value)}
-        //defaultValue={[] as { id: string; value: string }[]}
         value={defaultValue}
         renderInput={(params) => <TextField {...params} sx={{ flexWrap: 'nowrap' }} />}
         disabled={disabled}
