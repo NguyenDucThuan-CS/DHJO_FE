@@ -90,8 +90,8 @@ const PerInfo = () => {
           setValue('phoneNum', data.phoneNum)
           setValue('identificationNum', data.identificationNum)
         }
-        if (values[1].data.data && dataImg.imageName) {
-          setImgInit(`localhost:8080/images/${dataImg.imageName}`)
+        if (values[1].data.data && dataImg.base64String) {
+          setInitImg(`data:image;base64,${dataImg.base64String}`)
         }
       })
       .catch((err) => {

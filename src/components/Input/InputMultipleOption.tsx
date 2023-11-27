@@ -8,7 +8,9 @@ interface InputMultipleOptionProps {
   options: { id: string; value: string }[]
   setSelectedOptions: (value: { id: string; value: string }[]) => void
   defaultValue: { id: string; value: string }[]
-  disabled?: boolean
+  disabled?: boolean,
+  err?: boolean,
+  helperText?: string
 }
 
 export default function InputMultipleOption({

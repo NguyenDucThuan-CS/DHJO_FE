@@ -16,7 +16,8 @@ import InputMultipleOption from '../../components/Input/InputMultipleOption'
 import SelectDate from '../../components/SelectDate/SelectDate'
 import dayjs from 'dayjs'
 import { updateProfileHelper, getProfileHelper } from '../../apis/helperprofile.api'
-
+import EditIcon from '@mui/icons-material/Edit'
+import Box from '@mui/material/Box'
 const PerInfo = () => {
   const [disabled, setDisabled] = useState<boolean>(true)
 
@@ -34,7 +35,7 @@ const PerInfo = () => {
   const [idChosenSkill, setIdChosenSkill] = useState<{ id: string; value: string }[]>([])
   const [gender, setGender] = useState<{ id: string; name: string }[]>([])
   const [idGender, setIdGender] = useState<string>('')
-  const [doB, setDoB] = useState<string | number | Date | dayjs.Dayjs | null | undefined>(dayjs(new Date()))
+  const [doB, setDoB] = useState<string | number | Date | dayjs.Dayjs | null | undefined>(null)
 
   const agree = () => {
     setOpen(false)
@@ -53,43 +54,87 @@ const PerInfo = () => {
   const changeArrToDayjs = (arr: string[]) => {
     return arr.toString().replace(',', '-')
   }
-  const onSubmit = () => {
-    Promise.all([
-      updateProfileHelper({
-        name: name,
-        phoneNum: phone,
-        identificationNum: idNum,
-        gender: gender.find((item) => item.id === idGender),
-        education: eduLevels.find((item) => item.id === chosenEdu),
-        birthday: dayjs(doB).format('YYYY-MM-DD'),
-        intro: 'mo ta',
-        skills: idChosenSkill.map((item) => ({
-          id: item.id,
-          skillName: item.value
-        }))
-      }),
+  const [nameErr, setNameErr] = useState('')
+  const [phoneErr, setPhoneErr] = useState('')
+  const [cccdErr, setCCCDErr] = useState('')
+  const [eduErr, setEduErr] = useState('')
+  const [skillErr, setSkillErr] = useState('')
+  const [genderErr, setGenderErr] = useState('')
+  const [dobErr, setDobErr] = useState('')
 
-      new Promise((resolve) => {
-        if (img) {
-          resolve(
-            fetch('http://localhost:8080/api/image', {
-              method: 'POST',
-              body: objToFormData({
-                profileImage: img
-              }),
-              headers: {
-                Authorization: `Bearer ${readCookie('tokenDHJO')}`
-              }
-            })
-          )
-        } else {
-          resolve(true)
-        }
+   
+
+  const validate = () => {
+    let isValid = true;
+    if(!name) {
+      isValid = false;
+      setNameErr('Vui lòng nhập họ tên')
+    }
+
+    if(!phone) {
+      isValid = false;
+      setPhoneErr('Vui lòng nhập số điện thoại')
+    }
+
+    if(!chosenEdu) {
+      isValid = false;
+      setEduErr('Vui lòng nhập trình độ học vấn')
+    }
+    if(!idNum) {
+      isValid = false;
+      setCCCDErr('Vui lòng nhập trình độ học vấn')
+    }
+    if(!idGender) {
+      isValid = false;
+      setGenderErr('Vui lòng chọn giới tính')
+    }
+
+    if(!doB) {
+      isValid = false;
+      setDobErr('Vui lòng chọn ngàny sinh')
+    }
+    return isValid
+  }
+  const onSubmit = () => {
+    if(validate()) {
+      Promise.all([
+        updateProfileHelper({
+          name: name,
+          phoneNum: phone,
+          identificationNum: idNum,
+          gender: gender.find((item) => item.id === idGender),
+          education: eduLevels.find((item) => item.id === chosenEdu),
+          birthday: dayjs(doB).format('YYYY-MM-DD'),
+          intro: 'mo ta',
+          skills: idChosenSkill.map((item) => ({
+            id: item.id,
+            skillName: item.value
+          }))
+        }),
+  
+        new Promise((resolve) => {
+          if (img) {
+            resolve(
+              fetch('http://localhost:8080/api/image', {
+                method: 'POST',
+                body: objToFormData({
+                  profileImage: img
+                }),
+                headers: {
+                  Authorization: `Bearer ${readCookie('tokenDHJO')}`
+                }
+              })
+            )
+          } else {
+            resolve(true)
+          }
+        })
+      ]).then(() => {
+        setOpen(true)
+        setText('Cập nhật thông tin thành công')
       })
-    ]).then(() => {
-      setOpen(true)
-      setText('Cập nhật thông tin thành công')
-    })
+    }
+   
   }
 
   useEffect(() => {
@@ -103,7 +148,7 @@ const PerInfo = () => {
           setChosenEdu(values[0].data.data.education.id)
           setIdGender(values[0].data.data.gender.id)
           setIdChosenSkill(
-            values[0].data.data.skills.map((item:any) => ({
+            values[0].data.data.skills.map((item: any) => ({
               id: item.id,
               value: item.skillName
             }))
@@ -127,54 +172,84 @@ const PerInfo = () => {
 
   return (
     <Container sx={{ width: { xs: '100%', md: '60%' } }}>
-      <Button variant='outlined' onClick={() => setDisabled(false)}>
+      {/* <Button variant='outlined' onClick={() => setDisabled(false)}>
         Chinh sua
-      </Button>
-      <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={6}>
-          <Input label='Họ tên' value={name} onChange={(e) => setName(e.target.value)} disabled={disabled} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Input label='Số điện thoại' value={phone} onChange={(e) => setPhone(e.target.value)} disabled={disabled} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <Input label='CCCD' value={idNum} onChange={(e) => setIdNumber(e.target.value)} disabled={disabled} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <SelectDropdown
-            list={eduLevels}
-            id={chosenEdu}
-            name={'Trình độ học vấn tối thiểu'}
-            setId={setChosenEdu}
-            disabled={disabled}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={6}>
-          <InputMultipleOption
-            label='Kỹ năng cần thiết'
-            options={skills.map((item) => ({
-              id: item.id,
-              value: item.skillName
-            }))}
-            setSelectedOptions={setIdChosenSkill}
-            defaultValue={idChosenSkill}
-            disabled={disabled}
-          />
-        </Grid>
+      </Button> */}
+      <Box sx = {{background:'white', position:'relative', padding:'20px', display:'flex', flexDirection: 'column'}}>
+        <span
+          style={{ position: 'absolute', top: '10px', right: '10px' }}
+          onClick={() => {
+            setDisabled(false)
+          }}
+        >
+          <EditIcon />
+        </span>
+        <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={6}>
+            <Input label='Họ tên' error = {nameErr ? true : false} helperText = {nameErr} value={name} onChange={(e) => {
+              setNameErr('')
+              setName(e.target.value)
+            }} disabled={disabled} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Input label='Số điện thoại'  error = {phoneErr ? true : false} helperText = {phoneErr} value={phone} onChange={(e) => {
+              setPhone(e.target.value)
+              setPhoneErr('')
+            }} disabled={disabled} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <Input label='CCCD'  error = {cccdErr ? true : false} helperText = {phoneErr} value={idNum} onChange={(e) => {
+              setIdNumber(e.target.value)
+              setCCCDErr('')
+              }} disabled={disabled} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <SelectDropdown
+              list={eduLevels}
+              id={chosenEdu}
+              name={'Trình độ học vấn'}
+              setId={(newValue) => {
+               setChosenEdu(newValue)
+               setEduErr('')
+              }}
+              disabled={disabled}
+              error  = {eduErr ? true : false}
+              helperText= {eduErr}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <InputMultipleOption
+              label='Kỹ năng cần thiết'
+              options={skills.map((item) => ({
+                id: item.id,
+                value: item.skillName
+              }))}
+              setSelectedOptions={setIdChosenSkill}
+              defaultValue={idChosenSkill}
+              disabled={disabled}
+            />
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <SelectDropdown list={gender} id={idGender} name={'Giới tính'} setId={setIdGender} disabled={disabled} />
+          <Grid item xs={12} sm={6} md={4}>
+            <SelectDropdown error = {genderErr ? true: false} helperText = {genderErr} list={gender} id={idGender} name={'Giới tính'} setId={(newValue) => {
+              setIdGender(newValue)
+              setGenderErr('')
+              }} disabled={disabled} />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <SelectDate error = {dobErr? true:false} helperText={dobErr} value={doB} setValue={(newValue) => {
+              setDoB(newValue)
+              setDobErr('')
+              }} name={'Ngày sinh'} disabled={disabled}></SelectDate>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <SelectDate value={doB} setValue={setDoB} name={'Ngày sinh'} disabled={disabled}></SelectDate>
-        </Grid>
-      </Grid>
-      {!disabled && (
-        <Button type='submit' variant='outlined' onClick={onSubmit} sx={{ margin: 'auto' }}>
-          Cập nhật
-        </Button>
-      )}
+        {!disabled && (
+          <Button type='submit' variant='outlined' onClick={onSubmit} sx={{ margin: 'auto', marginTop: '10px' }}>
+            Cập nhật
+          </Button>
+        )}
+      </Box>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
     </Container>
