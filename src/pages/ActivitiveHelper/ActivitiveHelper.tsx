@@ -15,6 +15,7 @@ import Loading from '../../components/Loading/Loading'
 import { getPostHelperAll } from '../../apis/post.api'
 import { Button } from '@mui/material'
 import Nofind from '../../components/NoFind/NoFind'
+import WorkingSchedule from '../WorkingSchedule/WorkingSchedule'
 export interface IPost {
   id: string
   createdAt: {
@@ -215,14 +216,15 @@ const ActvitiveHelper = () => {
       <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
         {isFromMd && (
           <Grid item xs={4} lg={2}>
-            <Schedule
+            {/* <Schedule
               onClick={(id: string) => {
                 getPostById(id).then((res) => {
                   setPostForTask(res.data.data)
                   setOpenTask(true)
                 })
               }}
-            />
+            /> */}
+            <WorkingSchedule />
           </Grid>
         )}
         <>

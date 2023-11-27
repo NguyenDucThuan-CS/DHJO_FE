@@ -16,6 +16,8 @@ import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import { FilterIcon } from '../../assets/svg/FilterIcon'
 import Typography from '@mui/material/Typography'
 import Nofind from '../../components/NoFind/NoFind'
+import WorkingSchedule from '../WorkingSchedule/WorkingSchedule'
+import ScheduleToday from '../ScheduleToday/ScheduleToday'
 export interface IPost {
   id: string
   createdAt: {
@@ -218,16 +220,18 @@ const Helper = () => {
           <SelectDropdown list={[]}></SelectDropdown> */}
       </Stack>
       <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
-        {isFromMd && (
+        { (
           <Grid item xs={4} lg={2}>
-            <Schedule
+            {/* <Schedule
               onClick={(id: string) => {
                 getPostById(id).then((res) => {
                   setPostForTask(res.data.data)
                   setOpenTask(true)
                 })
               }}
-            />
+            /> */}
+
+             <ScheduleToday />
           </Grid>
         )}
         <>

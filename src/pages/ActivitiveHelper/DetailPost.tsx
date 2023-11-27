@@ -9,29 +9,6 @@ import HomeIcon from '@mui/icons-material/Home'
 import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
-// interface Props {
-//   post?: IPost
-//   onClick?: () => void
-//   isHideBtn?: boolean
-//   listHelper?: {
-//     helperId: string
-//     name: string
-//     gender: {
-//       id: string
-//       name: string
-//     }
-//     birhday: string
-//     education: {
-//       id: string
-//       name: string
-//     }
-//     skills: {
-//       id: string
-//       skillName: string
-//     }[]
-//   }[]
-//   choose?: (id: string, flag: boolean) => void
-// }
 
 const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, contentBtn }: any) => {
   if (post)

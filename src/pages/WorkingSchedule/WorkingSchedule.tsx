@@ -22,7 +22,8 @@ export default function WorkingSchedule() {
       showSearchBar: true,
       showSwitchModeButtons: true,
       showDatePicker: true
-    }
+    },
+    views:{ month: true, week: false, day: false, agenda: false, }
   })
 
   //   const events = [
@@ -101,7 +102,6 @@ export default function WorkingSchedule() {
     const tag = startTime.hour > 11 ? 'pm' : 'am'
     return `${startTime.hour}:${startTime.minute} ${tag}`
   }
-  console.log('trsss', tasks)
   return (
     <Scheduler
       locale='en'
