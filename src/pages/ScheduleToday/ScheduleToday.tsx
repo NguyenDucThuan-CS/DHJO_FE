@@ -4,9 +4,10 @@ import { ViewState } from '@devexpress/dx-react-scheduler'
 import { Scheduler, DayView, Appointments } from '@devexpress/dx-react-scheduler-material-ui'
 import { useEffect, useState } from 'react'
 import { getTaskToday } from '../../apis/task.api'
+import dayjs from 'dayjs'
 
-const currentDate = '2023-11-28'
 
+const currentDate = dayjs(new Date()).format('YYYY-MM-DD')
 
 const renderHourMinute = (number:number) => {
     if(number < 10) return `0${number}`
@@ -38,7 +39,7 @@ const ScheduleToday = () => {
         title: item.taskName
       })))
     })
-  })
+  }, [])
   return (
     <Paper>
       <Scheduler data={tasks}>
