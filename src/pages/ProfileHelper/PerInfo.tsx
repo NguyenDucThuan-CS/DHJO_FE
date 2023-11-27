@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { Popup } from '../../components/Popup/Popup'
 import { objToFormData } from '../../utils/api'
 import { readCookie } from '../../utils/cookie'
-import { getImg } from '../../apis/img.api'
+import { getImg, updateImgUser } from '../../apis/img.api'
 import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import Grid from '@mui/material/Grid'
 import { getAllSkills } from '../../apis/skill.api'
@@ -18,6 +18,8 @@ import dayjs from 'dayjs'
 import { updateProfileHelper, getProfileHelper } from '../../apis/helperprofile.api'
 import EditIcon from '@mui/icons-material/Edit'
 import Box from '@mui/material/Box'
+import UploadImage from '../../components/ImageUpload/ImageUpload'
+import { toBase64 } from '../../utils/common'
 const PerInfo = () => {
   const [disabled, setDisabled] = useState<boolean>(true)
 
@@ -61,7 +63,15 @@ const PerInfo = () => {
   const [skillErr, setSkillErr] = useState('')
   const [genderErr, setGenderErr] = useState('')
   const [dobErr, setDobErr] = useState('')
+  const [initiImg, setInitImg] = useState('')
 
+  const handleSetImg = (img: any) => {
+    setImg(img)
+  }
+
+  const handleSetInitImg = (img: any) => {
+    setInitImg(img)
+  }
    
 
   const validate = () => {
@@ -95,7 +105,7 @@ const PerInfo = () => {
     }
     return isValid
   }
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if(validate()) {
       Promise.all([
         updateProfileHelper({
@@ -112,23 +122,7 @@ const PerInfo = () => {
           }))
         }),
   
-        new Promise((resolve) => {
-          if (img) {
-            resolve(
-              fetch('http://localhost:8080/api/image', {
-                method: 'POST',
-                body: objToFormData({
-                  profileImage: img
-                }),
-                headers: {
-                  Authorization: `Bearer ${readCookie('tokenDHJO')}`
-                }
-              })
-            )
-          } else {
-            resolve(true)
-          }
-        })
+        updateImgUser({id:null, base64String: await toBase64(img)})
       ]).then(() => {
         setOpen(true)
         setText('Cập nhật thông tin thành công')
@@ -155,8 +149,8 @@ const PerInfo = () => {
           )
           setDoB(dayjs(changeArrToDayjs(values[0].data.data.birthday)))
         }
-        if (values[1].data.data && dataImg.imageName) {
-          setImgInit(`localhost:8080/images/${dataImg.imageName}`)
+        if (values[1].data.data && dataImg.base64String) {
+          setInitImg(`data:image;base64,${dataImg.base64String}`)
         }
       })
       .catch((err) => {
@@ -184,7 +178,7 @@ const PerInfo = () => {
         >
           <EditIcon />
         </span>
-        <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} />
+        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {disabled} handleSetInitImg = {handleSetInitImg} />
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={6}>
             <Input label='Họ tên' error = {nameErr ? true : false} helperText = {nameErr} value={name} onChange={(e) => {

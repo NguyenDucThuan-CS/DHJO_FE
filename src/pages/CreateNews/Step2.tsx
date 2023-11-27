@@ -19,8 +19,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { doUpdateInfoStep2 } from '../../redux/slice'
 import { RootState } from '../../redux/store'
 import { checkConflictWithActivePost } from '../../apis/post.api'
-//import { errorToast } from '../../utils/common'
-//const Step1
+
 const Step2 = React.forwardRef(function Step2(props, ref) {
   const [checked, setChecked] = useState<boolean>(false)
   const [endDate, setEndDate] = useState<string | number | Date | dayjs.Dayjs | null | undefined>(null)
@@ -79,7 +78,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       setFee(post.fee.toString())
       if (post.recurringPattern !== null) setChecked(post.recurringPattern.endDate ? true : false)
       if (post.recurringPattern !== null) setIdPeriod(post.recurringPattern.period.id)
-      setWorkTime(post.workTime.toString())
+      setWorkTime((post.workTime / 3600).toString())
     }
   }, [post])
 
@@ -111,6 +110,17 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       })
     }
   }, [startDate, startTime, checked, workTime, endDate, period])
+
+  console.log("startDate", startDate)
+  console.log("endDate", endDate)
+
+  useEffect(() => {
+    if(checked && endDate && startDate) {
+      if(endDate < startDate) {
+        setendDateError('Ngày kết thúc trước ngày bắt đầu')
+      }
+    }
+  },[startDate, endDate])
 
   const handleChange = () => {
     setChecked(!checked)
@@ -183,7 +193,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
                       }
                 }
               : null,
-            workTime: +workTime
+            workTime: Number(workTime)*3600
           })
         )
         return true
@@ -292,7 +302,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
           type='number'
           value={workTime}
           onChange={(e) => {
-            setWorkTime(e.target.value)
+            if(Number(e.target.value) < 4) setWorkTime(e.target.value)
             setWorkTimeError('')
           }}
           error={workTimeError ? true : false}

@@ -100,13 +100,6 @@ const HomeProfiles = () => {
   }, [idDistrict])
 
  
-// async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
-
-//   const res: Response = await fetch(dataUrl);
-//   const blob: Blob = await res.blob();
-//   return new File([blob], fileName, { type: 'image/png' });
-// }
-
   const createNewHouse = () => {
     setIsLoading(true)
     updateHouseOwner({
@@ -122,8 +115,13 @@ const HomeProfiles = () => {
     })
       .then(async (res) => {
         setIsLoading(false)
-        updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)}).then((res) => {
+        if(!img) {
           toast.success('Cập nhật căn nhà thành công')
+          setOpen(false)
+        }
+        if(img) updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)}).then((res) => {
+          toast.success('Cập nhật căn nhà thành công')
+          setOpen(false)
         })
        
       })
