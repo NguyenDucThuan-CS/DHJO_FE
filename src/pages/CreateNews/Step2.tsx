@@ -121,6 +121,15 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       }
     }
   },[startDate, endDate])
+  
+  useEffect(() => {
+    if(startDate) {
+      if(startDate < new Date()) {
+        setStartDateError('Chọn ngày làm việc phù hợp')
+      }
+    }
+  }, [startDate])
+
 
   const handleChange = () => {
     setChecked(!checked)
