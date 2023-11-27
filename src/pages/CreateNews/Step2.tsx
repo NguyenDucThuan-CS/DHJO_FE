@@ -111,9 +111,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
     }
   }, [startDate, startTime, checked, workTime, endDate, period])
 
-  console.log("startDate", startDate)
-  console.log("endDate", endDate)
-
+  
   useEffect(() => {
     if(checked && endDate && startDate) {
       if(endDate < startDate) {

@@ -47,8 +47,8 @@ export default function Login() {
 
   const agree = () => {
     setOpen(false)
-    if (success.current && role.current === 'ROLE_HELPER') return navigate('/helper')
-    if (success.current && role.current === 'ROLE_OWNER') return navigate('/owner')
+    if (success.current && role.current === 'ROLE_HELPER') return window.location.replace('/helper')
+    if (success.current && role.current === 'ROLE_OWNER') return window.location.replace('/owner')
   }
 
   const disagree = () => {
