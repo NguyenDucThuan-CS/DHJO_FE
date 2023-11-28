@@ -20,14 +20,15 @@ import { useDispatch } from 'react-redux'
 import { doClearNotiNum } from '../../redux/slice/notification'
 import logoImg  from '../../assets/img/logo.png'
 import { readCookie } from '../../utils/cookie'
-
+import { doOpenNoti, doCloseNoti } from '../../redux/slice/notification'
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
-  const [openNoti, setOpenNoti] = React.useState<boolean>(false)
+  //const [openNoti, setOpenNoti] = React.useState<boolean>(false)
 
   const { numNoti } = useSelector((state:any) => state.notiReducer)
+  const { open: openNoti } = useSelector((state:any) => state.notiReducer)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -182,7 +183,8 @@ function Header() {
       </Box>
       <Box sx={{ position: 'relative' }}>
         <Box onClick = {() => {
-          setOpenNoti(!openNoti)
+          if(!openNoti) dispatch(doOpenNoti({}))
+          else dispatch(doCloseNoti({}))
         }
       }>
           <Badge badgeContent={numNoti} color='error' sx={{ mr: 3 }}>

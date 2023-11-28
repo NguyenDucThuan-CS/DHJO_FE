@@ -11,6 +11,8 @@ import { doUpdateNumNoti } from '../../redux/slice/notification'
 import { Modal } from '../../components/Modal/Modal'
 import DetailPost from '../../pages/Helpers/DetailPost'
 import { toast } from 'react-toastify'
+import { useOnClickOutside } from '../../utils/useOnClickOutside'
+import { doCloseNoti } from '../../redux/slice/notification'
 const Notification = () => {
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
@@ -21,7 +23,14 @@ const Notification = () => {
   const [openModalPostHelper, setOpenModalPostHelper] = useState<any>(false)
   const [post, setPost] = useState<any>()
   const [postForHelper, setPostForHelper] = useState<any>()
+  
 
+  const handleClose = () => {
+    dispatch(doCloseNoti({}))
+  }
+
+
+  const ref = useOnClickOutside(handleClose);
   useEffect(() => {
     getNotification(pageNo).then((res) => {
       setList([...res.data.data.content[0]])
@@ -39,15 +48,19 @@ const Notification = () => {
 
   //   return 0
   // }
+  console.log('modalPost', openModalPost)
   const renderContent = (item: any) => {
     const handleClick = () => {
+      dispatch(doCloseNoti({}))
       markAsRead(item.id).then((res) => {
         getCountUnread().then((res) => {
           dispatch(doUpdateNumNoti(res.data.data))
+         
         })
       })
       if (window.location.href.split('/').includes('owner')) {
         if (item.entityType == 'Post') {
+          console.log("clickkkkk")
           ownerGetPostById(item.entityId).then((res) => {
             setPost(res.data.data)
             setOpenModalPost(true)
@@ -61,6 +74,8 @@ const Notification = () => {
           })
         }
       } 
+      
+      
     }
 
     return (
@@ -99,7 +114,7 @@ const Notification = () => {
         }}
         className='noti_list'
       >
-        <ul className='notificationsbtn nav navbar-nav navbar-right'>
+        <ul className='notificationsbtn nav navbar-nav navbar-right'  ref = {ref}>
           <div id='notification-container' className='dropdown-menu' role='menu' aria-labelledby='drop3'>
             <section className='panel'>
               <header className='panel-heading' style={{ fontSize: '17px', fontWeight: 'bold', padding: '20px' }}>
@@ -129,15 +144,6 @@ const Notification = () => {
                 <a href='#' className='pull-right'>
                   <i className='fa fa-cog'></i>
                 </a>
-                {showMore && (
-                  <a
-                    onClick={() => {
-                      setPageNo(pageNo + 1)
-                    }}
-                  >
-                    Xem thêm
-                  </a>
-                )}
               </footer>
             </section>
           </div>
