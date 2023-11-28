@@ -7,12 +7,11 @@ import Profiles from './pages/Profiles/Profies.tsx'
 import CreateNews from './pages/CreateNews/CreateNews.tsx'
 import Helper from './pages/Helpers/Helper.tsx'
 import ProfileHelper from './pages/ProfileHelper/Profies.tsx'
-import WorkingSchedule from './pages/WorkingSchedule/WorkingSchedule.tsx'
 import ActvitiveHelper from './pages/ActivitiveHelper/ActivitiveHelper.tsx'
 import DetailHelper from './pages/DetailHelper/DetailHelper.tsx'
 import Socket from './socket/index.tsx'
 import WorkingScheduleNew from './pages/WorkingScheduleNew/WorkingSheduleNew.tsx'
-//import WorkingScheduleDemo from './pages/WorkingSchedule/WorkingScheduleDemo.tsx'
+
 
 function App() {
   return (

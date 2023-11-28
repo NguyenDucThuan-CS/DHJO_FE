@@ -9,6 +9,10 @@ import Button from '@mui/material/Button/Button'
 import { createAddressHelper, getAddressHelper } from '../../apis/helperaddress.api'
 import { Popup } from '../../components/Popup/Popup'
 import Container from '@mui/material/Container'
+import EditIcon from '@mui/icons-material/Edit'
+//import { AddBox } from '@mui/icons-material'
+import { toast } from 'react-toastify'
+import { Box } from '@mui/material'
 
 interface Province {
   code: string
@@ -33,6 +37,44 @@ const AddAdress = () => {
   const [disabled, setDisabled] = useState<boolean>(true)
   const [text, setText] = useState<string>('')
   const [openPopup, setOpenPopup] = useState<boolean>(false)
+  
+  const [provinceErr,setProvinceErr] = useState<string>('')
+  const [districtErr,setDistrictErr] = useState<string>('')
+  const [wardErr,setWardErr] = useState<string>('')
+  const [numHouseErr,setNumHouseErr] = useState<string>('')
+  const [streetErr,setStreetErr] = useState<string>('')
+
+
+ const validate = () => {
+    let isValid = true;
+    if(idProvince == '0') {
+      isValid = false
+      setProvinceErr('Vui lòng chọn tỉnh')
+    }
+
+    if(idDistrict == '0') {
+      isValid = false
+      setDistrictErr('Vui lòng chọn huyện')
+    }
+
+    if(idWard == '0') {
+      isValid = false
+      setWardErr('Vui lòng chọn phường/xã')
+    }
+
+    if(!houseNo) {
+      isValid = false
+      setNumHouseErr('Vui lòng nhập số nhà')
+    }
+
+     if(!street) {
+      isValid = false
+      setStreetErr('Vui lòng nhập tên đường')
+    }
+
+    return isValid
+
+ }
 
   useEffect(() => {
     setIsLoading(true)
@@ -99,32 +141,41 @@ const AddAdress = () => {
   }, [idDistrict])
 
   const createAddress = () => {
-    setIsLoading(true)
-    createAddressHelper({
-      houseNo: houseNo,
-      street: street,
-      ward: listWard.find((item) => item.code === idWard),
-      district: listDistrict.find((item) => item.code === idDistrict),
-      province: listProvince.find((item) => item.code === idProvince)
-    })
-      .then(() => {
-        setIsLoading(false)
-        setText('Cập nhật địa chỉ thành công')
-        setOpenPopup(true)
+    if(validate()) {
+      setIsLoading(true)
+      createAddressHelper({
+        houseNo: houseNo,
+        street: street,
+        ward: listWard.find((item) => item.code === idWard),
+        district: listDistrict.find((item) => item.code === idDistrict),
+        province: listProvince.find((item) => item.code === idProvince)
       })
-      .catch((err) => {
-        console.log(err)
-        setOpenPopup(true)
-        setIsLoading(false)
-      })
+        .then(() => {
+          setIsLoading(false)
+          toast.success('Cập nhật thông tin thành công')
+        })
+        .catch((err) => {
+          setIsLoading(false)
+          toast.error('Cập nhật thông tin thất bại')
+        })  
+    }
+   
   }
 
   return (
-    <Container sx={{ width: { xs: '100%', md: '50%' } }}>
-      <Button variant='outlined' onClick={() => setDisabled(false)}>
+    <Container sx={{ width: { xs: '100%', md: '50%', background: 'white', position: 'relative', padding: '20px' } }}>
+      {/* <Button variant='outlined' onClick={() => setDisabled(false)}>
         Chinh sua
-      </Button>
+      </Button> */}
       <Grid container spacing={2}>
+        <span
+          style={{ position: 'absolute', top: '10px', right: '10px' }}
+          onClick={() => {
+            setDisabled(false)
+          }}
+        >
+          <EditIcon />
+        </span>
         <Grid item xs={12} sm={6} md={4}>
           <SelectDropdown
             list={listProvince?.map((item) => ({
@@ -132,9 +183,13 @@ const AddAdress = () => {
               name: item.name
             }))}
             id={idProvince}
-            setId={setIdProvince}
+            setId={(newValue) => {
+              setIdProvince(newValue)
+            }}
             name={'Tỉnh/Thành phố'}
             disabled={disabled}
+            error = {provinceErr ? true : false}
+            helperText = {provinceErr}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
@@ -145,8 +200,12 @@ const AddAdress = () => {
             }))}
             name={'Quận huyện'}
             id={idDistrict}
-            setId={setIdDistrict}
+            setId={(newValue) => {
+              setIdDistrict(newValue)
+            }}
             disabled={disabled}
+            error = {districtErr ? true : false}
+            helperText = {districtErr}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
@@ -157,16 +216,25 @@ const AddAdress = () => {
             }))}
             name={'Phường/xã'}
             id={idWard}
-            setId={setIdWard}
+            setId={(newValue) => {
+              setIdWard(newValue)
+            }}
             disabled={disabled}
+            error = {wardErr ? true : false}
+            helperText = {wardErr}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <Input
             label='Số nhà'
             value={houseNo}
-            onChange={(e) => setHouseNo(e.target.value)}
+            onChange={(e) => {
+              setHouseNo(e.target.value)
+              setNumHouseErr('')
+            }}
             disabled={disabled}
+            error = { numHouseErr? true : false}
+            helperText = {numHouseErr}
           ></Input>
         </Grid>
 
@@ -174,8 +242,13 @@ const AddAdress = () => {
           <Input
             label='Tên đường'
             value={street}
-            onChange={(e) => setStreet(e.target.value)}
+            onChange={(e) => {
+              setStreet(e.target.value)
+              setStreetErr('')
+            }}
             disabled={disabled}
+            error = { streetErr? true : false}
+            helperText = {streetErr}
           ></Input>
         </Grid>
 
@@ -183,9 +256,11 @@ const AddAdress = () => {
         <Popup open={openPopup} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       </Grid>
       {!disabled && (
-        <Button type='submit' variant='outlined' onClick={createAddress} sx={{ margin: 'auto' }}>
-          Cập nhật
-        </Button>
+        <Box sx = {{display: 'flex'}}>
+          <Button type='submit' variant='outlined' onClick={createAddress} sx={{ margin: 'auto' }}>
+            Cập nhật
+          </Button>
+        </Box>
       )}
     </Container>
   )

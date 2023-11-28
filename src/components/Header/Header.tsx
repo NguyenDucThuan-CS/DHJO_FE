@@ -23,7 +23,7 @@ import { readCookie } from '../../utils/cookie'
 import { doOpenNoti, doCloseNoti } from '../../redux/slice/notification'
 import { Modal } from '../Modal/Modal'
 import DetailPost from '../../pages/Helpers/DetailPost'
-import { chooseHelper } from '../../apis/post.api'
+import { applyPost, chooseHelper } from '../../apis/post.api'
 import { toast } from 'react-toastify'
 
 function Header() {
@@ -133,6 +133,20 @@ function Header() {
       })
       .finally(() => {
         setOpenModalPost(false)
+      })
+  }
+
+  const helperApplyPost = () => {
+    applyPost(postForHelper.id)
+      .then(() => {
+       toast.success('Đăng kí giúp việc thành công')
+      })
+      .catch((err) => {
+        console.log('err', err)
+        toast.error(err.response.data.message)
+      })
+      .finally(() => {
+        setOpenModalPostHelper(false)
       })
   }
   return (
@@ -260,7 +274,7 @@ function Header() {
       <Modal
         open={openModalPostHelper}
         handleClose={() => setOpenModalPostHelper(false)}
-        Content={<DetailPost isHideFooter={true} post={postForHelper}></DetailPost>}
+        Content={<DetailPost isHideFooter={true} post={postForHelper} onClick = {helperApplyPost}></DetailPost>}
       />
     </Wrapper>
   )

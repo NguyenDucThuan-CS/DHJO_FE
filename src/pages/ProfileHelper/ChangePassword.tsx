@@ -7,6 +7,7 @@ import { readCookie } from '../../utils/cookie'
 import { updateAuthInfo, getAuthInfo } from '../../apis/auth.api'
 import useStyles from './style'
 import { Popup } from '../../components/Popup/Popup'
+import EditIcon from '@mui/icons-material/Edit'
 interface FormData {
   username?: string
   oldPassword?: string
@@ -72,10 +73,18 @@ const ChangePassword = () => {
   }, [])
   return (
     <Container sx={{ width: { xs: '100%', md: '70%' } }}>
-      <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
+      {/* <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
         Chinh sua
-      </Button>
+      </Button> */}
       <form className={classes.form} noValidate onSubmit={onSubmit}>
+      <span
+          style={{ position: 'absolute', top: '10px', right: '10px' }}
+          onClick={() => {
+            setDisabled(false)
+          }}
+        >
+          <EditIcon />
+        </span>
         <Input
           error={errors.username?.message ? true : false}
           helperText={errors.username?.message}

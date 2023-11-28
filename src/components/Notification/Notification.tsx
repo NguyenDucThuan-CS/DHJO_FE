@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux'
 import { doUpdateNumNoti } from '../../redux/slice/notification'
 import { useOnClickOutside } from '../../utils/useOnClickOutside'
 import { doCloseNoti } from '../../redux/slice/notification'
+import { helperGetPostById } from '../../apis/post.api'
+
 const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalPostHelper }:any) => {
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
@@ -58,7 +60,7 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
         }
       } else if (window.location.href.split('/').includes('helper')) {
         if (item.entityType == 'Post') {
-          ownerGetPostById(item.entityId).then((res) => {
+          helperGetPostById(item.entityId).then((res) => {
             setPostForHelper(res.data.data)
             setOpenModalPostHelper(true)
           })

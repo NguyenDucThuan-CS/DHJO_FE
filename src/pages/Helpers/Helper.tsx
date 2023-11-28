@@ -211,36 +211,24 @@ const Helper = () => {
   }
   return (
     <Box>
-      <Stack direction='row' spacing={2}>
-        {/* <SelectDropdown list={[]}></SelectDropdown>
-          <SelectDropdown list={[]}></SelectDropdown>
-
-          <SelectDropdown list={[]}></SelectDropdown> */}
+      <Stack direction={'row'} mb = {2}spacing={2} alignItems={'center'}>
+        <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
+        <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
+        <SelectDropdown list={distanceOptions} id={distanceOption} name={'Khoảng cách'} setId={setDistanceOption} />
+        <Box onClick={() => getFilterActivePost()}>
+          <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>{'ffff'}</Typography>
+          <FilterIcon />
+        </Box>
       </Stack>
+
       <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
-        { (
-          <Grid item xs={4} lg={2}> 
-             <ScheduleToday />
+        {
+          <Grid item xs={4} lg={2}>
+            <ScheduleToday />
           </Grid>
-        )}
+        }
         <>
           <Grid item xs={12} md={8} lg={4}>
-            <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
-              <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
-              <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
-              <SelectDropdown
-                list={distanceOptions}
-                id={distanceOption}
-                name={'Khoảng cách'}
-                setId={setDistanceOption}
-              />
-              <Box onClick={() => getFilterActivePost()}>
-                <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>
-                  {'ffff'}
-                </Typography>
-                <FilterIcon />
-              </Box>
-            </Stack>
             <Stack direction={'column'} gap={'5px'}>
               {listPost.length === 0 && <Nofind />}
               {listPost?.map((item, index) => (

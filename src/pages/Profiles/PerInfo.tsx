@@ -1,5 +1,4 @@
 import { Button, Container } from '@mui/material'
-import AvatarChooser from '../../components/AvatarChooser/AvatarChooser'
 import { Input } from '../../components/Input/Input'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
@@ -8,8 +7,6 @@ import useStyles from './style'
 import { getProfileOwner, updateProfileOwner } from '../../apis/ownerprofile.api'
 import { Popup } from '../../components/Popup/Popup'
 import { rules } from '../../utils/rules'
-import { objToFormData } from '../../utils/api'
-import { readCookie } from '../../utils/cookie'
 import { getImg } from '../../apis/img.api'
 import EditIcon from '@mui/icons-material/Edit'
 import UploadImage from '../../components/ImageUpload/ImageUpload'
@@ -22,7 +19,6 @@ const PerInfo = () => {
     identificationNum?: string
     name?: string
   }
-
   const {
     register,
     formState: { errors },
@@ -34,7 +30,6 @@ const PerInfo = () => {
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
   const [img, setImg] = useState<File | null>(null)
-  const [imgInit, setImgInit] = useState<string>('')
   const classes = useStyles()
 
   const agree = () => {

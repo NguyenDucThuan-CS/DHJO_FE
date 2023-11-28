@@ -1,11 +1,7 @@
 import { Button, Container } from '@mui/material'
-import AvatarChooser from '../../components/AvatarChooser/AvatarChooser'
 import { Input } from '../../components/Input/Input'
 import { useEffect, useState } from 'react'
-
 import { Popup } from '../../components/Popup/Popup'
-import { objToFormData } from '../../utils/api'
-import { readCookie } from '../../utils/cookie'
 import { getImg, updateImgUser } from '../../apis/img.api'
 import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import Grid from '@mui/material/Grid'
@@ -20,6 +16,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import Box from '@mui/material/Box'
 import UploadImage from '../../components/ImageUpload/ImageUpload'
 import { toBase64 } from '../../utils/common'
+import { toast } from 'react-toastify'
+
 const PerInfo = () => {
   const [disabled, setDisabled] = useState<boolean>(true)
 
@@ -101,7 +99,7 @@ const PerInfo = () => {
 
     if(!doB) {
       isValid = false;
-      setDobErr('Vui lòng chọn ngàny sinh')
+      setDobErr('Vui lòng chọn ngày sinh')
     }
     return isValid
   }
@@ -122,12 +120,14 @@ const PerInfo = () => {
           }))
         }),
   
-        updateImgUser({id:null, base64String: await toBase64(img)})
+        
       ]).then(() => {
-        setOpen(true)
-        setText('Cập nhật thông tin thành công')
+        toast.success('Cập nhật thông tin thành công')
+        setDisabled(true)
       })
     }
+
+    if(img) updateImgUser({id:null, base64String: await toBase64(img)})
    
   }
 
@@ -147,7 +147,7 @@ const PerInfo = () => {
               value: item.skillName
             }))
           )
-          setDoB(dayjs(changeArrToDayjs(values[0].data.data.birthday)))
+          setDoB(dayjs(`${values[0].data.data.birthday.year}-${values[0].data.data.birthday.month}-${values[0].data.data.birthday.day}`))
         }
         if (values[1].data.data && dataImg.base64String) {
           setInitImg(`data:image;base64,${dataImg.base64String}`)
@@ -157,7 +157,7 @@ const PerInfo = () => {
         console.log('err', err)
       })
   }, [])
-
+  
   useEffect(() => {
     getAllSkills().then((res) => setSkills(res.data.data))
     getEduLevel().then((res) => setEdulevels(res.data.data))
@@ -166,9 +166,6 @@ const PerInfo = () => {
 
   return (
     <Container sx={{ width: { xs: '100%', md: '60%' } }}>
-      {/* <Button variant='outlined' onClick={() => setDisabled(false)}>
-        Chinh sua
-      </Button> */}
       <Box sx = {{background:'white', position:'relative', padding:'20px', display:'flex', flexDirection: 'column'}}>
         <span
           style={{ position: 'absolute', top: '10px', right: '10px' }}

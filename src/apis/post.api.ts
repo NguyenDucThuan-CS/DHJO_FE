@@ -131,6 +131,14 @@ export const ownerGetPostById = (id: string) => {
   })
 }
 
+export const helperGetPostById = (id: string) => {
+  return http.get(`${url}/helper`, {
+    params: {
+      postId: id
+    }
+  })
+}
+
 export const checkConflictWithActivePost = (obj:any) => {
   return http.post(`${url}/owner/check-conflict`,obj)
 }
