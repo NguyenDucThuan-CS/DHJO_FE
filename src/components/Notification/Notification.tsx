@@ -20,7 +20,7 @@ const Notification = () => {
   const [openModalPost, setOpenModalPost] = useState<any>(false)
   const [openModalPostHelper, setOpenModalPostHelper] = useState<any>(false)
   const [post, setPost] = useState<any>()
-
+  const [postForHelper, setPostForHelper] = useState<any>()
 
   useEffect(() => {
     getNotification(pageNo).then((res) => {
@@ -55,10 +55,12 @@ const Notification = () => {
         }
       } else if (window.location.href.split('/').includes('helper')) {
         if (item.entityType == 'Post') {
-          //history(`/helper?postId=${item.entityId}`)
+          ownerGetPostById(item.entityId).then((res) => {
+            setPostForHelper(res.data.data)
+            setOpenModalPostHelper(true)
+          })
         }
-      } else if (item.entityType == 'Post') {
-      }
+      } 
     }
 
     return (
@@ -145,7 +147,13 @@ const Notification = () => {
       <Modal
         open={openModalPost}
         handleClose={() => setOpenModalPost(false)}
-        Content={<DetailPost choose = {choose} isHideBtn = {post?.confirmed} listHelper = {post?.helpers} post = {post} isHideFooter={false}></DetailPost>}
+        Content={<DetailPost choose = {choose} isHideBtn = {true} listHelper = {post?.helpers} post = {post} isHideFooter={false}></DetailPost>}
+      />
+
+       <Modal
+        open={openModalPostHelper}
+        handleClose={() => setOpenModalPostHelper(false)}
+        Content={<DetailPost isHideFooter = {true}  post = {postForHelper}></DetailPost>}
       />
     </>
   )

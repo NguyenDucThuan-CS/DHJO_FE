@@ -23,7 +23,7 @@ export default function LabTabs() {
           <TabList onChange={handleChange} aria-label='lab API tabs example'>
             <Tab label='Thông tin cá nhân' value='1' />
             <Tab label='Bảo mật' value='2' />
-            <Tab label='Hồ sơ' value='3' />
+            <Tab label='Hồ sơ căn nhà' value='3' />
           </TabList>
         </Box>
         <TabPanel value='1' className={classes.tabPanel}>

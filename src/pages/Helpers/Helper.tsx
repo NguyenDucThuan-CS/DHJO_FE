@@ -219,16 +219,7 @@ const Helper = () => {
       </Stack>
       <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
         { (
-          <Grid item xs={4} lg={2}>
-            {/* <Schedule
-              onClick={(id: string) => {
-                getPostById(id).then((res) => {
-                  setPostForTask(res.data.data)
-                  setOpenTask(true)
-                })
-              }}
-            /> */}
-
+          <Grid item xs={4} lg={2}> 
              <ScheduleToday />
           </Grid>
         )}
