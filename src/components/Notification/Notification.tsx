@@ -2,27 +2,21 @@ import { Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { getCountUnread, getNotification } from '../../apis/notification.api'
 import NoNoti from '../NoNoti/NoNoti'
-import { useNavigate } from 'react-router-dom'
 import './Notification.css'
-import { chooseHelper, ownerGetPostById } from '../../apis/post.api'
+import { ownerGetPostById } from '../../apis/post.api'
 import { markAsRead } from '../../apis/notification.api'
 import { useDispatch } from 'react-redux'
 import { doUpdateNumNoti } from '../../redux/slice/notification'
-import { Modal } from '../../components/Modal/Modal'
-import DetailPost from '../../pages/Helpers/DetailPost'
-import { toast } from 'react-toastify'
 import { useOnClickOutside } from '../../utils/useOnClickOutside'
 import { doCloseNoti } from '../../redux/slice/notification'
-const Notification = () => {
+const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalPostHelper }:any) => {
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
-  const [showMore, setShowMore] = useState<boolean>(true)
-  const history = useNavigate()
   const dispatch = useDispatch()
-  const [openModalPost, setOpenModalPost] = useState<any>(false)
-  const [openModalPostHelper, setOpenModalPostHelper] = useState<any>(false)
-  const [post, setPost] = useState<any>()
-  const [postForHelper, setPostForHelper] = useState<any>()
+  // const [openModalPost, setOpenModalPost] = useState<any>(false)
+  // const [openModalPostHelper, setOpenModalPostHelper] = useState<any>(false)
+  // const [post, setPost] = useState<any>()
+  // const [postForHelper, setPostForHelper] = useState<any>()
   
 
   const handleClose = () => {
@@ -34,9 +28,6 @@ const Notification = () => {
   useEffect(() => {
     getNotification(pageNo).then((res) => {
       setList([...res.data.data.content[0]])
-      if (res.data.data.last) {
-        setShowMore(false)
-      }
     })
   }, [pageNo])
   // const renderTab = (item: any) => {
@@ -48,7 +39,7 @@ const Notification = () => {
 
   //   return 0
   // }
-  console.log('modalPost', openModalPost)
+ 
   const renderContent = (item: any) => {
     const handleClick = () => {
       dispatch(doCloseNoti({}))
@@ -60,7 +51,6 @@ const Notification = () => {
       })
       if (window.location.href.split('/').includes('owner')) {
         if (item.entityType == 'Post') {
-          console.log("clickkkkk")
           ownerGetPostById(item.entityId).then((res) => {
             setPost(res.data.data)
             setOpenModalPost(true)
@@ -87,14 +77,6 @@ const Notification = () => {
     )
   }
   
-  const choose = (id: string) => {
-      chooseHelper(post.id, id).then((res) => {
-        toast.success('Chọn người giúp việc thành công')
-      })
-      .finally(() => {
-        setOpenModalPost(false)
-      })       
-  }
   return (
     <>
       <Stack
@@ -150,7 +132,7 @@ const Notification = () => {
         </ul>
       </Stack>
 
-      <Modal
+      {/* <Modal
         open={openModalPost}
         handleClose={() => setOpenModalPost(false)}
         Content={<DetailPost choose = {choose} isHideBtn = {true} listHelper = {post?.helpers} post = {post} isHideFooter={false}></DetailPost>}
@@ -160,7 +142,7 @@ const Notification = () => {
         open={openModalPostHelper}
         handleClose={() => setOpenModalPostHelper(false)}
         Content={<DetailPost isHideFooter = {true}  post = {postForHelper}></DetailPost>}
-      />
+      /> */}
     </>
   )
 }

@@ -28,9 +28,10 @@ export const Modal: React.FC<PopupProps> = ({ open, Content, Actions, handleClos
       keepMounted
       onClose={handleClose}
       aria-describedby='alert-dialog-slide-description'
-      className={classes.hideSrollbar}
+      className={classes.maxWith}
+      
     >
-      <DialogContent>{Content}</DialogContent>
+      <DialogContent >{Content}</DialogContent>
       {Actions && <DialogActions>{Actions}</DialogActions>}
     </Dialog>
   )

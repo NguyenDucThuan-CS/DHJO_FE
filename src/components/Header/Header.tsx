@@ -18,18 +18,26 @@ import Notification from '../Notification/Notification'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { doClearNotiNum } from '../../redux/slice/notification'
-import logoImg  from '../../assets/img/logo.png'
+import logoImg from '../../assets/img/logo.png'
 import { readCookie } from '../../utils/cookie'
 import { doOpenNoti, doCloseNoti } from '../../redux/slice/notification'
+import { Modal } from '../Modal/Modal'
+import DetailPost from '../../pages/Helpers/DetailPost'
+import { chooseHelper } from '../../apis/post.api'
+import { toast } from 'react-toastify'
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
   //const [openNoti, setOpenNoti] = React.useState<boolean>(false)
 
-  const { numNoti } = useSelector((state:any) => state.notiReducer)
-  const { open: openNoti } = useSelector((state:any) => state.notiReducer)
+  const { numNoti } = useSelector((state: any) => state.notiReducer)
+  const { open: openNoti } = useSelector((state: any) => state.notiReducer)
 
+  const [openModalPost, setOpenModalPost] = React.useState<any>(false)
+  const [openModalPostHelper, setOpenModalPostHelper] = React.useState<any>(false)
+  const [post, setPost] = React.useState<any>()
+  const [postForHelper, setPostForHelper] = React.useState<any>()
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -102,7 +110,7 @@ function Header() {
     if (window.location.href.split('/').includes('owner')) {
       return pagesForOwner
     }
-   return pagesForHelper
+    return pagesForHelper
   }
 
   const renderSetting = () => {
@@ -112,17 +120,24 @@ function Header() {
     return ownerSetting
   }
   const clickLogo = () => {
-    if(window.location.href.split('/').includes('owner')) {
+    if (window.location.href.split('/').includes('owner')) {
       navigate('/owner')
-    }
-    else {
+    } else {
       navigate('/helper')
     }
   }
-
+  const choose = (id: string) => {
+    chooseHelper(post.id, id)
+      .then((res) => {
+        toast.success('Chọn người giúp việc thành công')
+      })
+      .finally(() => {
+        setOpenModalPost(false)
+      })
+  }
   return (
     <Wrapper>
-      <img src = {logoImg} style={{width:'120px', height:'50px', marginRight: '10px'}} onClick={clickLogo}/>
+      <img src={logoImg} style={{ width: '120px', height: '50px', marginRight: '10px' }} onClick={clickLogo} />
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
         <IconHamburger onClick={handleOpenNavMenu} />
         <MenuList
@@ -182,17 +197,25 @@ function Header() {
         ))}
       </Box>
       <Box sx={{ position: 'relative' }}>
-        <Box onClick = {() => {
-          if(!openNoti) dispatch(doOpenNoti({}))
-          else dispatch(doCloseNoti({}))
-        }
-      }>
+        <Box
+          onClick={() => {
+            if (!openNoti) dispatch(doOpenNoti({}))
+            else dispatch(doCloseNoti({}))
+          }}
+        >
           <Badge badgeContent={numNoti} color='error' sx={{ mr: 3 }}>
             <NotificationsIcon />
           </Badge>
         </Box>
-        
-        {openNoti && <Notification />}
+
+        {openNoti && (
+          <Notification
+            setPost={setPost}
+            setOpenModalPost={setOpenModalPost}
+            setPostForHelper={setPostForHelper}
+            setOpenModalPostHelper={setOpenModalPostHelper}
+          />
+        )}
       </Box>
 
       <Box sx={{ flexGrow: 0 }}>
@@ -219,6 +242,26 @@ function Header() {
           ))}
         </MenuList>
       </Box>
+
+      <Modal
+        open={openModalPost}
+        handleClose={() => setOpenModalPost(false)}
+        Content={
+          <DetailPost
+            choose={choose}
+            isHideBtn={true}
+            listHelper={post?.helpers}
+            post={post}
+            isHideFooter={false}
+          ></DetailPost>
+        }
+      />
+
+      <Modal
+        open={openModalPostHelper}
+        handleClose={() => setOpenModalPostHelper(false)}
+        Content={<DetailPost isHideFooter={true} post={postForHelper}></DetailPost>}
+      />
     </Wrapper>
   )
 }
