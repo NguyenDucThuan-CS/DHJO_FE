@@ -13,11 +13,14 @@ const slice = createSlice({
     },
     doClearNotiNum(state, payload) {
         state.numNoti = 0
+    },
+    doUpdateNumNoti(state, action) {
+        state.numNoti = action.payload
     }
    
   }
 })
 const { reducer: notiReducer, actions } = slice
 
-export const { doIncreaseNotiNum, doClearNotiNum } = actions
+export const { doIncreaseNotiNum, doClearNotiNum, doUpdateNumNoti } = actions
 export default notiReducer

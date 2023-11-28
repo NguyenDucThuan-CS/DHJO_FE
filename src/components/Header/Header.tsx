@@ -26,7 +26,9 @@ function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
   const [openNoti, setOpenNoti] = React.useState<boolean>(false)
+
   const { numNoti } = useSelector((state:any) => state.notiReducer)
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -96,10 +98,10 @@ function Header() {
     { name: 'Lịch làm việc', to: '/helper/schedules' }
   ]
   const renderContentHeader = () => {
-    if (window.location.href.split('/').includes('helper')) {
-      return pagesForHelper
+    if (window.location.href.split('/').includes('owner')) {
+      return pagesForOwner
     }
-    return pagesForOwner
+   return pagesForHelper
   }
 
   const renderSetting = () => {
@@ -116,8 +118,6 @@ function Header() {
       navigate('/helper')
     }
   }
-
-
 
   return (
     <Wrapper>
@@ -183,7 +183,6 @@ function Header() {
       <Box sx={{ position: 'relative' }}>
         <Box onClick = {() => {
           setOpenNoti(!openNoti)
-          dispatch(doClearNotiNum({}))
         }
       }>
           <Badge badgeContent={numNoti} color='error' sx={{ mr: 3 }}>

@@ -6,13 +6,16 @@ import { useSelector } from 'react-redux'
 
 import ModalDetailHelper from '../components/Modal/ModalDetailHelper'
 import ModalRatingHelper from '../components/Modal/ModalRatingHelper'
-import { Button } from '@mui/material'
 
+import { getCountUnread } from '../apis/notification.api'
+import { useDispatch } from 'react-redux'
+import { doUpdateNumNoti } from '../redux/slice/notification'
 interface PrivateRouterProps {
   children: ReactNode
 }
 export const PrivateRouter = ({ children }: PrivateRouterProps) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const { open } = useSelector((state: any) => state.modalHelperReducer)
   const { openRating } = useSelector((state: any) => state.modalHelperReducer)
@@ -28,6 +31,10 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
     if (!readCookie('tokenDHJO') || !checkCorrectRole()) {
       return navigate('/login')
     }
+
+    getCountUnread().then((res) => {
+      dispatch(doUpdateNumNoti(res.data.data))
+    })
   }, [])
 
   return (

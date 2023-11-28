@@ -1,27 +1,29 @@
 import { Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { getNotification } from '../../apis/notification.api'
+import { getCountUnread, getNotification } from '../../apis/notification.api'
 import NoNoti from '../NoNoti/NoNoti'
 import { useNavigate } from 'react-router-dom'
 import './Notification.css'
 import { ownerGetPostById } from '../../apis/post.api'
+import { markAsRead } from '../../apis/notification.api'
+import { useDispatch } from 'react-redux'
+import { doUpdateNumNoti } from '../../redux/slice/notification'
 const Notification = () => {
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
   const [showMore, setShowMore] = useState<boolean>(true)
   const history = useNavigate()
-
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getNotification(pageNo).then((res) => {
-      setList([...res.data.data.content[0], ...list])
+      setList([...res.data.data.content[0]])
       if(res.data.data.last) {
         setShowMore(false)
       }
     })
   }, [pageNo])
   const renderTab = (item: any) => {
-    //if (tab == 0) return listPost
     if(!item.applied && !item.confirmed && !item.finished && !item.overdue) return 1
     if (item.applied === true) return 2
     if (item.confirmed === true) return 3
@@ -32,11 +34,34 @@ const Notification = () => {
   }
   const renderContent = (item: any) => {
     const handleClick = () => {
-      if(item.entityType == 'Post') {
-        ownerGetPostById(item.entityId).then((res) => {
-          const tab = renderTab(res.data.data) 
-          history(`/owner/my-news?tab=${tab}&&postId=${item.entityId}`)
+      markAsRead(item.id).then((res) => {
+        getCountUnread().then((res) => {
+          dispatch(doUpdateNumNoti(res.data.data))
         })
+      })
+      if(window.location.href.split('/').includes('owner')) {
+        if(item.entityType == 'Post') {
+          ownerGetPostById(item.entityId).then((res) => {
+            const tab = renderTab(res.data.data) 
+            history(`/owner/my-news?tab=${tab}&&postId=${item.entityId}`)
+          })
+        }
+      }
+
+      else if(window.location.href.split('/').includes('helper')) {
+        if(item.entityType == 'Post') {
+          history(`/helper?postId=${item.entityId}`)
+        }
+
+        //if()
+      
+  
+      }
+      
+
+
+      else if(item.entityType == 'Post') {
+
       }
     }
 
@@ -57,7 +82,7 @@ const Notification = () => {
         background: 'white',
         boxShadow: `1px 2px 5px 0px rgba(0,0,0,0.75);`,
         color: 'black',
-        maxHeight: '300px',
+        maxHeight: '1000px',
         overflowY: 'scroll',
         overflowX: 'hidden'
       }}

@@ -14,6 +14,17 @@ export const getNotification = (pageNo:number) => {
     })
 }
  
- 
+
+export const getCountUnread = () => {
+    return http.get(url + '/count-unread')
+}
+
+export const markAsRead = (notiId: string) => {
+    return http.post(url + '/mark-as-read', null,  {
+        params: {
+            notiId 
+        }
+    })
+}
 
 
