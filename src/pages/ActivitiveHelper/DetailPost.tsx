@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack/Stack'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HomeIcon from '@mui/icons-material/Home'
-import { IPost } from './Helper'
 import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 

@@ -11,6 +11,7 @@ import WorkingSchedule from './pages/WorkingSchedule/WorkingSchedule.tsx'
 import ActvitiveHelper from './pages/ActivitiveHelper/ActivitiveHelper.tsx'
 import DetailHelper from './pages/DetailHelper/DetailHelper.tsx'
 import Socket from './socket/index.tsx'
+import WorkingScheduleNew from './pages/WorkingScheduleNew/WorkingSheduleNew.tsx'
 //import WorkingScheduleDemo from './pages/WorkingSchedule/WorkingScheduleDemo.tsx'
 
 function App() {
@@ -117,7 +118,7 @@ function App() {
           path='/helper/schedules'
           element={
             <PrivateRouter>
-              <WorkingSchedule />
+              <WorkingScheduleNew />
             </PrivateRouter>
           }
         />

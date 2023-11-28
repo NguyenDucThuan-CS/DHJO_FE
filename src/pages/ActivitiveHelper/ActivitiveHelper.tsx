@@ -16,6 +16,7 @@ import { getPostHelperAll } from '../../apis/post.api'
 import { Button } from '@mui/material'
 import Nofind from '../../components/NoFind/NoFind'
 import WorkingSchedule from '../WorkingSchedule/WorkingSchedule'
+import ScheduleToday from '../ScheduleToday/ScheduleToday'
 export interface IPost {
   id: string
   createdAt: {
@@ -224,7 +225,7 @@ const ActvitiveHelper = () => {
                 })
               }}
             /> */}
-            <WorkingSchedule />
+            <ScheduleToday />
           </Grid>
         )}
         <>
