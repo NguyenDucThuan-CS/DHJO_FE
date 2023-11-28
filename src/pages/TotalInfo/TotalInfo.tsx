@@ -18,9 +18,7 @@ import Nofind from '../../components/NoFind/NoFind'
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
     <>
-      <div>{helper.name}</div>
-      <div>{helper.name}</div>
-      <div>{helper.name}</div>
+      <div><img src = {`data:image;base64,${helper.base64Image}`} style={{marginRight:'5px'}}/>{helper.name}</div>
     </>
   ))
 }
@@ -98,11 +96,11 @@ const TotalInfo = () => {
     <>
       <Box sx={{ width: '80%', margin: 'auto' }}>
         <Stack gap={'20px'} direction={'row'} flexWrap={'wrap'} justifyContent={'space-between'}>
-          <CardInfo title={'Tổng số bài đăng'} color='#fbc733' number={dashboardInfo?.totalPostNumber} />
-          <CardInfo title={'Tổng tiền đã chi'} color='#4286f4' number={dashboardInfo?.totalFeeSpent} />
-          <CardInfo title={'Tổng chờ xác nhận'} color='#eb4235' number={dashboardInfo?.confirmingPostsNumber} />
-          <CardInfo title={'Tổng đã hoàn thành'} color='#59b76e' number={dashboardInfo?.finishedPostsNumber} />
-          <CardInfo title={'Tổng tin sắp quá hạn'} color='#6f3ad8' number={dashboardInfo?.expiringPostsNumber} />
+          <CardInfo title={'Tổng số tin đăng trong tháng'} color='#fbc733' number={dashboardInfo?.totalPostNumber} />
+          <CardInfo title={'Tổng tiền đã chi trong tháng'} color='#4286f4' number={dashboardInfo?.totalFeeSpent} />
+          <CardInfo title={'Tin chờ xác nhận'} color='#eb4235' number={dashboardInfo?.confirmingPostsNumber} />
+          <CardInfo title={'Tin chờ đánh giá'} color='#59b76e' number={dashboardInfo?.finishedPostsNumber} />
+          <CardInfo title={'Tin sắp quá hạn'} color='#6f3ad8' number={dashboardInfo?.expiringPostsNumber} />
         </Stack>
         <Box sx={{ marginTop: '20px' }}>
           <Stack direction={'row'} sx={{ marginTop: '20px', marginBottom: '20px', gap: '20px' }}>
@@ -110,7 +108,7 @@ const TotalInfo = () => {
               Tin chờ xác nhận
             </Button>
             <Button variant={tab === 1 ? 'contained' : 'outlined'} onClick={() => setTab(1)}>
-              Tin đã hoàn thành
+              Tin chờ đánh giá
             </Button>
           </Stack>
           {tab === 0 ? (
@@ -121,7 +119,7 @@ const TotalInfo = () => {
         </Box>
 
         <Box sx={{ marginTop: '20px' }}>
-          <div style={{fontWeight: 'bold', fontSize:'20px', marginBottom:'10px'}}>Top rated NGV</div>
+          <div style={{fontWeight: 'bold', fontSize:'20px', marginBottom:'10px'}}>Người giúp việc hàng đầu</div>
           {dashboardInfo?.topRatedHelpers.length ? <ListHelperCard listHelpers = {dashboardInfo?.topRatedHelpers}/>:<Nofind />}
         </Box>
       </Box>

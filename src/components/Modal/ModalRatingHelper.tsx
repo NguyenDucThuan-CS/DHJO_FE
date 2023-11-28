@@ -83,13 +83,12 @@ const ModalRatingHelper = ({ open }: any) => {
             </p>
             <ListStar number={numStar + 1} onClick={setNumStar} isSmallStar={false} />
             <p style={{ marginTop: '10px', marginBottom: '10px', fontWeight: 'bold' }}>Đánh giá chung</p>
-            <Textarea value={valueArea} onChange={setValueArea} />
+            <Textarea value={valueArea} onChange={(e) => setValueArea(e.target.value)} />
           </Box>
           <Button
             onClick={() => {
-              console.log("122345")
               rateHelper(postRatingId, {
-                score: numStar + 1,
+                score: numStar,
                 comment: valueArea
               })
                 .then(() => {

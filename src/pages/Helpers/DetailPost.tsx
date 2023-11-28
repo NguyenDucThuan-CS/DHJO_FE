@@ -112,8 +112,9 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
               Người giúp việc {post?.applied ? 'đăng kí' : 'nhận việc'}
             </Typography>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              
                 {listHelper?.map((item: any) => (
+                  <Grid item xs={6}>
                   <HelperCard
                     key={item.helperId}
                     helperId={item.helperId}
@@ -131,8 +132,9 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                     isFavourite = {post.isFavourite}
                     //isChosen={idChosen == item.id}
                   />
+                    </Grid>
                 ))}
-              </Grid>
+            
             </Grid>
           </Box>
         )}
