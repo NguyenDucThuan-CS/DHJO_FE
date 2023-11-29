@@ -49,7 +49,7 @@ export default function Register() {
       }
     } catch (error: any) {
       setOpen(true)
-      setText(error.response.data.detail)
+      setText(error.response.data.message)
     }
   })
 

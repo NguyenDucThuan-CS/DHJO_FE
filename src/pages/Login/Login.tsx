@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { setCookie } from '../../utils/cookie'
 import { useDispatch } from 'react-redux'
 import { doStoreToken } from '../../redux/slice/currentUser'
+import { toast } from 'react-toastify'
 interface FormData {
   password: string
   username: string
@@ -71,9 +72,8 @@ export default function Login() {
         success.current = true
         role.current = response.data.data.roles[0]
       }
-    } catch (error) {
-      setOpen(true)
-      setText('Mật khẩu hoặc username chưa đúng')
+    } catch (error:any) {
+      toast.error(error.response.data.message)
       success.current = false
     }
   })

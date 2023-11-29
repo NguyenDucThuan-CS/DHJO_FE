@@ -20,11 +20,10 @@ import { Modal } from '../../components/Modal/Modal'
 import DetailPost from '../Helpers/DetailPost'
 import { chooseHelper, ownerGetPostById } from '../../apis/post.api'
 import { toast } from 'react-toastify'
-
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
     <>
-      <div><img src = {`data:image;base64,${helper.base64Image}`} style={{marginRight:'5px'}}/>{helper.name}</div>
+      <div><img src = {`data:image;base64,${helper.base64Image}`} style={{marginRight:'5px',width:'50px', height: '50px'}}/>{helper.name}</div>
     </>
   ))
 }

@@ -92,10 +92,10 @@ const ModalRatingHelper = ({ open }: any) => {
                 comment: valueArea
               })
                 .then(() => {
-                  toast('Đánh giá người giúp việc thành công')
+                  toast.success('Đánh giá người giúp việc thành công')
                 })
-                .catch(() => {
-                  toast('Đã có lỗi xảy ra')
+                .catch((err) => {
+                  toast.error(err.response.data.message)
                 })
                 .finally(() => {
                   dispatch(doCloseModalRating({}))

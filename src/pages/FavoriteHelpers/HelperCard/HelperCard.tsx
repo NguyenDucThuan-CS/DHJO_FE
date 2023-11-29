@@ -100,7 +100,7 @@ export default function HelperCard({
               .then((res) => {
                 toast.success('Thêm vào danh sách yêu thích thành công')
               })
-              .catch(() => toast('Có lỗi xảy ra'))
+              .catch((error) => toast.error(error.response.data.message))
           }}
         >
           <AddFavorite />
@@ -114,7 +114,7 @@ export default function HelperCard({
               .then((res) => {
                 toast.success('Loại khỏi vào danh sách yêu thích thành công')
               })
-              .catch(() => toast.error('Có lỗi xảy ra'))
+              .catch((error) => toast.error(error.response.data.message))
           }}
         >
           <RemoveFavorite />

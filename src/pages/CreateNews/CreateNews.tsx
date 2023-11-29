@@ -70,10 +70,10 @@ export default function CreateNews() {
       .then(() => {
         navigate('/owner/my-news')
         dispatch(doClearInfo({}))
-        toast('Tạo bài post thành công')
+        toast.success('Tạo bài post thành công')
       })
-      .catch(() => {
-        toast('Đã có lỗi xảy ra vui long thử lại')
+      .catch((err) => {
+        toast.error(err.response.data.message)
       })
   }
 

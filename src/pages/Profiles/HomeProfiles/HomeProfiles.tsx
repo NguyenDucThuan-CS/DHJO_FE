@@ -52,7 +52,11 @@ const HomeProfiles = () => {
   const [text, setText] = useState<string>('')
   const { register, getValues, setValue } = useForm<FormData>()
   const [img, setImg] = useState<any>('')
-  
+
+  const [houseName, setHouseName] = useState<string>('')
+  const [houseNo, setHouseNo] = useState<string>('')
+  const [street, setStreet] = useState<string>('')
+  const [floorArea, setFloorArea] = useState<string>('')
 
   const [nameErr, setNameErr] = useState<string>('')
   const [houseTypeErr, setHouseTypeErr] = useState<string>('')
@@ -64,51 +68,48 @@ const HomeProfiles = () => {
   const [streetErr, setStreetErr] = useState<string>('')
 
   const validate = () => {
-    let isValid = true;
-    if(!getValues().houseName) {
-      isValid = false;
+    let isValid = true
+    if (!houseName) {
+      isValid = false
       setNameErr('Vui lòng nhập tên nhà')
     }
 
-    if(idHouse == '0') {
-      isValid = false;
+    if (idHouseType == '0') {
+      isValid = false
       setHouseTypeErr('Vui lòng nhập loại nhà')
     }
 
-    if(!getValues().floorArea) {
-      isValid = false;
+    if (!floorArea) {
+      isValid = false
       setFloorAreaErr('Vui lòng nhập diện tích sàn')
     }
 
-    
-    
-    if(idProvince == '0') {
-      isValid = false;
+    if (idProvince == '0') {
+      isValid = false
       setProvineErr('Vui lòng chọn tỉnh')
     }
 
-    if(idDistrict == '0') {
-      isValid = false;
+    if (idDistrict == '0') {
+      isValid = false
       setDistrictErr('Vui lòng chọn quận/huyện')
     }
 
-    if(idWard == '0') {
-      isValid = false;
+    if (idWard == '0') {
+      isValid = false
       setWardErr('Vui lòng chọn phường/xã')
     }
 
-    if(!getValues().houseNo) {
-      isValid = false;
+    if (!houseNo) {
+      isValid = false
       setHouseErr('Vui lòng chọn số nhà')
     }
 
-     if(!getValues().street) {
-      isValid = false;
-      setHouseErr('Vui lòng chọn tên đường')
+    if (!street) {
+      isValid = false
+      setStreetErr('Vui lòng nhập tên đường')
     }
 
     return isValid
-
   }
   useEffect(() => {
     setIsLoading(true)
@@ -156,41 +157,40 @@ const HomeProfiles = () => {
     }
   }, [idDistrict])
 
- 
   const createNewHouse = () => {
-    setIsLoading(true)
-    updateHouseOwner({
-      id: idHouse,
-      houseName: getValues().houseName,
-      houseType: houseTypes.find((item) => item.id === idHouseType),
-      floorArea: Number(getValues().floorArea),
-      houseNo: getValues().houseNo,
-      street: getValues().street,
-      ward: listWard.find((item) => item.code === idWard),
-      district: listDistrict.find((item) => item.code === idDistrict),
-      province: listProvince.find((item) => item.code === idProvince)
-    })
-      .then(async (res) => {
-        setIsLoading(false)
-        if(!img) {
-          toast.success('Cập nhật căn nhà thành công')
-          getHousesOfOwer().then((res) => setListHouses(res.data.data))
-          setOpenPopup(false)
-          //setOpen(false)
-        }
-        if(img) updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)}).then((res) => {
-          toast.success('Cập nhật căn nhà thành công')
-          getHousesOfOwer().then((res) => setListHouses(res.data.data))
-          setOpenPopup(false)
-          //setOpen(false)
+    if (validate()) {
+      setIsLoading(true)
+      updateHouseOwner({
+        id: idHouse,
+        houseName: houseName,
+        houseType: houseTypes.find((item) => item.id === idHouseType),
+        floorArea: Number(floorArea),
+        houseNo: houseNo,
+        street: street,
+        ward: listWard.find((item) => item.code === idWard),
+        district: listDistrict.find((item) => item.code === idDistrict),
+        province: listProvince.find((item) => item.code === idProvince)
+      })
+        .then(async (res) => {
+          setIsLoading(false)
+          if (!img) {
+            toast.success('Cập nhật căn nhà thành công')
+            getHousesOfOwer().then((res) => setListHouses(res.data.data))
+            setOpenPopup(false)
+          }
+          if (img)
+            updateHouseImg({ id: res.data.data.id, base64String: await toBase64(img) }).then((res) => {
+              toast.success('Cập nhật căn nhà thành công')
+              getHousesOfOwer().then((res) => setListHouses(res.data.data))
+              setOpenPopup(false)
+            })
         })
-       
-      })
-      .catch((err) => {
-        console.log(err)
-        setIsLoading(false)
-        toast.error('Cập nhật căn nhà thất bại')
-      })
+        .catch((err) => {
+          console.log(err)
+          setIsLoading(false)
+          toast.error('Cập nhật căn nhà thất bại')
+        })
+    }
   }
 
   const clearData = () => {
@@ -205,6 +205,19 @@ const HomeProfiles = () => {
     setIdHouse(null)
     setImg('')
     setInitImg('')
+    setHouseName('')
+    setHouseNo('')
+    setStreet('')
+    setFloorArea('')
+
+    setNameErr('')
+    setHouseTypeErr('')
+    setFloorAreaErr('')
+    setProvineErr('')
+    setDistrictErr('')
+    setWardErr('')
+    setHouseErr('')
+    setStreetErr('')
   }
 
   const agree = () => {
@@ -228,7 +241,6 @@ const HomeProfiles = () => {
     getHousesOfOwer().then((res) => setListHouses(res.data.data))
   }
 
-  
   const [initiImg, setInitImg] = useState('')
 
   const handleSetImg = (img: any) => {
@@ -242,27 +254,50 @@ const HomeProfiles = () => {
   const ContentModal = () => {
     return (
       <Box>
-        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {false} handleSetInitImg = {handleSetInitImg}/>
+        <UploadImage
+          handleSetImg={handleSetImg}
+          initImg={initiImg}
+          disabled={false}
+          handleSetInitImg={handleSetInitImg}
+        />
         <form>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
               <Input
                 label='Tên nhà'
-                register={{
-                  ...register('houseName')
+                value={houseName}
+                onChange={(e) => {
+                  setHouseName(e.target.value)
+                  setNameErr('')
                 }}
+                error={nameErr ? true : false}
+                helperText={nameErr}
               ></Input>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <SelectDropdown list={houseTypes} id={idHouseType} setId={setIdHouseType} name={'Loại nhà'} />
+              <SelectDropdown
+                list={houseTypes}
+                id={idHouseType}
+                setId={(newValue) => {
+                  setIdHouseType(newValue)
+                  setHouseTypeErr('')
+                }}
+                name={'Loại nhà'}
+                error={houseTypeErr ? true : false}
+                helperText={houseTypeErr}
+              />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Input
                 label='Diện tích sàn (m2)'
-                register={{
-                  ...register('floorArea')
+                value={floorArea}
+                onChange={(e) => {
+                  setFloorArea(e.target.value)
+                  setFloorAreaErr('')
                 }}
                 type='number'
+                error={floorAreaErr ? true : false}
+                helperText={floorAreaErr}
               ></Input>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -272,8 +307,13 @@ const HomeProfiles = () => {
                   name: item.name
                 }))}
                 id={idProvince}
-                setId={setIdProvince}
+                setId={(newValue) => {
+                  setIdProvince(newValue)
+                  setProvineErr('')
+                }}
                 name={'Tỉnh/Thành phố'}
+                error={provinceErr ? true : false}
+                helperText={provinceErr}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -284,7 +324,12 @@ const HomeProfiles = () => {
                 }))}
                 name={'Quận huyện'}
                 id={idDistrict}
-                setId={setIdDistrict}
+                setId={(newValue) => {
+                  setIdDistrict(newValue)
+                  setDistrictErr('')
+                }}
+                error={districtErr ? true : false}
+                helperText={districtErr}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -295,24 +340,37 @@ const HomeProfiles = () => {
                 }))}
                 name={'Phường/xã'}
                 id={idWard}
-                setId={setIdWard}
+                setId={(newValue) => {
+                  setIdWard(newValue)
+                  setWardErr('')
+                }}
+                error={wardErr ? true : false}
+                helperText={wardErr}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Input
                 label='Số nhà'
-                register={{
-                  ...register('houseNo')
+                value={houseNo}
+                onChange={(e) => {
+                  setHouseNo(e.target.value)
+                  setHouseErr('')
                 }}
+                error={houseNoErr ? true : false}
+                helperText={houseNoErr}
               ></Input>
             </Grid>
 
             <Grid item xs={12} sm={6} md={4}>
               <Input
                 label='Tên đường'
-                register={{
-                  ...register('street')
+                value={street}
+                onChange={(e) => {
+                  setStreet(e.target.value)
+                  setStreetErr('')
                 }}
+                error={streetErr ? true : false}
+                helperText={streetErr}
               ></Input>
             </Grid>
           </Grid>
@@ -320,8 +378,7 @@ const HomeProfiles = () => {
       </Box>
     )
   }
- 
- 
+
   const ActionsModal = () => {
     return (
       <Button variant='outlined' onClick={createNewHouse}>
@@ -329,7 +386,7 @@ const HomeProfiles = () => {
       </Button>
     )
   }
- 
+
   const editHome = async (id: string) => {
     const res = await getHouseById({ id })
     const data = res.data.data
@@ -340,11 +397,12 @@ const HomeProfiles = () => {
     setIdWard(data.ward.code)
     setIdDistrict(data.district.code)
 
-    if(data.image) setInitImg(`data:image;base64,${data.image.base64String}`)
-    setValue('houseName', data.houseName)
-    setValue('floorArea', data.floorArea)
-    setValue('houseNo', data.houseNo)
-    setValue('street', data.street)
+    if (data.image) setInitImg(`data:image;base64,${data.image.base64String}`)
+    setHouseName(data.houseName)
+    setFloorArea(data.floorArea)
+    setHouseNo(data.houseNo)
+    setStreet(data.street)
+
     setOpen(true)
   }
 
@@ -358,10 +416,14 @@ const HomeProfiles = () => {
 
   return (
     <Box>
-      <Button variant='outlined' sx={{ mb: '15px' }} onClick={() => {
-        clearData()
-        setOpen(true)
-        }}>
+      <Button
+        variant='outlined'
+        sx={{ mb: '15px' }}
+        onClick={() => {
+          clearData()
+          setOpen(true)
+        }}
+      >
         Thêm mới +
       </Button>
       <ListHomeCard listHouses={listHouse} edit={editHome} remove={removeHome} />
