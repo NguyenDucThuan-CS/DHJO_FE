@@ -15,6 +15,7 @@ import Loading from '../../components/Loading/Loading'
 import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import { FilterIcon } from '../../assets/svg/FilterIcon'
 import Typography from '@mui/material/Typography'
+import  { toast } from 'react-toastify'
 export interface IPost {
   id: string
   createdAt: {
@@ -169,12 +170,10 @@ const Helper = () => {
     setIsLoading(true)
     applyPost(activePost)
       .then(() => {
-        setText('Đăng kí giúp việc thành công')
-        setOpen(true)
+        toast.success('Đăng kí giúp việc thành công')
       })
-      .catch(() => {
-        setText('Đã có lỗi xảy ra vui long thử lại')
-        setOpen(true)
+      .catch((err) => {
+        toast.error(err.response.data.message)
       })
       .finally(() => {
         setIsLoading(false)

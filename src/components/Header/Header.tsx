@@ -17,9 +17,7 @@ import { deteletAllCookie } from '../../utils/cookie'
 import Notification from '../Notification/Notification'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { doClearNotiNum } from '../../redux/slice/notification'
 import logoImg from '../../assets/img/logo.png'
-import { readCookie } from '../../utils/cookie'
 import { doOpenNoti, doCloseNoti } from '../../redux/slice/notification'
 import { Modal } from '../Modal/Modal'
 import DetailPost from '../../pages/Helpers/DetailPost'
@@ -29,7 +27,7 @@ import { toast } from 'react-toastify'
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
-  //const [openNoti, setOpenNoti] = React.useState<boolean>(false)
+
 
   const { numNoti } = useSelector((state: any) => state.notiReducer)
   const { open: openNoti } = useSelector((state: any) => state.notiReducer)
@@ -103,9 +101,11 @@ function Header() {
 
   const pagesForHelper = [
     { name: 'Trang chủ', to: '/helper' },
+    { name: 'Hồ sơ của bạn', to: '/helper/profiles' },
     { name: 'Hoạt động', to: '/helper/activitive' },
     { name: 'Lịch làm việc', to: '/helper/schedules' }
   ]
+
   const renderContentHeader = () => {
     if (window.location.href.split('/').includes('owner')) {
       return pagesForOwner
@@ -142,7 +142,6 @@ function Header() {
        toast.success('Đăng kí giúp việc thành công')
       })
       .catch((err) => {
-        console.log('err', err)
         toast.error(err.response.data.message)
       })
       .finally(() => {

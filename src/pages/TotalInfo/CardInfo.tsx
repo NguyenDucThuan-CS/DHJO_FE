@@ -4,18 +4,19 @@ const CardInfo = ({title, color, number}:any) => {
     return  <Box
     sx={{
       background: color,
-      width: 'auto',
-      height: '100px',
+      width: '200px',
+      height: '200px',
       borderRadius: '5px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      
+      textAlign: 'left'
     }}
   >
     <Box sx = {{padding: '20px'}}>
-    <p style={{ color: 'white', fontSize: '20px'}}>{title}</p>
     <p style = {{fontSize: '50px', color: 'white', fontWeight: 'bold'}}>{number}</p>
+    <p style={{ color: 'white', fontSize: '18px'}}>{title}</p>
+   
     </Box>
     
   </Box>

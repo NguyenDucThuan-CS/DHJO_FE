@@ -52,7 +52,64 @@ const HomeProfiles = () => {
   const [text, setText] = useState<string>('')
   const { register, getValues, setValue } = useForm<FormData>()
   const [img, setImg] = useState<any>('')
+  
 
+  const [nameErr, setNameErr] = useState<string>('')
+  const [houseTypeErr, setHouseTypeErr] = useState<string>('')
+  const [floorAreaErr, setFloorAreaErr] = useState<string>('')
+  const [provinceErr, setProvineErr] = useState<string>('')
+  const [districtErr, setDistrictErr] = useState<string>('')
+  const [wardErr, setWardErr] = useState<string>('')
+  const [houseNoErr, setHouseErr] = useState<string>('')
+  const [streetErr, setStreetErr] = useState<string>('')
+
+  const validate = () => {
+    let isValid = true;
+    if(!getValues().houseName) {
+      isValid = false;
+      setNameErr('Vui lòng nhập tên nhà')
+    }
+
+    if(idHouse == '0') {
+      isValid = false;
+      setHouseTypeErr('Vui lòng nhập loại nhà')
+    }
+
+    if(!getValues().floorArea) {
+      isValid = false;
+      setFloorAreaErr('Vui lòng nhập diện tích sàn')
+    }
+
+    
+    
+    if(idProvince == '0') {
+      isValid = false;
+      setProvineErr('Vui lòng chọn tỉnh')
+    }
+
+    if(idDistrict == '0') {
+      isValid = false;
+      setDistrictErr('Vui lòng chọn quận/huyện')
+    }
+
+    if(idWard == '0') {
+      isValid = false;
+      setWardErr('Vui lòng chọn phường/xã')
+    }
+
+    if(!getValues().houseNo) {
+      isValid = false;
+      setHouseErr('Vui lòng chọn số nhà')
+    }
+
+     if(!getValues().street) {
+      isValid = false;
+      setHouseErr('Vui lòng chọn tên đường')
+    }
+
+    return isValid
+
+  }
   useEffect(() => {
     setIsLoading(true)
     Promise.all([getAllProvine(), getHouseType(), getHousesOfOwer()]).then((res) => {
@@ -117,11 +174,15 @@ const HomeProfiles = () => {
         setIsLoading(false)
         if(!img) {
           toast.success('Cập nhật căn nhà thành công')
-          setOpen(false)
+          getHousesOfOwer().then((res) => setListHouses(res.data.data))
+          setOpenPopup(false)
+          //setOpen(false)
         }
         if(img) updateHouseImg({id: res.data.data.id, base64String: await toBase64(img)}).then((res) => {
           toast.success('Cập nhật căn nhà thành công')
-          setOpen(false)
+          getHousesOfOwer().then((res) => setListHouses(res.data.data))
+          setOpenPopup(false)
+          //setOpen(false)
         })
        
       })
@@ -142,6 +203,8 @@ const HomeProfiles = () => {
     setValue('houseNo', '')
     setValue('street', '')
     setIdHouse(null)
+    setImg('')
+    setInitImg('')
   }
 
   const agree = () => {
@@ -287,14 +350,18 @@ const HomeProfiles = () => {
 
   const removeHome = (id: string) => {
     deleteHouseById({ houseId: id }).then(() => {
-      setText('Xóa căn nhà thành công')
-      setOpenPopup(true)
+      toast.success('Xóa căn nhà thành công')
+      getHousesOfOwer().then((res) => setListHouses(res.data.data))
+      setOpenPopup(false)
     })
   }
 
   return (
     <Box>
-      <Button variant='outlined' sx={{ mb: '15px' }} onClick={() => setOpen(true)}>
+      <Button variant='outlined' sx={{ mb: '15px' }} onClick={() => {
+        clearData()
+        setOpen(true)
+        }}>
         Thêm mới +
       </Button>
       <ListHomeCard listHouses={listHouse} edit={editHome} remove={removeHome} />

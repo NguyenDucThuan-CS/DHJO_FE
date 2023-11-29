@@ -16,7 +16,10 @@ import ListHelperCard from '../FavoriteHelpers/ListHelperCard/ListHelperCard'
 import Nofind from '../../components/NoFind/NoFind'
 import { doClearInfo } from '../../redux/slice'
 import { useDispatch } from 'react-redux'
-
+import { Modal } from '../../components/Modal/Modal'
+import DetailPost from '../Helpers/DetailPost'
+import { chooseHelper, ownerGetPostById } from '../../apis/post.api'
+import { toast } from 'react-toastify'
 
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
@@ -88,13 +91,63 @@ const TotalInfo = () => {
   const navigate = useNavigate()
   const [tab, setTab] = useState(0)
   const [dashboardInfo, setDasboardInfo] = useState<any>()
+ const [openModalPost, setOpenModalPost] = useState<any>(false)
+ const [post, setPost] = useState<any>()
+
+ const handleClick = (id: string) => {
+  ownerGetPostById(id).then((res) => {
+    setPost(res.data.data)
+    setOpenModalPost(true)
+  })
+ }
   const dispatch = useDispatch()
   useEffect(() => {
     getDashboardInfo().then((res) => {
       setDasboardInfo(res.data.data)
     })
   }, [])
+  const choose = (id: string) => {
+    chooseHelper(post.id, id)
+      .then((res) => {
+        toast.success('Chọn người giúp việc thành công')
+      })
+      .finally(() => {
+        setOpenModalPost(false)
+      })
+  }
   
+
+  function WaitingNews(list: any) {
+    if (!list.list?.length) return <Nofind />
+    return (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
+          <TableHead>
+            <TableRow>
+              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Tin đăng</TableCell>
+              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Tên căn nhà</TableCell>
+              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Ngày làm việc</TableCell>
+              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Người giúp việc đăng kí</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {list.list.map((item: any) => (
+              <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} onClick = {() => {
+                handleClick(item.id)
+              }}>
+                <TableCell component='th' scope='row' align='center'>
+                  {item.content}
+                </TableCell>
+                <TableCell align='center'>{item.house.houseName}</TableCell>
+                <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
+                <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )
+  }
   return (
     <>
       <Box sx={{ width: '80%', margin: 'auto' }}>
@@ -137,6 +190,20 @@ const TotalInfo = () => {
           <AddIcon />
         </Fab>
       </Box>
+
+      <Modal
+        open={openModalPost}
+        handleClose={() => setOpenModalPost(false)}
+        Content={
+          <DetailPost
+            choose={choose}
+            isHideBtn={true}
+            listHelper={post?.helpers}
+            post={post}
+            isHideFooter={false}
+          ></DetailPost>
+        }
+      />
     </>
   )
 }

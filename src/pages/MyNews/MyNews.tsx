@@ -24,6 +24,8 @@ import AddIcon from '@mui/icons-material/Add';
 import Nofind from '../../components/NoFind/NoFind'
 import { doClearInfo } from '../../redux/slice'
 import { useLocation } from 'react-router-dom'
+
+
 const MyNews = () => {
   const { isFromMd } = useResposive()
   const search = useLocation().search;
@@ -54,9 +56,19 @@ const MyNews = () => {
 
     deletePost(activePost)
       .then((res) => {
-        setListPost((prev) => prev.filter((item) => item.id !== activePost))
+        getAllOwnerPost().then((res) => {
+          setListPost(res.data.data.content[0])
+          setActivePost(res.data.data.content[0][0].id) 
+        })
+        toast.success('Xóa bài đăng thành công')
       })
+      .catch((err) => {
+        toast.error('Xóa bài thất bại')
+      })
+
+
       .finally(() => {
+       
         setIsLoading(false)
       })
   }
