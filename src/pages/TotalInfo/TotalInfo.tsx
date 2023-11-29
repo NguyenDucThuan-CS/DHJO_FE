@@ -23,7 +23,7 @@ import { toast } from 'react-toastify'
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
     <>
-      <div><img src = {`data:image;base64,${helper.base64Image}`} style={{marginRight:'5px',width:'50px', height: '50px'}}/>{helper.name}</div>
+      <div style = {{display: 'flex', alignItems:'center', justifyContent:'center'}}><img src = {`data:image;base64,${helper.base64Image}`} style={{marginRight:'5px',width:'50px', height: '50px'}}/>{helper.name}</div>
     </>
   ))
 }
@@ -68,19 +68,19 @@ export function FinishedNews(list: any) {
             <TableCell align='center'>Tên căn nhà</TableCell>
             <TableCell align='center'>Ngày làm việc</TableCell>
             <TableCell align='center'>Người giúp việc đăng kí</TableCell>
-            <TableCell align='center'>Đánh giá người giúp việc</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell component='th' scope='row'>
-              {''}
-            </TableCell>
-            <TableCell align='center'>{''}</TableCell>
-            <TableCell align='center'>{''}</TableCell>
-            <TableCell align='center'>{''}</TableCell>
-            <TableCell align='center'>{''}</TableCell>
-          </TableRow>
+        {list.list.map((item: any) => (
+            <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell component='th' scope='row' align='center'>
+                {item.content}
+              </TableCell>
+              <TableCell align='center'>{item.house.houseName}</TableCell>
+              <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
+              <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
@@ -147,12 +147,44 @@ const TotalInfo = () => {
       </TableContainer>
     )
   }
+
+  function FinishedNews(list: any) {
+    if (!list.list?.length) return <Nofind />
+    return (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
+          <TableHead>
+            <TableRow>
+              <TableCell align='center'>Tin đăng</TableCell>
+              <TableCell align='center'>Tên căn nhà</TableCell>
+              <TableCell align='center'>Ngày làm việc</TableCell>
+              <TableCell align='center'>Người giúp việc đăng kí</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          {list.list.map((item: any) => (
+              <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} onClick = {() => {
+                handleClick(item.id)
+              }}>
+                <TableCell component='th' scope='row' align='center'>
+                  {item.content}
+                </TableCell>
+                <TableCell align='center'>{item.house.houseName}</TableCell>
+                <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
+                <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )
+  }
   return (
     <>
       <Box sx={{ width: '80%', margin: 'auto' }}>
         <Stack gap={'20px'} direction={'row'} flexWrap={'wrap'} justifyContent={'space-between'}>
           <CardInfo title={'Tổng số tin đăng trong tháng'} color='#fbc733' number={dashboardInfo?.totalPostNumber} />
-          <CardInfo title={'Tổng tiền đã chi trong tháng'} color='#4286f4' number={dashboardInfo?.totalFeeSpent} />
+          <CardInfo title={'Tổng tiền đã chi trong tháng'} color='#4286f4' number={dashboardInfo?.totalFeeSpent} isMoney = {true}/>
           <CardInfo title={'Tin chờ xác nhận'} color='#eb4235' number={dashboardInfo?.confirmingPostsNumber} />
           <CardInfo title={'Tin chờ đánh giá'} color='#59b76e' number={dashboardInfo?.finishedPostsNumber} />
           <CardInfo title={'Tin sắp quá hạn'} color='#6f3ad8' number={dashboardInfo?.expiringPostsNumber} />
@@ -169,7 +201,7 @@ const TotalInfo = () => {
           {tab === 0 ? (
             <WaitingNews list={dashboardInfo?.posts?.filter((item: any) => item.applied === true)} />
           ) : (
-            <FinishedNews list={dashboardInfo?.posts?.filter((item: any) => item.comfirmed === true)} />
+            <FinishedNews list={dashboardInfo?.posts?.filter((item: any) => item.finished === true)} />
           )}
         </Box>
 

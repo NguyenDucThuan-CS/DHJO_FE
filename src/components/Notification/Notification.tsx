@@ -15,11 +15,6 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
   const dispatch = useDispatch()
-  // const [openModalPost, setOpenModalPost] = useState<any>(false)
-  // const [openModalPostHelper, setOpenModalPostHelper] = useState<any>(false)
-  // const [post, setPost] = useState<any>()
-  // const [postForHelper, setPostForHelper] = useState<any>()
-  
 
   const handleClose = () => {
     dispatch(doCloseNoti({}))
@@ -32,16 +27,7 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
       setList([...res.data.data.content[0]])
     })
   }, [pageNo])
-  // const renderTab = (item: any) => {
-  //   if (!item.applied && !item.confirmed && !item.finished && !item.overdue) return 1
-  //   if (item.applied === true) return 2
-  //   if (item.confirmed === true) return 3
-  //   if (item.finished === true) return 4
-  //   if (item.overdue === true) return 5
-
-  //   return 0
-  // }
- 
+  
   const renderContent = (item: any) => {
     const handleClick = () => {
       dispatch(doCloseNoti({}))

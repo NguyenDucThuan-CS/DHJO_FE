@@ -9,13 +9,13 @@ import dayjs from 'dayjs'
 
 const currentDate = dayjs(new Date()).format('YYYY-MM-DD')
 
-const renderHourMinute = (number:number) => {
+export const renderHourMinute = (number:number) => {
     if(number < 10) return `0${number}`
     return number
 }
 
 
-const renderDate = (date:any, time:any) => {
+export const renderDate = (date:any, time:any) => {
     return `${date.year}-${date.month}-${date.day}T${renderHourMinute(time.hour)}-${renderHourMinute(time.minute)}`
 }
 

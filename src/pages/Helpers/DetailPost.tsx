@@ -12,6 +12,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { markPostAsFinished } from '../../apis/post.api'
 import { useEffect, useRef } from 'react'
 import { toast } from 'react-toastify'
+import { renderDate } from '../ScheduleToday/ScheduleToday'
 // interface Props {
 //   post?: IPost
 //   onClick?: () => void
@@ -67,8 +68,9 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
             </Typography>
             <Typography sx={{ marginBottom: '20px' }}>
               <CalendarMonthIcon fontSize='inherit' />
-              {`${post?.startTime.hour % 10}:${post?.startTime.minute}${post?.startTime.hour > 12 ? 'PM' : 'AM'}:${post
-                ?.startDate.day}/${post?.startDate.month}/${post?.startDate.year}`}
+              {/* {`${post?.startTime.hour % 10}:${post?.startTime.minute}${post?.startTime.hour > 12 ? 'PM' : 'AM'}:${post
+                ?.startDate.day}/${post?.startDate.month}/${post?.startDate.year}`} */}
+                {renderDate(post.startDate, post.startTime)}
             </Typography>
 
             <Typography>

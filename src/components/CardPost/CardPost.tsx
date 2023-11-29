@@ -11,7 +11,7 @@ import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
 import Chip from '@mui/material/Chip'
 import { ReactNode } from 'react'
-
+import { renderDate } from '../../pages/ScheduleToday/ScheduleToday'
 const MySpan = styled('span')({
   fontWeight: 'bolder',
   fontSize: '20px'
@@ -53,9 +53,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
               </Typography>
               <Typography sx={{ fontSize: '14px' }}>
                 <CalendarMonthIcon fontSize='inherit' />
-                {`${post.startTime.hour % 12}:${post.startTime.minute}${post.startTime.hour > 12 ? 'PM' : 'AM'}${
-                  post.startDate.day
-                }/${post.startDate.month}/${post.startDate.year}`}
+                {renderDate(post.startDate, post.startTime)}
               </Typography>
             </Stack>
             <Typography sx={{ fontSize: '14px' }}>

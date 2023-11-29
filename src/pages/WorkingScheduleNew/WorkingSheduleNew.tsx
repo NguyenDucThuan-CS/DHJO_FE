@@ -56,7 +56,7 @@ class WorkingScheduleNew extends React.Component {
     return ( 
       <Box>
         <Paper>
-          <Scheduler height={600} data={data}>
+          <Scheduler height={600} data={data} >
             <ViewState
               currentDate={currentDate}
               currentView={currentView}
@@ -71,7 +71,7 @@ class WorkingScheduleNew extends React.Component {
             <ViewSwitcher />
             <TodayButton />
           </Scheduler>
-        </Paper>
+      </Paper>
       </Box>
     )
   }
@@ -97,7 +97,6 @@ class WorkingScheduleNew extends React.Component {
     })
   }
   currentDateChange = (currentDate: any) => {
-    console.log(currentDate)
     let currentView = this.state.currentView
     let range = this.getRange(currentDate, currentView)
     this.setState({
