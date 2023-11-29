@@ -120,13 +120,13 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
     }
   },[startDate, endDate])
   
-  useEffect(() => {
-    if(startDate) {
-      if(startDate < new Date()) {
-        setStartDateError('Chọn ngày làm việc phù hợp')
-      }
-    }
-  }, [startDate])
+  // useEffect(() => {
+  //   if(startDate) {
+  //     if(startDate < new Date()) {
+  //       setStartDateError('Chọn ngày làm việc phù hợp')
+  //     }
+  //   }
+  // }, [startDate])
 
 
   const handleChange = () => {
@@ -152,7 +152,11 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
     if (!startDate) {
       setStartDateError('Vui lòng nhập ngày làm việc')
     }
-
+    if(startDate) {
+      if(startDate < new Date()) {
+        setStartDateError('Chọn ngày làm việc phù hợp')
+      }
+    }
     if (!workTime) {
       setWorkTimeError('Vui lòng nhập thời gian làm việC')
     }

@@ -92,7 +92,7 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
           background: 'white',
           boxShadow: `1px 2px 5px 0px rgba(0,0,0,0.75);`,
           color: 'black',
-          maxHeight: '1000px',
+          maxHeight: '500px',
           overflowY: 'scroll',
           overflowX: 'hidden'
         }}

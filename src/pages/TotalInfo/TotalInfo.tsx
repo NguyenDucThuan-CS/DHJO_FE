@@ -14,6 +14,9 @@ import { useState, useEffect } from 'react'
 import getDashboardInfo from '../../apis/dashboard.api'
 import ListHelperCard from '../FavoriteHelpers/ListHelperCard/ListHelperCard'
 import Nofind from '../../components/NoFind/NoFind'
+import { doClearInfo } from '../../redux/slice'
+import { useDispatch } from 'react-redux'
+
 
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
@@ -85,7 +88,7 @@ const TotalInfo = () => {
   const navigate = useNavigate()
   const [tab, setTab] = useState(0)
   const [dashboardInfo, setDasboardInfo] = useState<any>()
-
+  const dispatch = useDispatch()
   useEffect(() => {
     getDashboardInfo().then((res) => {
       setDasboardInfo(res.data.data)
@@ -125,7 +128,10 @@ const TotalInfo = () => {
       </Box>
       <Box
         sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent: 'flex-end' }}
-        onClick={() => navigate('/owner/create-news')}
+        onClick={() => {
+          navigate('/owner/create-news')
+          dispatch(doClearInfo({}))
+        }}
       >
         <Fab color='primary' aria-label='add'>
           <AddIcon />

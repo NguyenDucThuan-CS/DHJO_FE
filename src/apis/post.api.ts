@@ -113,7 +113,7 @@ export const chooseHelper = (postId: string, helperId: string) => {
 
 export const getPostHelperAll = () => {
   return http.get(`${url}/helper/all`, {
-    params: { pageNo: 0, pageSize: 20, sortBy: 'created_at', sortDir: 'desc' }
+    params: { pageNo: 0, pageSize: 100, sortBy: 'created_at', sortDir: 'desc' }
   })
 }
 

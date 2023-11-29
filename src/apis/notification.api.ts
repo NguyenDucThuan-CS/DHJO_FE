@@ -7,7 +7,7 @@ export const getNotification = (pageNo:number) => {
     return http.get(url, {
         params: {
             pageNo: pageNo,
-            pageSize: 10,
+            pageSize: 100,
             sortBy: 'created_at',
             sortDir: 'desc'
         }

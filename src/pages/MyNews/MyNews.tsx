@@ -270,8 +270,8 @@ const MyNews = () => {
                       toast.success('Xác nhận thành công')
                       getAllOwnerPosts()
                     })
-                    .catch(() => {
-                      toast.error('Xác nhận thất bại')
+                    .catch((err) => {
+                      toast.error(err.response.data.message)
                     })
                   }
                   
