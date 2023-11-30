@@ -45,6 +45,7 @@
   font-weight: bolder;
   padding: 0.5rem 0rem 0rem 0.5rem;
 }
+
 @media screen and (max-width: 780px) {
   .container {
     position: relative;

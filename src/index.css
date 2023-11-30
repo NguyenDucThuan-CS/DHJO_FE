@@ -13,6 +13,10 @@ html {
   font-family: 'Roboto';
   color: '#172530'
 }
+.css-1i9wt8r-MuiCardContent-root:last-child {
+  padding-bottom: 0 !important;
+}
+
 
 
 @font-face {

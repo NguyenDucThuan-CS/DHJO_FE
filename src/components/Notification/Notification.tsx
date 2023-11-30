@@ -87,7 +87,7 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
         <ul className='notificationsbtn nav navbar-nav navbar-right'  ref = {ref}>
           <div id='notification-container' className='dropdown-menu' role='menu' aria-labelledby='drop3'>
             <section className='panel'>
-              <header className='panel-heading' style={{ fontSize: '17px', fontWeight: 'bold', padding: '20px' }}>
+              <header className='panel-heading' style={{ fontSize: '20px', fontWeight: 'bold', padding: '20px' }}>
                 Thông báo
               </header>
               <div id='notification-list' className='list-group list-group-alt'>
@@ -98,7 +98,7 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
                         <div
                           className='activity-item'
                           key={index}
-                          style={{ background: item.read ? 'unset' : '#f3f5f7', borderTop: '1px solid #f5f5f5' }}
+                          style={{ background: item.read ? 'unset' : '#cfdbe6', borderTop: '1px solid #f5f5f5' }}
                         >
                           {' '}
                           <i className='fa fa-shopping-cart text-success'></i> {renderContent(item)}
