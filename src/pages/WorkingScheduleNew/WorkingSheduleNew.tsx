@@ -7,7 +7,6 @@ import {
   DayView,
   Toolbar,
   Appointments,
-  AppointmentFormProps,
   AppointmentTooltip,
   DateNavigator,
   ViewSwitcher,
@@ -21,9 +20,11 @@ import { helperGetPostById } from '../../apis/post.api'
 import { styled } from '@mui/material/styles'
 import { Grid } from '@mui/material'
 import Room from '@mui/icons-material/Room'
-import PersonIcon from '@mui/icons-material/Person';
-import PhoneIcon from '@mui/icons-material/Phone';
+import PersonIcon from '@mui/icons-material/Person'
+import PhoneIcon from '@mui/icons-material/Phone'
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 
+import './style.css'
 
 const resources = [
   {
@@ -36,6 +37,7 @@ const resources = [
   }
 ]
 const PREFIX = 'Demo'
+
 const classes = {
   icon: `${PREFIX}-icon`,
   textCenter: `${PREFIX}-textCenter`,
@@ -45,7 +47,12 @@ const classes = {
   header: `${PREFIX}-header`,
   commandButton: `${PREFIX}-commandButton`
 }
+const StyledAppointmentTooltipHeader = styled(AppointmentTooltip.Header)(() => ({
+  [`&.${classes.header}`]: {
+    padding: 0
+  }
 
+}))
 const StyledGrid = styled(Grid)(() => ({
   [`&.${classes.textCenter}`]: {
     textAlign: 'center'
@@ -70,7 +77,30 @@ const StyledPhoneIcon = styled(PhoneIcon)(({ theme: { palette } }) => ({
   }
 }))
 
-const Content = ({ children, appointmentData, appointmentResources,...restProps }: any) => {
+
+const Header = ({ children, appointmentData, ...restProps }: any) => (
+  <StyledAppointmentTooltipHeader {...restProps} appointmentData={appointmentData}>
+    <MapContainer
+      center={[appointmentData.house.coordinate.latitude, appointmentData.house.coordinate.longitude]}
+      zoom={50}
+      scrollWheelZoom={false}
+      style={{ height: '200px',width:'100%'}}
+      key={appointmentData.id}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+      />
+      <Marker position={[appointmentData.house.coordinate.latitude, appointmentData.house.coordinate.longitude]}>
+        {/* <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup> */}
+      </Marker>
+    </MapContainer>
+  </StyledAppointmentTooltipHeader>
+)
+
+const Content = ({ children, appointmentData, appointmentResources, ...restProps }: any) => {
   return (
     <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
       <Grid container alignItems='center'>
@@ -81,22 +111,26 @@ const Content = ({ children, appointmentData, appointmentResources,...restProps 
           <span>{appointmentData.location}</span>
         </Grid>
       </Grid>
-      {appointmentData.ownerName && <Grid container alignItems='center'>
-        <StyledGrid item xs={2} className={classes.textCenter}>
-          <StyledPerson className={classes.icon} />
-        </StyledGrid>
-        <Grid item xs={10}>
-          <span>{appointmentData.ownerName}</span>
+      {appointmentData.ownerName && (
+        <Grid container alignItems='center'>
+          <StyledGrid item xs={2} className={classes.textCenter}>
+            <StyledPerson className={classes.icon} />
+          </StyledGrid>
+          <Grid item xs={10}>
+            <span>{appointmentData.ownerName}</span>
+          </Grid>
         </Grid>
-      </Grid>}
-      {appointmentData.ownerPhoneNum && <Grid container alignItems='center'>
-        <StyledGrid item xs={2} className={classes.textCenter}>
-          <StyledPhoneIcon className={classes.icon} />
-        </StyledGrid>
-        <Grid item xs={10}>
-          <span>{appointmentData.ownerPhoneNum}</span>
+      )}
+      {appointmentData.ownerPhoneNum && (
+        <Grid container alignItems='center'>
+          <StyledGrid item xs={2} className={classes.textCenter}>
+            <StyledPhoneIcon className={classes.icon} />
+          </StyledGrid>
+          <Grid item xs={10}>
+            <span>{appointmentData.ownerPhoneNum}</span>
+          </Grid>
         </Grid>
-      </Grid>}
+      )}
     </AppointmentTooltip.Content>
   )
 }
@@ -142,20 +176,11 @@ class WorkingScheduleNew extends React.Component {
     })
   }
   render() {
-    const { data, currentDate, currentView, range, openModalPostHelper, postForHelper }: any = this.state
+    const { data, currentDate, currentView }: any = this.state
     return (
       <Box>
-        <Paper>
-          <Scheduler height={600} data={data}>
-            <EditingState
-              onCommitChanges={(item) => {}}
-              onEditingAppointmentChange={(item: any) => {
-                helperGetPostById(item.id).then((res) => {
-                  this.setState({ postForHelper: res.data.data })
-                  this.setState({ openModalPostHelper: true })
-                })
-              }}
-            />
+        <Paper >
+          <Scheduler height={600} data={data} >
             <ViewState
               currentDate={currentDate}
               currentView={currentView}
@@ -167,7 +192,7 @@ class WorkingScheduleNew extends React.Component {
             <DayView />
             <Appointments />
             <Resources data={resources} />
-            <AppointmentTooltip contentComponent={Content} showCloseButton />
+            <AppointmentTooltip headerComponent={Header} contentComponent={Content}  />
             <AppointmentForm visible={false} />
             <Toolbar />
             <DateNavigator />
