@@ -10,6 +10,9 @@ import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { renderDate } from '../ScheduleToday/ScheduleToday'
+import { styled } from '@mui/system'
+import WcIcon from '@mui/icons-material/Wc'
+import SchoolIcon from '@mui/icons-material/School'
 // interface Props {
 //   post?: IPost
 //   onClick?: () => void
@@ -33,10 +36,64 @@ import { renderDate } from '../ScheduleToday/ScheduleToday'
 //   }[]
 //   choose?: (id: string, flag: boolean) => void
 // }
-const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, clickRating, isConfirmBtn, onClickMarkPost }: any) => {
+const PREFIX = 'Demo'
+const classes = {
+  icon: `${PREFIX}-icon`,
+  textCenter: `${PREFIX}-textCenter`,
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  thirdRoom: `${PREFIX}-thirdRoom`,
+  header: `${PREFIX}-header`,
+  commandButton: `${PREFIX}-commandButton`
+}
+const StyledGrid = styled(Grid)(() => ({
+  [`&.${classes.textCenter}`]: {
+    textAlign: 'center'
+  }
+}))
+export const StyledAttachMoneyIcon = styled(AttachMoneyIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledCalendarIcon = styled(CalendarMonthIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledHomeIcon = styled(HomeIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledWcIcon = styled(WcIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+const DetailPost = ({
+  post,
+  onClick,
+  isHideBtn,
+  listHelper,
+  choose,
+  isHideFooter,
+  clickRating,
+  isConfirmBtn,
+  onClickMarkPost
+}: any) => {
   if (post)
     return (
-      <Box sx = {{background: 'white', padding:'15px', position:'sticky', top: 0}}>
+      <Box sx={{ background: 'white', padding: '15px', position: 'sticky', top: 0 }}>
         <Typography variant='h4' align='center'>
           {post?.title}
         </Typography>
@@ -58,22 +115,30 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
               {post?.skills.map((item: any) => <Chip key={item} label={item} sx={{ fontSize: '12px' }} />)}
             </Stack>
 
-            <Typography sx={{ marginBottom: '20px' }}>
-              <AttachMoneyIcon fontSize='inherit' />
-              {`${post?.fee} vnd/h`}
-            </Typography>
-            <Typography sx={{ marginBottom: '20px' }}>
-              <CalendarMonthIcon fontSize='inherit' />
-              {/* {`${post?.startTime.hour % 10}:${post?.startTime.minute}${post?.startTime.hour > 12 ? 'PM' : 'AM'}:${post
-                ?.startDate.day}/${post?.startDate.month}/${post?.startDate.year}`} */}
-                {renderDate(post.startDate, post.startTime)}
-            </Typography>
-
-            <Typography>
-              <HomeIcon fontSize='inherit' />
-              {`${post?.house.street} ${post?.house.ward},${post?.house.district},${post?.house.province}`}
-            </Typography>
-
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledAttachMoneyIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+              <span>{`${post.fee}vnd`}</span>
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledCalendarIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span>{renderDate(post.startDate, post.startTime)}</span>
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledHomeIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
+              </Grid>
+            </Grid>
             <Box>
               <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
               <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
@@ -110,9 +175,8 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
               Người giúp việc {post?.applied ? 'đăng kí' : 'nhận việc'}
             </Typography>
             <Grid container spacing={2}>
-              
-                {listHelper?.map((item: any) => (
-                  <Grid item xs={6}>
+              {listHelper?.map((item: any) => (
+                <Grid item xs={6}>
                   <HelperCard
                     key={item.helperId}
                     helperId={item.helperId}
@@ -127,13 +191,12 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                     hideBtn={!post?.applied}
                     rating={post.finished}
                     clickRating={clickRating}
-                    isFavourite = {post.isFavourite}
-                    img = {item.base64Image}
+                    isFavourite={post.isFavourite}
+                    img={item.base64Image}
                     //isChosen={idChosen == item.id}
                   />
-                    </Grid>
-                ))}
-            
+                </Grid>
+              ))}
             </Grid>
           </Box>
         )}

@@ -108,7 +108,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                   <StyledAttachMoneyIcon className={classes.icon} />
                 </StyledGrid>
                 <Grid item xs={10}>
-                  <span>{post.fee}</span>
+                  <span>{`${post.fee}vnd`}</span>
                 </Grid>
               </Grid>
               <Grid container alignItems='center'>
@@ -142,12 +142,9 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                   <StyledSchoolIcon className={classes.icon} />
                 </StyledGrid>
                 <Grid item xs={10}>
-               {post.preferredEducation}
+               {post.preferredEducation ?post.preferredEducation:'Không yêu cầu'}
                 </Grid>
               </Grid>
-            
-
-            
             <Stack direction='row' spacing={1}>
               {post.skills.map((item: any) => (
                 <Chip
