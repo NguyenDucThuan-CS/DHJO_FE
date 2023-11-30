@@ -76,7 +76,8 @@ export default function HelperCard({
             skill: skills,
             phone: phone,
             name: name,
-            overallRating: overallRating
+            overallRating: overallRating,
+            img: img
           })
         )
       }}

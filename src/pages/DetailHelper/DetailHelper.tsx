@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 const DetailHelper = () => {
   const [tab, setTab] = useState<number>(1)
   const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
+  console.log('jksjs', helperInfo )
   const renderNumberStars = () => {
     if (helperInfo.overallRating.avgScore === -1) {
       return 3
@@ -27,11 +28,13 @@ const DetailHelper = () => {
             component='img'
             sx={{
               width: '100%',
-              height: '40%'
+              height: '100px'
             }}
-            alt='The house from the offer.'
-            src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2'
+            alt='img'
+            src={`data:image;base64,${helperInfo.img}`}
           />
+          <ListStar number={renderNumberStars() + 1} />
+            <span style={{ padding: '5px' }}>{helperInfo.name}</span>
         </Grid>
         <Grid item xs={8}>
           <Stack

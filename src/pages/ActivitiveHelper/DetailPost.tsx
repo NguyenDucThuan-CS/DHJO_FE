@@ -12,7 +12,7 @@ import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, contentBtn }: any) => {
   if (post)
     return (
-      <Box style = {{background: 'white', padding: '15px'}}>
+      <Box style = {{background: 'white', padding: '15px',position:'sticky', top: 0}}>
         <Typography variant='h4' align='center'>
           {post?.title}
         </Typography>

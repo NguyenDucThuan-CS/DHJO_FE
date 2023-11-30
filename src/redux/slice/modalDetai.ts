@@ -15,8 +15,10 @@ const initialState = {
     overallRating: {
       avgScore: -1,
       typicalRatings: []
-    }
-  }
+    },
+    img: ''
+  },
+  
 }
 
 const slice = createSlice({
@@ -24,7 +26,6 @@ const slice = createSlice({
   initialState: initialState,
   reducers: {
     doOpenModal(state, action) {
-      console.log('123')
       state.open = true
     },
     doCloseModal(state, action) {
@@ -60,7 +61,8 @@ const slice = createSlice({
         overallRating: {
           avgScore: -1,
           typicalRatings: []
-        }
+        },
+        img: ''
       }
     }
   }

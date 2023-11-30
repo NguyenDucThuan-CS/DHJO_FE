@@ -21,45 +21,6 @@ const ModalRatingHelper = ({ open }: any) => {
   const handleClose = () => {
     dispatch(doCloseModalRating({}))
   }
-  //const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-
-  // const ContentRating = () => {
-  //   return (
-  //     <Box>
-  //       <p style={{ marginTop: '10px', marginBottom: '10px', fontSize: '17px', fontWeight: 'bold' }}>
-  //         Đánh giá chất lượng ngv của bạn
-  //       </p>
-  //       <ListStar number={numStar + 1} onClick={setNumStar} isSmallStar={false} />
-  //       <p style={{ marginTop: '10px', marginBottom: '10px', fontWeight: 'bold' }}>Đánh giá chung</p>
-  //       <Textarea value={valueArea} onChange={setValueArea} />
-  //     </Box>
-  //   )
-  // }
-  // const Actions = () => {
-  //   return (
-  //     <Button
-  //       onClick={() => {
-  //         rateHelper(postRatingId, {
-  //           score: numStar + 1,
-  //           comment: valueArea
-  //         })
-  //           .then(() => {
-  //             toast('Đánh giá người giúp việc thành công')
-  //           })
-  //           .then(() => {
-  //             toast('Đã có lỗi xảy ra')
-  //           })
-  //           .finally(() => {
-  //             dispatch(doCloseModalRating({}))
-  //           })
-  //       }}
-  //     >
-  //       Đánh giá
-  //     </Button>
-  //   )
-  // }
   const dispatch = useDispatch()
   const style = {
     position: 'absolute' as 'absolute',

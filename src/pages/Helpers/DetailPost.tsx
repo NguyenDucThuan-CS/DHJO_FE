@@ -37,7 +37,6 @@ import { renderDate } from '../ScheduleToday/ScheduleToday'
 //   choose?: (id: string, flag: boolean) => void
 // }
 const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter, clickRating, isConfirmBtn, onClickMarkPost }: any) => {
-  //console.log("hyosung", listHelper)
   if (post)
     return (
       <Box sx = {{background: 'white', padding:'15px', position:'sticky', top: 0}}>
