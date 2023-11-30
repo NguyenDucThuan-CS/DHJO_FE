@@ -77,13 +77,11 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
         border: `${active ? '1px solid #33c172' : '0px solid red'}`,
         boxShadow: `${active ? '0 10px 30px rgba(14,166,59,.2)' : 'unset'}`,
         position: 'relative',
-        paddingRight: '10px',
-        paddingBottom: '10px'
       }}
       onClick={onClick}
     >
       <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}
-      <CardContent>
+      <CardContent sx = {{padding:0}}>
         <Grid container spacing={2}>
           <Grid item xs={5} sm={5} md={5}>
             <Box
@@ -102,7 +100,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
           </Grid>
 
           <Grid item xs={7} sm={7} md={7}>
-            <Typography>
+            <Typography sx = {{marginTop:'15px'}}>
               <MySpan>{post.title}</MySpan>
             </Typography>
 

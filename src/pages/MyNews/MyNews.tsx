@@ -177,33 +177,33 @@ const MyNews = () => {
   const renderNotePost = (post: IPost) => {
     if (post.applied)
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'red'} >
+        <Box position={'absolute'} bottom = {10} right = {10}  fontSize={'14px'} fontStyle={'italic'} color={'red'} >
           Tin chờ xác nhận
         </Box>
       )
     if (post.confirmed) {
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'green'}>
+        <Box position={'absolute'} bottom = {10} right = {10}  textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'green'}>
           Tin đã xác nhận
         </Box>
       )
     }
     if (post.finished) {
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'orange'}>
+        <Box position={'absolute'} bottom = {10} right = {10}  textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'orange'}>
           Tin đã hoàn thành
         </Box>
       )
     }
     if (post.overdue) {
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'blue'}>
+        <Box position={'absolute'} bottom = {10} right = {10}  textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'blue'}>
           Tin đã quá hạn
         </Box>
       )
     }
     return (
-      <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+      <Box position={'absolute'} bottom = {10} right = {10}  textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
         Tin mới đăng
       </Box>
     )
