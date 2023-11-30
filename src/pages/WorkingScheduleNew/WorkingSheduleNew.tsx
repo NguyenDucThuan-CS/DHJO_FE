@@ -184,7 +184,7 @@ class WorkingScheduleNew extends React.Component {
               onCurrentViewNameChange={this.currentViewChange}
             />
 
-            <WeekView startDayHour={6} endDayHour={22} name='Week' cellDuration={120}/>
+            <WeekView startDayHour={6} endDayHour={24} name='Week' cellDuration={60}/>
             <DayView />
             <Appointments />
             <Resources data={resources} />

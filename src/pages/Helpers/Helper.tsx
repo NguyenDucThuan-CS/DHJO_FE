@@ -163,7 +163,7 @@ const Helper = () => {
       setActivePost(res.data.data.content[0][0].id)
     })
   }
-  const { isFromLg, isFromMd } = useResposive()
+  const { isFromLg } = useResposive()
 
   const helperApplyPost = () => {
     setIsLoading(true)
@@ -203,7 +203,6 @@ const Helper = () => {
           district: postForTask.house.district.name,
           province: postForTask.house.province.name
         },
-        //house: postForTask.house,
         skills: postForTask.skills?.map((item: any) => item.skillName),
         recurringPattern: postForTask.recurringPattern
       }

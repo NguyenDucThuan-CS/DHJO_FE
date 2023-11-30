@@ -162,7 +162,7 @@ const ScheduleToday = () => {
     <Paper>
       <Scheduler data={tasks}>
         <ViewState currentDate={currentDate} />
-        <DayView startDayHour={6} endDayHour={24} cellDuration={120}/>
+        <DayView startDayHour={6} endDayHour={24} cellDuration={60}/>
         <Appointments />
         
         <Resources data={resources} />

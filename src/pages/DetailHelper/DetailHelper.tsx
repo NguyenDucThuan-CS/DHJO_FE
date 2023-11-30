@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import { ListStar } from '../../components/ListStar/ListStar'
 import { useState } from 'react'
 import { Chip } from '@mui/material'
-import Textarea from '../../components/TextArea/TextArea'
+
 
 import { useSelector } from 'react-redux'
 const DetailHelper = () => {
