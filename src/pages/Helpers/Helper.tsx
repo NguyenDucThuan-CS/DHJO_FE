@@ -169,7 +169,7 @@ const Helper = () => {
     setIsLoading(true)
     applyPost(activePost)
       .then(() => {
-       toast.success('Nhận việc thành công')
+        toast.success('Nhận việc thành công')
       })
       .catch((err) => {
         toast.error(err.response.data.message)
@@ -209,47 +209,48 @@ const Helper = () => {
   }
   return (
     <Box>
-      <Stack direction={'row'} mb = {2}spacing={2} alignItems={'center'}>
-        <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
-        <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
-        <SelectDropdown list={distanceOptions} id={distanceOption} name={'Khoảng cách'} setId={setDistanceOption} />
-        <Box onClick={() => getFilterActivePost()}>
-          <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>{'ffff'}</Typography>
-          <FilterIcon />
-        </Box>
-      </Stack>
-
-      <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
+      <Grid container spacing={2}>
         {
-          <Grid item xs={4} lg={2}>
+          <Grid item xs={2}>
             <ScheduleToday />
           </Grid>
         }
-        <>
-          <Grid item xs={12} md={8} lg={4}>
-            <Stack direction={'column'} gap={'5px'}>
-              {listPost.length === 0 && <Nofind />}
-              {listPost?.map((item, index) => (
-                <CardPost
-                  key={`${index}${item.id}`}
-                  post={item}
-                  active={item.id === activePost}
-                  onClick={() => setActivePost(item.id)}
-                />
-              ))}
-            </Stack>
-          </Grid>
-          {isFromLg && listPost.length && (
-            <Grid item xs={6} lg={6}>
-              <DetailPost
-                post={listPost.find((item) => item.id === activePost)}
-                onClick={() => helperApplyPost()}
-                isHideFooter={true}
+
+        <Grid item md={4}>
+          <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
+            <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
+            <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
+            <SelectDropdown list={distanceOptions} id={distanceOption} name={'Khoảng cách'} setId={setDistanceOption} />
+            <Box onClick={() => getFilterActivePost()}>
+              <Typography sx={{ textAlign: 'left', width: '100%', fontWeight: 'bold', opacity: 0 }}>
+                {'ffff'}
+              </Typography>
+              <FilterIcon />
+            </Box>
+          </Stack>
+          <Stack direction={'column'} gap={'5px'}>
+            {listPost.length === 0 && <Nofind />}
+            {listPost?.map((item, index) => (
+              <CardPost
+                key={`${index}${item.id}`}
+                post={item}
+                active={item.id === activePost}
+                onClick={() => setActivePost(item.id)}
               />
-            </Grid>
-          )}
-        </>
+            ))}
+          </Stack>
+        </Grid>
+        {isFromLg && listPost.length && (
+          <Grid item xs={6} lg={6}>
+            <DetailPost
+              post={listPost.find((item) => item.id === activePost)}
+              onClick={() => helperApplyPost()}
+              isHideFooter={true}
+            />
+          </Grid>
+        )}
       </Grid>
+
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal
         open={openTask}
