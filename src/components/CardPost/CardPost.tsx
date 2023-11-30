@@ -12,9 +12,12 @@ import SchoolIcon from '@mui/icons-material/School'
 import Chip from '@mui/material/Chip'
 import { ReactNode } from 'react'
 import { renderDate } from '../../pages/ScheduleToday/ScheduleToday'
+import { timeSince } from '../../utils/common'
+
 const MySpan = styled('span')({
-  fontWeight: 'bolder',
-  fontSize: '20px'
+  //fontWeight: 'bolder',
+  fontSize: '20px',
+  paddingLeft:'18px'
 })
 interface Props {
   post: any
@@ -40,31 +43,31 @@ const StyledGrid = styled(Grid)(() => ({
 }))
 export const StyledAttachMoneyIcon = styled(AttachMoneyIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
-    color:  'rgba(0, 0, 0, 0.54)'
+    color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
 
 export const StyledCalendarIcon = styled(CalendarMonthIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
-    color:  'rgba(0, 0, 0, 0.54)'
+    color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
 
 export const StyledHomeIcon = styled(HomeIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
-    color:  'rgba(0, 0, 0, 0.54)'
+    color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
 
 export const StyledWcIcon = styled(WcIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
-    color:  'rgba(0, 0, 0, 0.54)'
+    color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
 
 export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
-    color:  'rgba(0, 0, 0, 0.54)' 
+    color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
 export default function CardPost({ post, active, onClick, CardAction, CardNote }: Props) {
@@ -102,58 +105,32 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
             <Typography>
               <MySpan>{post.title}</MySpan>
             </Typography>
-            
-              <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledAttachMoneyIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
-                  <span>{`${post?.fee}vnd`}</span>
-                </Grid>
-              </Grid>
-              <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledCalendarIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
-                  <span>{renderDate(post.startDate, post.startTime)}</span>
-                </Grid>
-              </Grid>
 
-              <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledHomeIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
-                  <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
-                </Grid>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledAttachMoneyIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span>{`${post?.fee}vnd`}</span>
               </Grid>
-            
-              <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledWcIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
-                {post.preferredGender ? `${post.preferredGender}` : 'Không yêu cầu'}
-                </Grid>
+            </Grid>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledCalendarIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span>{renderDate(post.startDate, post.startTime)}</span>
               </Grid>
-              <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledSchoolIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
-               {post.preferredEducation ?post.preferredEducation:'Không yêu cầu'}
-                </Grid>
+            </Grid>
+
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledHomeIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
               </Grid>
-            <Stack direction='row' spacing={1}>
-              {post.skills.map((item: any) => (
-                <Chip
-                  key={item}
-                  label={item.toLocaleLowerCase()}
-                  sx={{ fontSize: '14px', border: 'solid 2px #1977d2', textTransform: 'none' }}
-                />
-              ))}
-            </Stack>
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>

@@ -13,6 +13,7 @@ import { renderDate } from '../ScheduleToday/ScheduleToday'
 import { styled } from '@mui/system'
 import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
+import { timeSince } from '../../utils/common'
 // interface Props {
 //   post?: IPost
 //   onClick?: () => void
@@ -92,13 +93,25 @@ const DetailPost = ({
   onClickMarkPost
 }: any) => {
   if (post) {
-    
+    const { year, month, day, hour, minute } = post.modifiedAt
+    const renderTimeAgo = () => {
+      const timeModified = new Date(year, month - 1, day, hour, minute)
+      return timeSince(timeModified) + ' ago'
+    }
     return (
       <Box sx={{ background: 'white', padding: '15px', position: 'sticky', top: 0 }}>
-        <Typography variant='h4' align='center'>
+        <Typography variant='h4' align='left'>
           {post?.title}
         </Typography>
-        <span style={{color: 'rgba(0, 0, 0, 0.54)', position: 'absolute', top: '10px', right: '10px', fontStyle:'italic'}}>{post.applicantNumber} người ứng tuyển</span>
+        <Box
+          sx={{
+            color: 'rgba(0, 0, 0, 0.54)',
+            fontStyle: 'italic'
+          }}
+        >
+          {renderTimeAgo()}
+          {post.applicantNumber !== undefined && <span>{` - ${post.applicantNumber} người ứng tuyển`}</span>}
+        </Box>
 
         {!isHideBtn && (
           <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
@@ -114,7 +127,8 @@ const DetailPost = ({
         <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <Stack direction='row' spacing={1} sx={{ marginBottom: '20px' }}>
+            {/* <Box sx = {{paddingLeft:'65px'}}>{renderTimeAgo()}</Box> */}
+            <Stack direction='row' spacing={1} sx={{ marginBottom: '20px', paddingLeft:'26px' }}>
               {post?.skills.map((item: any) => <Chip key={item} label={item} sx={{ fontSize: '12px' }} />)}
             </Stack>
 
@@ -123,7 +137,7 @@ const DetailPost = ({
                 <StyledAttachMoneyIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-              <span>{`${post?.fee}vnd`}</span>
+                <span>{`${post?.fee}vnd`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
@@ -142,6 +156,22 @@ const DetailPost = ({
                 <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
               </Grid>
             </Grid>
+            <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledWcIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                {post.preferredGender ? `${post.preferredGender}` : 'Không yêu cầu'}
+                </Grid>
+              </Grid>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledSchoolIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+               {post.preferredEducation ?post.preferredEducation:'Không yêu cầu'}
+                </Grid>
+              </Grid>
             <Box>
               <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
               <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
@@ -206,8 +236,6 @@ const DetailPost = ({
       </Box>
     )
   }
-    
-    
 }
 
 export default DetailPost

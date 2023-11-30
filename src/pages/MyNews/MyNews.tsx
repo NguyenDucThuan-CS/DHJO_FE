@@ -177,7 +177,7 @@ const MyNews = () => {
   const renderNotePost = (post: IPost) => {
     if (post.applied)
       return (
-        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'red'}>
+        <Box textAlign={'right'} fontSize={'14px'} fontStyle={'italic'} color={'red'} >
           Tin chờ xác nhận
         </Box>
       )
