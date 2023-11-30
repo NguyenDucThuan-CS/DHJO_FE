@@ -13,7 +13,10 @@ import { renderDate } from '../ScheduleToday/ScheduleToday'
 import { styled } from '@mui/system'
 import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
-import { timeSince } from '../../utils/common'
+import { renderHour, timeSince } from '../../utils/common'
+
+import RestoreIcon from '@mui/icons-material/Restore'
+import EventAvailableIcon from '@mui/icons-material/EventAvailable'
 // interface Props {
 //   post?: IPost
 //   onClick?: () => void
@@ -81,6 +84,18 @@ export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => (
     color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
+
+export const StyledRestoreIcon = styled(RestoreIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledEventAvailableIcon = styled(EventAvailableIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
 const DetailPost = ({
   post,
   onClick,
@@ -128,7 +143,7 @@ const DetailPost = ({
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {/* <Box sx = {{paddingLeft:'65px'}}>{renderTimeAgo()}</Box> */}
-            <Stack direction='row' spacing={1} sx={{ marginBottom: '20px', paddingLeft:'26px' }}>
+            <Stack direction='row' spacing={1} sx={{ marginBottom: '20px', paddingLeft: '26px' }}>
               {post?.skills.map((item: any) => <Chip key={item} label={item} sx={{ fontSize: '12px' }} />)}
             </Stack>
 
@@ -145,7 +160,9 @@ const DetailPost = ({
                 <StyledCalendarIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{renderDate(post.startDate, post.startTime)}</span>
+                <span>{`${renderHour(post.startTime)} ${post.startDate.day}-${post.startDate.month}-${
+                  post.startDate.year
+                }`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
@@ -157,21 +174,43 @@ const DetailPost = ({
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledWcIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledWcIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
                 {post.preferredGender ? `${post.preferredGender}` : 'Không yêu cầu'}
-                </Grid>
               </Grid>
-              <Grid container alignItems='center'>
-                <StyledGrid item xs={2} className={classes.textCenter}>
-                  <StyledSchoolIcon className={classes.icon} />
-                </StyledGrid>
-                <Grid item xs={10}>
-               {post.preferredEducation ?post.preferredEducation:'Không yêu cầu'}
-                </Grid>
+            </Grid>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledSchoolIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                {post.preferredEducation ? post.preferredEducation : 'Không yêu cầu'}
               </Grid>
+            </Grid>
+            {post.recurringPattern && (
+              <>
+                <Grid container alignItems='center'>
+                  <StyledGrid item xs={2} className={classes.textCenter}>
+                    <StyledRestoreIcon className={classes.icon} />
+                  </StyledGrid>
+                  <Grid item xs={10}>
+                    {post.recurringPattern.period}
+                  </Grid>
+                </Grid>
+
+                <Grid container alignItems='center'>
+                  <StyledGrid item xs={2} className={classes.textCenter}>
+                    <StyledEventAvailableIcon className={classes.icon} />
+                  </StyledGrid>
+                  <Grid item xs={10}>
+                     {`${post.recurringPattern.endDate[2]}-${post.recurringPattern.endDate[1]}-${post.recurringPattern.endDate[0]}`}
+                  </Grid>
+                </Grid>
+              </>
+            )}
+
             <Box>
               <Divider sx={{ marginTop: '20px', marginBottom: '20px' }} />
               <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>

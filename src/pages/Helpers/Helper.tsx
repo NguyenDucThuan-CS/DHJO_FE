@@ -226,7 +226,7 @@ const Helper = () => {
             </Box>
           </Stack>
           <Grid container spacing={2}>
-            <Grid item md={6}>
+            <Grid item md={5}>
               <Stack direction={'column'} gap={'5px'}>
                 {listPost.length === 0 && <Nofind />}
                 {listPost?.map((item, index) => (
@@ -241,7 +241,7 @@ const Helper = () => {
             </Grid>
 
             {isFromLg && listPost.length && (
-              <Grid item md={6}>
+              <Grid item md={7}>
                 <DetailPost
                   post={listPost.find((item) => item.id === activePost)}
                   onClick={() => helperApplyPost()}

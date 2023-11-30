@@ -12,7 +12,7 @@ import SchoolIcon from '@mui/icons-material/School'
 import Chip from '@mui/material/Chip'
 import { ReactNode } from 'react'
 import { renderDate } from '../../pages/ScheduleToday/ScheduleToday'
-import { timeSince } from '../../utils/common'
+import { timeSince, renderHour } from '../../utils/common'
 
 const MySpan = styled('span')({
   //fontWeight: 'bolder',
@@ -117,7 +117,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                 <StyledCalendarIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{renderDate(post.startDate, post.startTime)}</span>
+                <span>{`${renderHour(post.startTime)} ${post.startDate.day}-${post.startDate.month}-${post.startDate.year}`}</span>
               </Grid>
             </Grid>
 

@@ -4,6 +4,11 @@ import { getAllTask } from '../../apis/task.api'
 
 import { ITask } from '../Helpers/Schedule/Schedule'
 
+export const renderHour = (startTime: { hour: number; minute: number; nano: number; second: number }) => {
+  const tag = startTime.hour > 11 ? 'pm' : 'am'
+  return `${startTime.hour}:${startTime.minute} ${tag}`
+}
+
 export default function WorkingSchedule() {
   const [tasks, setTasks] = useState<ITask[]>([])
 
@@ -98,10 +103,7 @@ export default function WorkingSchedule() {
     })
   }, [])
 
-  const renderHour = (startTime: { hour: number; minute: number; nano: number; second: number }) => {
-    const tag = startTime.hour > 11 ? 'pm' : 'am'
-    return `${startTime.hour}:${startTime.minute} ${tag}`
-  }
+  
   return (
     <Scheduler
       locale='en'
