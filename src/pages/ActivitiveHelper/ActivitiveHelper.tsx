@@ -17,7 +17,7 @@ import { Button } from '@mui/material'
 import Nofind from '../../components/NoFind/NoFind'
 import WorkingSchedule from '../WorkingSchedule/WorkingSchedule'
 import ScheduleToday from '../ScheduleToday/ScheduleToday'
-import  { toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 export interface IPost {
   id: string
   createdAt: {
@@ -99,7 +99,6 @@ const ActvitiveHelper = () => {
     setOpen(false)
   }
 
-
   useEffect(() => {
     getPostHelperAll().then((res) => {
       setListPost(res.data.data.content[0])
@@ -153,14 +152,14 @@ const ActvitiveHelper = () => {
   }
 
   const renderTextForBtn = (post: any) => {
-    if(post) {
+    if (post) {
       if (post.finished) return 'Đã hoàn thành'
       if (post.applied) return 'Đã nhận'
       if (post.confirmed) return 'Đã được xác nhận'
       if (post.rejected) return 'Đã được từ chối'
       return 'Nhận việc'
     }
-    return "  "
+    return '  '
   }
 
   const handleOnClick = (post: any) => {
@@ -172,10 +171,10 @@ const ActvitiveHelper = () => {
 
   const filterPost = (listPost: any) => {
     if (tab === 0) return listPost
-    if (tab === 1) return listPost.filter((post:any) => post.applied === true)
-    if (tab === 2) return listPost.filter((post:any) => post.confirmed === true)
-    if (tab === 3) return listPost.filter((post:any) => post.rejected === true)
-    if (tab === 4) return listPost.filter((post:any) => post.finished === true)
+    if (tab === 1) return listPost.filter((post: any) => post.applied === true)
+    if (tab === 2) return listPost.filter((post: any) => post.confirmed === true)
+    if (tab === 3) return listPost.filter((post: any) => post.rejected === true)
+    if (tab === 4) return listPost.filter((post: any) => post.finished === true)
     return []
   }
 
@@ -189,54 +188,55 @@ const ActvitiveHelper = () => {
 
   return (
     <Box>
-      <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
-        <Button variant={`${tab === 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
-          Tất cả
-        </Button>
-        <Button variant={`${tab === 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
-          Đã nhận
-        </Button>
-        <Button variant={`${tab === 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
-          Đã được chấp nhận
-        </Button>
-        <Button variant={`${tab === 3 ? 'contained' : 'outlined'}`} onClick={() => setTab(3)}>
-          Từ chối
-        </Button>
-        <Button variant={`${tab === 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
-          Đã hoàn thành
-        </Button>
-      </Stack>
       <Grid container spacing={2}>
-        {isFromMd && (
-          <Grid item xs={4} lg={2}>
-            <ScheduleToday />
-          </Grid>
-        )}
-        <>
-          <Grid item xs={12} md={8} lg={4}>
-            {filterPost(listPost).length === 0 && <Nofind />}
-            <Stack direction={'column'} gap = {'10px'}>
-            {filterPost(listPost)?.map((item:any, index:any) => (
-              <CardPost
-                key={`${index}${item.id}`}
-                post={item}
-                active={item.id === activePost}
-                onClick={() => setActivePost(item.id)}
-              />
-            ))}
-            </Stack> 
-          </Grid>
-          {isFromLg && listPost.length && (
-            <Grid item xs={6} lg={6}>
-              <DetailPost
-                post={listPost.find((item) => item.id === activePost)}
-                onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
-                isHideFooter={true}
-                contentBtn={renderTextForBtn(listPost.find((item) => item.id === activePost))}
-              />
+        <Grid item md={2}>
+          <ScheduleToday />
+        </Grid>
+
+        <Grid container md={10} direction={'column'} sx = {{paddingLeft:'20px'}}>
+          <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'} sx = {{paddingTop:'20px'}}>
+            <Button variant={`${tab === 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
+              Tất cả
+            </Button>
+            <Button variant={`${tab === 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
+              Đã nhận
+            </Button>
+            <Button variant={`${tab === 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
+              Đã được chấp nhận
+            </Button>
+            <Button variant={`${tab === 3 ? 'contained' : 'outlined'}`} onClick={() => setTab(3)}>
+              Từ chối
+            </Button>
+            <Button variant={`${tab === 4 ? 'contained' : 'outlined'}`} onClick={() => setTab(4)}>
+              Đã hoàn thành
+            </Button>
+          </Stack>
+          <Grid container spacing={2}>
+            <Grid item md={5}>
+              {filterPost(listPost).length === 0 && <Nofind />}
+              <Stack direction={'column'} gap={'10px'}>
+                {filterPost(listPost)?.map((item: any, index: any) => (
+                  <CardPost
+                    key={`${index}${item.id}`}
+                    post={item}
+                    active={item.id === activePost}
+                    onClick={() => setActivePost(item.id)}
+                  />
+                ))}
+              </Stack>
             </Grid>
-          )}
-        </>
+            {isFromLg && listPost.length && (
+              <Grid item md={7}>
+                <DetailPost
+                  post={listPost.find((item) => item.id === activePost)}
+                  onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
+                  isHideFooter={true}
+                  contentBtn={renderTextForBtn(listPost.find((item) => item.id === activePost))}
+                />
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
       </Grid>
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal
