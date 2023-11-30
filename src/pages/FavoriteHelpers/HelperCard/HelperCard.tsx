@@ -43,16 +43,6 @@ interface Props {
   isChosen?: boolean
 }
 
-// const getSkills = (
-//   skills: {
-//     id: string
-//     skillName: string
-//   }[]
-// ) => {
-//   return skills.reduce((total, current) => {
-//     return total + current.skillName
-//   }, '')
-// }
 
 export default function HelperCard({
   name,
@@ -69,7 +59,8 @@ export default function HelperCard({
   hideBtn,
   rating,
   clickRating,
-  isFavourite
+  isFavourite,
+  img
 }: any) {
   const dispatch = useDispatch()
   return (
@@ -130,8 +121,8 @@ export default function HelperCard({
                   width: '100%',
                   height: '100%'
                 }}
-                alt='The house from the offer.'
-                src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2'
+                alt='Image'
+                src={`data:image;base64,${img}`}
               />
             </Grid>
 

@@ -80,6 +80,7 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                   overallRating={item.overallRating}
                   hideBtn = {!post?.applied}
                   isFavourite = {post.isFavourite}
+                  img = {post.base64Image}
                   //isChosen={idChosen == item.id}
                 />
               ))}

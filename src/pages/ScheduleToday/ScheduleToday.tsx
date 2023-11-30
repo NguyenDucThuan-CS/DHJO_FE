@@ -24,8 +24,8 @@ const resources = [
     fieldName: 'type',
     title: 'Type',
     instances: [
-      { id: 'draftTask', text: 'draftTask', color: '#EC407A' },
-      { id: 'realTask', text: 'realTask', color: '#7E57C2' }
+      { id: 'draftTask', text: 'draftTask', color: '#d3d3d3' },
+      { id: 'realTask', text: 'realTask', color: '#1976d2' }
     ]
   }
 ]

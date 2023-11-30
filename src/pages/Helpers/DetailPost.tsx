@@ -132,6 +132,7 @@ const DetailPost = ({ post, onClick, isHideBtn, listHelper, choose, isHideFooter
                     rating={post.finished}
                     clickRating={clickRating}
                     isFavourite = {post.isFavourite}
+                    img = {post.base64Image}
                     //isChosen={idChosen == item.id}
                   />
                     </Grid>

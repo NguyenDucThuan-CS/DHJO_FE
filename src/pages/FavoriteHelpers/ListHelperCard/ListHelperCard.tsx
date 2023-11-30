@@ -45,6 +45,7 @@ export default function ListHelperCard({ listHelpers, choose, idChosen }: any) {
               phone={item.phoneNum}
               overallRating={item.overallRating}
               isFavourite = {item.isFavourite}
+              img = {item.base64Image}
             />
           ))}
         </Grid>
