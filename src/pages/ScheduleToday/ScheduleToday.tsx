@@ -1,6 +1,6 @@
 import Paper from '@mui/material/Paper'
 import { ViewState } from '@devexpress/dx-react-scheduler'
-import { Scheduler, DayView, Appointments, Resources, AppointmentTooltip } from '@devexpress/dx-react-scheduler-material-ui'
+import { Scheduler, DayView, Appointments, Resources, AppointmentTooltip, WeekView } from '@devexpress/dx-react-scheduler-material-ui'
 import { useEffect, useState } from 'react'
 import { getTaskToday } from '../../apis/task.api'
 import dayjs from 'dayjs'
@@ -162,8 +162,9 @@ const ScheduleToday = () => {
     <Paper>
       <Scheduler data={tasks}>
         <ViewState currentDate={currentDate} />
-        <DayView startDayHour={0} endDayHour={24} />
+        <DayView startDayHour={6} endDayHour={24} cellDuration={120}/>
         <Appointments />
+        
         <Resources data={resources} />
         <AppointmentTooltip headerComponent={Header} contentComponent={Content}  />
       </Scheduler>

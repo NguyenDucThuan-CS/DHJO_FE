@@ -1,6 +1,6 @@
 import React from 'react'
 import Paper from '@mui/material/Paper'
-import { EditingState, ViewState } from '@devexpress/dx-react-scheduler'
+import { ViewState } from '@devexpress/dx-react-scheduler'
 import {
   Scheduler,
   WeekView,
@@ -91,9 +91,6 @@ const Header = ({ children, appointmentData, ...restProps }: any) => (
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
       <Marker position={[appointmentData.house.coordinate.latitude, appointmentData.house.coordinate.longitude]}>
-        {/* <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup> */}
       </Marker>
     </MapContainer>
   </StyledAppointmentTooltipHeader>
@@ -177,7 +174,7 @@ class WorkingScheduleNew extends React.Component {
   render() {
     const { data, currentDate, currentView }: any = this.state
     return (
-      <Box>
+      <Box sx = {{height:'calc(100vh - 84px)'}}>
         <Paper >
           <Scheduler height={600} data={data} >
             <ViewState
@@ -187,7 +184,7 @@ class WorkingScheduleNew extends React.Component {
               onCurrentViewNameChange={this.currentViewChange}
             />
 
-            <WeekView startDayHour={4} endDayHour={19} name='Week' />
+            <WeekView startDayHour={6} endDayHour={22} name='Week' cellDuration={120}/>
             <DayView />
             <Appointments />
             <Resources data={resources} />

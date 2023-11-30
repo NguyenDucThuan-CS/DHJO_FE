@@ -40,7 +40,7 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
   return (
     <div style={{ position: 'relative' }}>
       <Header />
-      <div style={{ padding: '20px', background: '#0000' }}>{children}</div>
+      <div style={{ padding: '20px', background: '#0000'}}>{children}</div>
 
       <ModalDetailHelper open={open} />
       <ModalRatingHelper open = {openRating} />

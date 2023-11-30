@@ -11,11 +11,7 @@ import Textarea from '../../components/TextArea/TextArea'
 import { useSelector } from 'react-redux'
 const DetailHelper = () => {
   const [tab, setTab] = useState<number>(1)
-  const [valueArea, setValueArea] = useState<string>('')
-  const [numStar, setNumStar] = useState<number>(0)
-
   const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
-  console.log('heheh', helperInfo)
   const renderNumberStars = () => {
     if (helperInfo.overallRating.avgScore === -1) {
       return 3
@@ -110,13 +106,6 @@ const DetailHelper = () => {
                 </Box>
               ))}
 
-              {/* <Box sx = {{background: "#F4FCFF", marginTop:"10px", width: '300px',padding: '10px', borderRadius: '15px'}}>
-                <p style={{color: 'black', fontWeight: 'bold'}}>Đánh giá 1</p>
-                <Stack direction={'row'}>
-                  <span>4</span><ListStar number = {4}/>
-                </Stack>
-                <p>Good</p>
-              </Box> */}
             </Stack>
           )}
         </Grid>
