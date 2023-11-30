@@ -1,3 +1,7 @@
  .Header-head {
    padding: 0 !important
 }
+
+.css-1ps6pg7-MuiPaper-root {
+   height: calc(100vh - 120px)
+}

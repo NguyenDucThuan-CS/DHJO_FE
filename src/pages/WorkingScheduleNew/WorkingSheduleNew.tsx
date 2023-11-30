@@ -174,9 +174,9 @@ class WorkingScheduleNew extends React.Component {
   render() {
     const { data, currentDate, currentView }: any = this.state
     return (
-      <Box sx = {{height:'calc(100vh - 84px)'}}>
-        <Paper >
-          <Scheduler height={600} data={data} >
+      <Box>
+        <Paper>
+          <Scheduler  data={data} >
             <ViewState
               currentDate={currentDate}
               currentView={currentView}
