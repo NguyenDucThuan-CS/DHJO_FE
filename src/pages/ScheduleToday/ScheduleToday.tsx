@@ -16,7 +16,7 @@ export const renderHourMinute = (number:number) => {
 
 
 export const renderDate = (date:any, time:any) => {
-    return `${date.year}-${date.month}-${date.day}T${renderHourMinute(time.hour)}-${renderHourMinute(time.minute)}`
+    return `${date.year}-${date.month}-${date.day}T${renderHourMinute(time.hour)}:${renderHourMinute(time.minute)}`
 }
 
 const renderEndTime = ( startTime:any,workTime:number) => {
@@ -44,7 +44,7 @@ const ScheduleToday = () => {
     <Paper>
       <Scheduler data={tasks}>
         <ViewState currentDate={currentDate} />
-        <DayView startDayHour={8} endDayHour={16} />
+        <DayView startDayHour={0} endDayHour={24} />
         <Appointments />
       </Scheduler>
     </Paper>
