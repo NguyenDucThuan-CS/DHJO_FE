@@ -108,7 +108,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                   <StyledAttachMoneyIcon className={classes.icon} />
                 </StyledGrid>
                 <Grid item xs={10}>
-                  <span>{`${post.fee}vnd`}</span>
+                  <span>{`${post?.fee}vnd`}</span>
                 </Grid>
               </Grid>
               <Grid container alignItems='center'>

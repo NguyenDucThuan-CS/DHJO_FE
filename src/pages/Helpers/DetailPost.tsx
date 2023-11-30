@@ -91,12 +91,15 @@ const DetailPost = ({
   isConfirmBtn,
   onClickMarkPost
 }: any) => {
-  if (post)
+  if (post) {
+    
     return (
       <Box sx={{ background: 'white', padding: '15px', position: 'sticky', top: 0 }}>
         <Typography variant='h4' align='center'>
           {post?.title}
         </Typography>
+        <span style={{color: 'rgba(0, 0, 0, 0.54)', position: 'absolute', top: '10px', right: '10px', fontStyle:'italic'}}>{post.applicantNumber} người ứng tuyển</span>
+
         {!isHideBtn && (
           <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
             Nhận việc ngay
@@ -120,7 +123,7 @@ const DetailPost = ({
                 <StyledAttachMoneyIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-              <span>{`${post.fee}vnd`}</span>
+              <span>{`${post?.fee}vnd`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
@@ -202,6 +205,9 @@ const DetailPost = ({
         )}
       </Box>
     )
+  }
+    
+    
 }
 
 export default DetailPost
