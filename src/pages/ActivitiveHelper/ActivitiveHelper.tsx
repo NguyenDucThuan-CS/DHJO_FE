@@ -147,7 +147,6 @@ const ActvitiveHelper = () => {
           district: postForTask.house.district.name,
           province: postForTask.house.province.name
         },
-        //house: postForTask.house,
         skills: postForTask.skills?.map((item: any) => item.skillName),
         recurringPattern: postForTask.recurringPattern
       }
@@ -207,23 +206,9 @@ const ActvitiveHelper = () => {
           Đã hoàn thành
         </Button>
       </Stack>
-      <Stack direction='row' spacing={2}>
-        {/* <SelectDropdown list={[]}></SelectDropdown>
-           <SelectDropdown list={[]}></SelectDropdown>
- 
-           <SelectDropdown list={[]}></SelectDropdown> */}
-      </Stack>
-      <Grid container spacing={2} direction={{ sm: 'column', md: 'row' }}>
+      <Grid container spacing={2}>
         {isFromMd && (
           <Grid item xs={4} lg={2}>
-            {/* <Schedule
-              onClick={(id: string) => {
-                getPostById(id).then((res) => {
-                  setPostForTask(res.data.data)
-                  setOpenTask(true)
-                })
-              }}
-            /> */}
             <ScheduleToday />
           </Grid>
         )}
@@ -239,8 +224,7 @@ const ActvitiveHelper = () => {
                 onClick={() => setActivePost(item.id)}
               />
             ))}
-            </Stack>
-            
+            </Stack> 
           </Grid>
           {isFromLg && listPost.length && (
             <Grid item xs={6} lg={6}>

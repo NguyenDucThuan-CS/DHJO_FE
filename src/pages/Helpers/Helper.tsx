@@ -210,13 +210,10 @@ const Helper = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        {
-          <Grid item xs={2}>
-            <ScheduleToday />
-          </Grid>
-        }
-
-        <Grid item md={4}>
+        <Grid item md={2}>
+          <ScheduleToday />
+        </Grid>
+        <Grid item md={10} direction={'column'}>
           <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'}>
             <SelectDropdown list={kindOfJobs} id={kindJob} name={'Loại công việc'} setId={setKindJob} />
             <SelectDropdown list={salaryOptions} id={salaryOption} name={'Mức lương'} setId={setSalaryOption} />
@@ -228,27 +225,32 @@ const Helper = () => {
               <FilterIcon />
             </Box>
           </Stack>
-          <Stack direction={'column'} gap={'5px'}>
-            {listPost.length === 0 && <Nofind />}
-            {listPost?.map((item, index) => (
-              <CardPost
-                key={`${index}${item.id}`}
-                post={item}
-                active={item.id === activePost}
-                onClick={() => setActivePost(item.id)}
-              />
-            ))}
-          </Stack>
-        </Grid>
-        {isFromLg && listPost.length && (
-          <Grid item xs={6} lg={6}>
-            <DetailPost
-              post={listPost.find((item) => item.id === activePost)}
-              onClick={() => helperApplyPost()}
-              isHideFooter={true}
-            />
+          <Grid container spacing={2}>
+            <Grid item md={6}>
+              <Stack direction={'column'} gap={'5px'}>
+                {listPost.length === 0 && <Nofind />}
+                {listPost?.map((item, index) => (
+                  <CardPost
+                    key={`${index}${item.id}`}
+                    post={item}
+                    active={item.id === activePost}
+                    onClick={() => setActivePost(item.id)}
+                  />
+                ))}
+              </Stack>
+            </Grid>
+
+            {isFromLg && listPost.length && (
+              <Grid item md={6}>
+                <DetailPost
+                  post={listPost.find((item) => item.id === activePost)}
+                  onClick={() => helperApplyPost()}
+                  isHideFooter={true}
+                />
+              </Grid>
+            )}
           </Grid>
-        )}
+        </Grid>
       </Grid>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
