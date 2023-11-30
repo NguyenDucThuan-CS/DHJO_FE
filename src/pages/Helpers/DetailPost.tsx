@@ -9,9 +9,6 @@ import HomeIcon from '@mui/icons-material/Home'
 import Chip from '@mui/material/Chip'
 import HelperCard from '../FavoriteHelpers/HelperCard/HelperCard'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { markPostAsFinished } from '../../apis/post.api'
-import { useEffect, useRef } from 'react'
-import { toast } from 'react-toastify'
 import { renderDate } from '../ScheduleToday/ScheduleToday'
 // interface Props {
 //   post?: IPost

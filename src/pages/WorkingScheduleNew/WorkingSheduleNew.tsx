@@ -58,19 +58,19 @@ const StyledGrid = styled(Grid)(() => ({
   }
 }))
 
-const StyledRoom = styled(Room)(({ theme: { palette } }) => ({
+export const StyledRoom = styled(Room)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
     color: palette.action.active
   }
 }))
 
-const StyledPerson = styled(PersonIcon)(({ theme: { palette } }) => ({
+export const StyledPerson = styled(PersonIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
     color: palette.action.active
   }
 }))
 
-const StyledPhoneIcon = styled(PhoneIcon)(({ theme: { palette } }) => ({
+export const StyledPhoneIcon = styled(PhoneIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
     color: palette.action.active
   }

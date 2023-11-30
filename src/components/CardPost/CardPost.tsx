@@ -23,10 +23,62 @@ interface Props {
   CardAction?: ReactNode
   CardNote?: ReactNode
 }
+const PREFIX = 'Demo'
+const classes = {
+  icon: `${PREFIX}-icon`,
+  textCenter: `${PREFIX}-textCenter`,
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  thirdRoom: `${PREFIX}-thirdRoom`,
+  header: `${PREFIX}-header`,
+  commandButton: `${PREFIX}-commandButton`
+}
+const StyledGrid = styled(Grid)(() => ({
+  [`&.${classes.textCenter}`]: {
+    textAlign: 'center'
+  }
+}))
+export const StyledAttachMoneyIcon = styled(AttachMoneyIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color:  'rgba(0, 0, 0, 0.54)'
+  }
+}))
 
+export const StyledCalendarIcon = styled(CalendarMonthIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color:  'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledHomeIcon = styled(HomeIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color:  'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledWcIcon = styled(WcIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color:  'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color:  'rgba(0, 0, 0, 0.54)' 
+  }
+}))
 export default function CardPost({ post, active, onClick, CardAction, CardNote }: Props) {
   return (
-    <Card sx={{ border: `${active ? '1px solid #33c172' : '0px solid red'}`, boxShadow:`${active ? '0 10px 30px rgba(14,166,59,.2)' : 'unset'}`, position: 'relative', paddingRight: '10px', paddingBottom: '10px' }} onClick={onClick}>
+    <Card
+      sx={{
+        border: `${active ? '1px solid #33c172' : '0px solid red'}`,
+        boxShadow: `${active ? '0 10px 30px rgba(14,166,59,.2)' : 'unset'}`,
+        position: 'relative',
+        paddingRight: '10px',
+        paddingBottom: '10px'
+      }}
+      onClick={onClick}
+    >
       <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}
       <CardContent>
         <Grid container spacing={2}>
@@ -38,7 +90,11 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                 height: '100%'
               }}
               alt='The house from the offer.'
-              src={post.house.base64Image ? `data:image;base64,${post.house.base64Image}` :`https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2`}
+              src={
+                post.house.base64Image
+                  ? `data:image;base64,${post.house.base64Image}`
+                  : `https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2`
+              }
             />
           </Grid>
 
@@ -46,34 +102,59 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
             <Typography>
               <MySpan>{post.title}</MySpan>
             </Typography>
-            <Stack direction='row' spacing={1}>
-              <Typography sx={{ fontSize: '14px' }}>
-                <AttachMoneyIcon fontSize='inherit' />
-                {`${post.fee} vnd/h`}
-              </Typography>
-              <Typography sx={{ fontSize: '14px' }}>
-                <CalendarMonthIcon fontSize='inherit' />
-                {renderDate(post.startDate, post.startTime)}
-              </Typography>
-            </Stack>
-            <Typography sx={{ fontSize: '14px' }}>
-              <HomeIcon fontSize='inherit' />
-              {`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}
-            </Typography>
+            
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledAttachMoneyIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span>{post.fee}</span>
+                </Grid>
+              </Grid>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledCalendarIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span>{renderDate(post.startDate, post.startTime)}</span>
+                </Grid>
+              </Grid>
 
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledHomeIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
+                </Grid>
+              </Grid>
+            
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledWcIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                {post.preferredGender ? `${post.preferredGender}` : 'Không yêu cầu'}
+                </Grid>
+              </Grid>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledSchoolIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+               {post.preferredEducation}
+                </Grid>
+              </Grid>
+            
+
+            
             <Stack direction='row' spacing={1}>
-              <Typography sx={{ fontSize: '14px' }}>
-                <WcIcon fontSize='inherit' />
-                {post.preferredGender ? `${post.preferredGender}`:'Không yêu cầu'}
-              </Typography>
-              <Typography sx={{ fontSize: '14px' }}>
-                <SchoolIcon fontSize='inherit' />
-                {post.preferredEducation ? `${post.preferredEducation}`: 'Không yêu cầu'}
-              </Typography>
-            </Stack>
-            <Stack direction='row' spacing={1}>
-              {post.skills.map((item:any) => (
-                <Chip key={item} label={item.toLocaleLowerCase()} sx={{ fontSize: '14px', border:'solid 2px #1977d2', textTransform: 'none' }} />
+              {post.skills.map((item: any) => (
+                <Chip
+                  key={item}
+                  label={item.toLocaleLowerCase()}
+                  sx={{ fontSize: '14px', border: 'solid 2px #1977d2', textTransform: 'none' }}
+                />
               ))}
             </Stack>
           </Grid>
