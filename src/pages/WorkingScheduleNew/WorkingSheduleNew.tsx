@@ -183,7 +183,6 @@ class WorkingScheduleNew extends React.Component {
               onCurrentDateChange={this.currentDateChange}
               onCurrentViewNameChange={this.currentViewChange}
             />
-
             <WeekView startDayHour={6} endDayHour={24} name='Week' cellDuration={60}/>
             <DayView />
             <Appointments />
@@ -196,11 +195,6 @@ class WorkingScheduleNew extends React.Component {
             <TodayButton />
           </Scheduler>
         </Paper>
-        {/* <Modal
-        open={openModalPostHelper}
-        handleClose={() =>  this.setState({openModalPostHelper: false})}
-        Content={<DetailPost isHideBtn = {true} isHideFooter={true} post={postForHelper} ></DetailPost>}
-      /> */}
       </Box>
     )
   }

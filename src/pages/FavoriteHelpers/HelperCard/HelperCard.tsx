@@ -82,7 +82,6 @@ export default function HelperCard({
         )
       }}
     >
-     
       {!isFavourite ? (
         <span
           style={{ position: 'absolute', top: '10px', right: '5px' }}
@@ -157,7 +156,7 @@ export default function HelperCard({
           </Grid>
         </CardContent>
         <Box sx={{ paddingLeft: '12px' }}>
-          <ListStar number={4}></ListStar>
+          <ListStar number={overallRating.avgScore + 1}></ListStar>
         </Box>
         <CardActions>
           {remove && (

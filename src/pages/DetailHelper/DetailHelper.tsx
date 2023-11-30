@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux'
 const DetailHelper = () => {
   const [tab, setTab] = useState<number>(1)
   const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
-  console.log('jksjs', helperInfo )
   const renderNumberStars = () => {
     if (helperInfo.overallRating.avgScore === -1) {
       return 3
@@ -28,28 +27,15 @@ const DetailHelper = () => {
             component='img'
             sx={{
               width: '100%',
-              height: '100px'
+              height: '150px'
             }}
             alt='img'
             src={`data:image;base64,${helperInfo.img}`}
           />
           <ListStar number={renderNumberStars() + 1} />
-            <span style={{ padding: '5px' }}>{helperInfo.name}</span>
+            <span style={{ padding: '5px', fontWeight: 'bold' }}>{helperInfo.name}</span>
         </Grid>
         <Grid item xs={8}>
-          <Stack
-            height={'163px'}
-            direction={'column'}
-            justifyContent={'flex-end'}
-            sx={{
-              color: 'white',
-              background:
-                'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 52.31%, rgba(0, 0, 0, 0.8) 100%)'
-            }}
-          >
-            <ListStar number={renderNumberStars() + 1} />
-            <span style={{ padding: '5px' }}>{helperInfo.name}</span>
-          </Stack>
           <Stack spacing={2} direction={'row'} sx={{ marginTop: '10px' }}>
             <Button variant={`${tab === 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
               Thông tin
@@ -102,13 +88,12 @@ const DetailHelper = () => {
                   <p style={{ color: 'black', fontWeight: 'bold' }}>Đánh giá {index + 1}</p>
                   <Stack direction={'row'}>
                     <span>{item.score}</span>
-                    <ListStar number={item.score} />
+                    <ListStar number={item.score + 1} />
                   </Stack>
 
                   <p>{item.comment}</p>
                 </Box>
               ))}
-
             </Stack>
           )}
         </Grid>
