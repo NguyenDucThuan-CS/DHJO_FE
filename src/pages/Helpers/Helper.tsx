@@ -99,23 +99,23 @@ const Helper = () => {
   const salaryOptions = [
     {
       id: '1',
-      name: '>100000'
+      name: 'trên 100.000 vnd'
     },
 
-    { id: '2', name: '>200000' },
-    { id: '3', name: '>300000' },
-    { id: '4', name: '>400000' }
+    { id: '2', name: 'trên 200.000vnd' },
+    { id: '3', name: 'trên 300.000vnd' },
+    { id: '4', name: 'trên 400.000vnd' }
   ]
 
   const distanceOptions = [
     {
       id: '1',
-      name: '<5km'
+      name: 'dưới 5km'
     },
 
-    { id: '2', name: '<10km' },
-    { id: '3', name: '<15km' },
-    { id: '4', name: '<20km' }
+    { id: '2', name: 'dưới 10km' },
+    { id: '3', name: 'dưới 15km' },
+    { id: '4', name: 'dưới 20km' }
   ]
 
   const agree = () => {

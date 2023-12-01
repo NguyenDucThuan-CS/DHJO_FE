@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-//import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import CardPost from '../../components/CardPost/CardPost'
 import Grid from '@mui/material/Grid'
 import DetailPost from './DetailPost'
@@ -98,23 +97,23 @@ const Helper = () => {
   const salaryOptions = [
     {
       id: '1',
-      name: '>100000'
-    },
+      name: 'trên 100.000'
+    },  
 
-    { id: '2', name: '>200000' },
-    { id: '3', name: '>300000' },
-    { id: '4', name: '>400000' }
+    { id: '2', name: 'trên 200.000' },
+    { id: '3', name: 'trên 300.000' },
+    { id: '4', name: 'trên 400.000' }
   ]
 
   const distanceOptions = [
     {
       id: '1',
-      name: '<5km'
+      name: 'dưới 5km'
     },
 
-    { id: '2', name: '<10km' },
-    { id: '3', name: '<15km' },
-    { id: '4', name: '<20km' }
+    { id: '2', name: 'dưới 10km' },
+    { id: '3', name: 'dưới 15km' },
+    { id: '4', name: 'dưới 20km' }
   ]
 
   const agree = () => {
@@ -147,7 +146,6 @@ const Helper = () => {
 
   useEffect(() => {
     getActivePosts().then((res) => {
-      //console.log("res", res)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -159,7 +157,6 @@ const Helper = () => {
       minFee: renderValueSalary(salaryOption),
       maxDistance: renderValueDistance(distanceOption)
     }).then((res) => {
-      //console.log("res", res)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })

@@ -40,6 +40,9 @@ export default function SelectDropdown({ list, name, id, setId, disabled, isRequ
           disabled = {disabled}
           //helperText = {helperText}
         >
+          <MenuItem key={'0'} value={'0'}>
+              {'- - - - - -'}
+            </MenuItem> 
           {list.map((item) => (
             <MenuItem key={item.id} value={item.id}>
               {item.name}
