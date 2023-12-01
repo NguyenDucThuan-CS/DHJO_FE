@@ -6,8 +6,6 @@ import Button from '@mui/material/Button'
 import { ListStar } from '../../components/ListStar/ListStar'
 import { useState } from 'react'
 import { Chip } from '@mui/material'
-
-
 import { useSelector } from 'react-redux'
 const DetailHelper = () => {
   const [tab, setTab] = useState<number>(1)

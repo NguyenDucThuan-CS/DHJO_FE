@@ -16,6 +16,8 @@ import { createPost } from '../../apis/post.api'
 import { useNavigate } from 'react-router-dom'
 import { doClearInfo } from '../../redux/slice'
 import { toast } from 'react-toastify'
+import PreviewPost from '../Helpers/Preview'
+import { Grid } from '@mui/material'
 
 const steps = ['Chọn nhà', 'Chi tiết']
 
@@ -26,6 +28,7 @@ export default function CreateNews() {
   const { post } = useSelector((state: RootState) => {
     return state.storeInfoReducer
   })
+  console.log('post nhaaaaa', post)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
@@ -80,13 +83,12 @@ export default function CreateNews() {
   const renderStep = (activeStep: number) => {
     if (activeStep === 0) return <Step1 ref={refStep1} />
     if (activeStep === 1) return <Step2 ref={refStep2} />
-    //return <Step3 />
   }
  
   return (
     <Box sx={{ width: { xs: '100%' } }}>
       <Container sx={{ width: { xs: '100%', md: '80%' } }}>
-        <Stepper activeStep={activeStep}>
+        <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label) => {
             const stepProps: { completed?: boolean } = {}
             const labelProps: {
@@ -102,13 +104,10 @@ export default function CreateNews() {
         {activeStep === steps.length ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>Đã hoàn thành các bước</Typography>
-            <Box>
-              Căn nhà đã chọn
-            </Box>
 
-            <Box>
-              Chi tiết tin đăng
-            </Box>
+            <PreviewPost post = {post}/>
+             
+
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>

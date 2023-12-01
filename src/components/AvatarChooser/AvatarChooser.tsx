@@ -4,7 +4,6 @@ import { makeStyles } from '@mui/styles'
 import { useState, useEffect } from 'react'
 interface AvatarProps {
   setImg: (img: any) => void
-  //img: string
   disabled: boolean
   imgInit: string
 }
@@ -38,7 +37,7 @@ export default function AvatarChooser({ setImg, disabled, imgInit }: AvatarProps
   useEffect(() => {
     setSrc(imgInit)
   }, [imgInit])
-
+  
   return (
     <div className={classes.root}>
       <input
