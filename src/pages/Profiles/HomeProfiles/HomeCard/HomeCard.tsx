@@ -7,9 +7,14 @@ import { styled } from '@mui/system'
 import { Stack } from '@mui/material'
 import Box from '@mui/material/Box'
 import { Padding } from '@mui/icons-material'
-
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import CropDinIcon from '@mui/icons-material/CropDin'
+import HomeIcon from '@mui/icons-material/Home'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import { Grid } from '@mui/material'
 const MySpan = styled('span')({
-  fontWeight: 'bolder'
+  fontSize: '20px',
+  paddingLeft: '18px'
 })
 interface HomeCardProps {
   id: string
@@ -23,6 +28,46 @@ interface HomeCardProps {
   isChosen?: boolean
   img?: string
 }
+const PREFIX = 'Demo'
+const classes = {
+  icon: `${PREFIX}-icon`,
+  textCenter: `${PREFIX}-textCenter`,
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  thirdRoom: `${PREFIX}-thirdRoom`,
+  header: `${PREFIX}-header`,
+  commandButton: `${PREFIX}-commandButton`
+}
+
+const StyledGrid = styled(Grid)(() => ({
+  [`&.${classes.textCenter}`]: {
+    textAlign: 'center'
+  }
+}))
+export const StyledAttachMoneyIcon = styled(AttachMoneyIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledHomeIcon = styled(HomeIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledCropDinIcon = styled(CropDinIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledLocationOnIcon = styled(LocationOnIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
 export default function HomeCard({
   homeName,
   homeType,
@@ -37,48 +82,80 @@ export default function HomeCard({
 }: HomeCardProps) {
   return (
     <Card>
-      <Stack direction={'row'} padding={'10px'}>
-        <Box
-          component='img'
-          sx={{
-            width: '50%',
-            height: '100px'
-          }}
-          alt='The house from the offer.'
-          src={`data:image;base64,${img}`}
-        />
+      <CardContent sx={{ padding: 0 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={5} sm={5} md={5}>
+            <Box
+              component='img'
+              sx={{
+                width: '100%',
+                height: '100%'
+              }}
+              alt='The house from the offer.'
+              src={
+                img
+                  ? `data:image;base64,${img}`
+                  : `https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2`
+              }
+            />
+          </Grid>
 
-        <CardContent sx={{ padding: '0 !important',paddingLeft: '10px !important' }}>
-          <Box>{homeName}</Box>
-          <Box>{homeType}</Box>
-          <Box>{floorArea}</Box>
-          <Box>{address}</Box>
-        </CardContent>
-      </Stack>
+          <Grid item xs={7} sm={7} md={7} sx={{ paddingBottom: '10px' }}>
+            <Typography sx={{ marginTop: '15px' }}>
+              <MySpan>{homeName}</MySpan>
+            </Typography>
 
-      <CardActions>
-        {edit && (
-          <Button size='small' variant='contained' color='success' onClick={() => edit(id)}>
-            Chỉnh sửa
-          </Button>
-        )}
-        {remove && (
-          <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
-            Xóa
-          </Button>
-        )}
-        {choose && !isChosen && (
-          <Button size='small' variant='contained' color='warning' onClick={() => choose(id, true)}>
-            Chọn
-          </Button>
-        )}
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledHomeIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span style={{fontSize:'14px'}}>{homeType}</span>
+              </Grid>
+            </Grid>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledCropDinIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span style={{fontSize:'14px'}}>{`${floorArea} m2`}</span>
+              </Grid>
+            </Grid>
 
-        {choose && isChosen && (
-          <Button size='small' variant='contained' color='inherit' onClick={() => choose(id, false)}>
-            Bỏ chọn
-          </Button>
-        )}
-      </CardActions>
+            <Grid container alignItems='center'>
+              <StyledGrid item xs={2} className={classes.textCenter}>
+                <StyledLocationOnIcon className={classes.icon} />
+              </StyledGrid>
+              <Grid item xs={10}>
+                <span style={{fontSize:'14px'}}>{`${address}`}</span>
+              </Grid>
+            </Grid>
+            <CardActions>
+              {edit && (
+                <Button size='small' variant='contained' color='success' onClick={() => edit(id)}>
+                  Chỉnh sửa
+                </Button>
+              )}
+              {remove && (
+                <Button size='small' variant='contained' color='error' onClick={() => remove(id)}>
+                  Xóa
+                </Button>
+              )}
+              {choose && !isChosen && (
+                <Button size='small' variant='contained' color='warning' onClick={() => choose(id, true)}>
+                  Chọn
+                </Button>
+              )}
+
+              {choose && isChosen && (
+                <Button size='small' variant='contained' color='inherit' onClick={() => choose(id, false)}>
+                  Bỏ chọn
+                </Button>
+              )}
+            </CardActions>
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   )
 }
