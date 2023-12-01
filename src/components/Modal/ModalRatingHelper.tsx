@@ -1,4 +1,3 @@
-//import { Modal } from './Modal'
 import { doCloseModalRating } from '../../redux/slice/modalDetai'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box } from '@mui/material'
@@ -34,7 +33,6 @@ const ModalRatingHelper = ({ open }: any) => {
     p: 4,
   };
   return (
-    
     <>
       <Modal open={open} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
         <Box sx = {style}>
