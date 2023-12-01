@@ -165,7 +165,7 @@ const PerInfo = () => {
   }, [])
 
   return (
-    <Container sx={{ width: { xs: '100%', md: '60%' } }}>
+    <Container sx={{ width: '60%' }}>
       <Box sx = {{background:'white', position:'relative', padding:'20px', display:'flex', flexDirection: 'column'}}>
         <span
           style={{ position: 'absolute', top: '10px', right: '10px' }}

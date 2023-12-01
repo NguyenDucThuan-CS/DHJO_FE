@@ -72,7 +72,7 @@ const ChangePassword = () => {
     })
   }, [])
   return (
-    <Container sx={{ width: { xs: '100%', md: '70%' } }}>
+    <Container sx={{ width: '60%' }}>
       {/* <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
         Chinh sua
       </Button> */}

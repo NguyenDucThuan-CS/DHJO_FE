@@ -166,7 +166,7 @@ const AddAdress = () => {
   }
 
   return (
-    <Container sx={{ width: { xs: '100%', md: '50%', background: 'white', position: 'relative', padding: '20px' } }}>
+    <Container sx={{ width: '58%', background: 'white', position: 'relative', padding: '20px' } }>
       {/* <Button variant='outlined' onClick={() => setDisabled(false)}>
         Chinh sua
       </Button> */}
