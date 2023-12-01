@@ -21,28 +21,6 @@ import { toast } from 'react-toastify'
 const MySpan = styled('span')({
   marginLeft: '8px'
 })
-// interface Props {
-//   helperId: string
-//   name: string
-//   gender: {
-//     id: string
-//     name: string
-//   }
-//   birhday: string
-//   education: {
-//     id: string
-//     name: string
-//   }
-//   skills: {
-//     id: string
-//     skillName: string
-//   }[]
-//   edit?: (id: string) => void
-//   remove?: (id: string) => void
-//   choose?: (id: string, flag: boolean) => void
-//   isChosen?: boolean
-// }
-
 
 export default function HelperCard({
   name,
