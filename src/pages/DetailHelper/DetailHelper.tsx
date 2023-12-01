@@ -2,99 +2,81 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import Button from '@mui/material/Button'
 import { ListStar } from '../../components/ListStar/ListStar'
-import { useState } from 'react'
-import { Chip } from '@mui/material'
 import { useSelector } from 'react-redux'
-const DetailHelper = () => {
-  const [tab, setTab] = useState<number>(1)
-  const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
-  const renderNumberStars = () => {
-    if (helperInfo.overallRating.avgScore === -1) {
-      return 3
-    }
-    return helperInfo.overallRating.avgScore
+import PersonIcon from '@mui/icons-material/Person'
+import ManIcon from '@mui/icons-material/Man'
+import CakeIcon from '@mui/icons-material/Cake'
+import SchoolIcon from '@mui/icons-material/School'
+import { styled } from '@mui/system'
+const PREFIX = 'Demo'
+const classes = {
+  icon: `${PREFIX}-icon`,
+  textCenter: `${PREFIX}-textCenter`,
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  thirdRoom: `${PREFIX}-thirdRoom`,
+  header: `${PREFIX}-header`,
+  commandButton: `${PREFIX}-commandButton`
+}
+const StyledGrid = styled(Grid)(() => ({
+  [`&.${classes.textCenter}`]: {
+    textAlign: 'center'
   }
+}))
+
+export const StyledPersonIcon = styled(PersonIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledManIcon = styled(ManIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledCakeIcon = styled(CakeIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+const DetailHelper = () => {
+ 
+  const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
 
   return (
     <Container maxWidth='md'>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Box
-            component='img'
-            sx={{
-              width: '100%',
-              height: '150px'
-            }}
-            alt='img'
-            src={`data:image;base64,${helperInfo.img}`}
-          />
-          <ListStar number={renderNumberStars() + 1} />
-            <span style={{ padding: '5px', fontWeight: 'bold' }}>{helperInfo.name}</span>
-        </Grid>
-        <Grid item xs={8}>
-          <Stack spacing={2} direction={'row'} sx={{ marginTop: '10px' }}>
-            <Button variant={`${tab === 1 ? 'contained' : 'outlined'}`} onClick={() => setTab(1)}>
-              Thông tin
-            </Button>
-            <Button variant={`${tab === 2 ? 'contained' : 'outlined'}`} onClick={() => setTab(2)}>
-              Đánh giá
-            </Button>
-          </Stack>
-          {tab === 1 ? (
-            <Box>
-              <Stack direction={'row'} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '18px', marginRight: '10px' }}>Ngày sinh:</span>{' '}
-                <span style={{ fontSize: '18px' }}>{helperInfo.doB}</span>
+        <Stack>
+          {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
+          {helperInfo.overallRating.typicalRatings?.map((item: any, index: any) => (
+            <Box
+              sx={{
+                background: '#F4FCFF',
+                marginTop: '10px',
+                width: '300px',
+                padding: '10px',
+                borderRadius: '15px'
+              }}
+            >
+              <p style={{ color: 'black', fontWeight: 'bold' }}>Đánh giá {index + 1}</p>
+              <Stack direction={'row'}>
+                <span>{item.score}</span>
+                <ListStar number={item.score + 1} />
               </Stack>
 
-              <Stack direction={'row'} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '18px', marginRight: '10px' }}>Giới tính:</span>{' '}
-                <span style={{ fontSize: '18px' }}>{helperInfo.gender}</span>
-              </Stack>
-              <Stack direction={'row'} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '18px', marginRight: '10px' }}>Trình độ:</span>{' '}
-                <span style={{ fontSize: '18px' }}>{helperInfo.edu}</span>
-              </Stack>
-              <Stack direction={'row'} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '18px', marginRight: '10px' }}>Kĩ năng:</span>{' '}
-                <Stack direction='row' spacing={1}>
-                  {helperInfo.skill.map((item: any) => (
-                    <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />
-                  ))}
-                </Stack>
-              </Stack>
-              <Stack direction={'row'} sx={{ marginTop: '5px', marginBottom: '5px' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '18px', marginRight: '10px' }}>Số điện thoại:</span>{' '}
-                <span style={{ fontSize: '18px' }}>{helperInfo.phone}</span>
-              </Stack>
+              <p>{item.comment}</p>
             </Box>
-          ) : (
-            <Stack>
-              {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
-              {helperInfo.overallRating.typicalRatings?.map((item: any, index:any) => (
-                <Box
-                  sx={{
-                    background: '#F4FCFF',
-                    marginTop: '10px',
-                    width: '300px',
-                    padding: '10px',
-                    borderRadius: '15px'
-                  }}
-                >
-                  <p style={{ color: 'black', fontWeight: 'bold' }}>Đánh giá {index + 1}</p>
-                  <Stack direction={'row'}>
-                    <span>{item.score}</span>
-                    <ListStar number={item.score + 1} />
-                  </Stack>
-
-                  <p>{item.comment}</p>
-                </Box>
-              ))}
-            </Stack>
-          )}
-        </Grid>
+          ))}
+        </Stack>
       </Grid>
     </Container>
   )

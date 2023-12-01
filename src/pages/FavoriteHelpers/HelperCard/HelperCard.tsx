@@ -17,6 +17,7 @@ import { AddFavorite } from '../../../assets/svg/AddFavorite'
 import { RemoveFavorite } from '../../../assets/RemoveFavorite'
 import { addFavoriteHelper, removeFavoriteHelper } from '../../../apis/favaritehelper.api'
 import { toast } from 'react-toastify'
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 
 const MySpan = styled('span')({
   marginLeft: '8px'
@@ -57,6 +58,12 @@ export const StyledCakeIcon = styled(CakeIcon)(({ theme: { palette } }) => ({
 }))
 
 export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledLocalPhoneIcon = styled(LocalPhoneIcon)(({ theme: { palette } }) => ({
   [`&.${classes.icon}`]: {
     color: 'rgba(0, 0, 0, 0.54)'
   }
@@ -176,6 +183,14 @@ export default function HelperCard({
                 </StyledGrid>
                 <Grid item xs={10}>
                   <span style={{ fontSize: '14px' }}>{education.name}</span>
+                </Grid>
+              </Grid>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledLocalPhoneIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span style={{ fontSize: '14px' }}>{phone}</span>
                 </Grid>
               </Grid>
 
