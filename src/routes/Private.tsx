@@ -20,7 +20,6 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
   const { open } = useSelector((state: any) => state.modalHelperReducer)
   const { openRating } = useSelector((state: any) => state.modalHelperReducer)
 
-
   const checkCorrectRole = () => {
     if (window.location.href.split('/').includes('helper') && readCookie('roles') === 'ROLE_HELPER') return true
     if (window.location.href.split('/').includes('owner') && readCookie('roles') === 'ROLE_OWNER') return true
@@ -40,10 +39,22 @@ export const PrivateRouter = ({ children }: PrivateRouterProps) => {
   return (
     <div style={{ position: 'relative' }}>
       <Header />
-      <div style={{ padding: '20px', background: '#0000'}}>{children}</div>
+      <div
+        style={{
+          padding: '20px',
+          background: '#0000',
+          // display: 'flex',
+          // justifyContent: 'center',
+          // alignItems: 'center',
+          // maxWidth: '1488px',
+          // margin: 'auto'
+        }}
+      >
+        {children}
+      </div>
 
       <ModalDetailHelper open={open} />
-      <ModalRatingHelper open = {openRating} />
+      <ModalRatingHelper open={openRating} />
       {/* <Footer /> */}
     </div>
   )

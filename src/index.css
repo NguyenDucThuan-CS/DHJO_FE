@@ -17,7 +17,9 @@ html {
   padding-bottom: 0 !important;
 }
 
-
+.css-19r6kue-MuiContainer-root {
+  max-width: unset !important
+}
 
 @font-face {
   font-family: 'Roboto';
