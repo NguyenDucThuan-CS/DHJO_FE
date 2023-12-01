@@ -153,7 +153,7 @@ const DetailPost = ({
                 <StyledAttachMoneyIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{`${numberWithCommas(post?.fee)}vnd`}</span>
+                <span>{`${numberWithCommas(post?.fee)} vnd`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>

@@ -148,7 +148,7 @@ const Content = ({ children, appointmentData, appointmentResources, ...restProps
             <StyledAttachMoneyIcon className={classes.icon} />
           </StyledGrid>
           <Grid item xs={10}>
-            <span>{`${numberWithCommas(appointmentData.fee)}vnd`}</span>
+            <span>{`${numberWithCommas(appointmentData.fee)} vnd`}</span>
           </Grid>
         </Grid>
       )}
