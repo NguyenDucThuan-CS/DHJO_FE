@@ -19,7 +19,7 @@ import { toast } from 'react-toastify'
 import PreviewPost from '../Helpers/Preview'
 import { Grid } from '@mui/material'
 
-const steps = ['Chọn nhà', 'Chi tiết']
+const steps = ['Chọn nhà', 'Chi tiết', 'Xem trước']
 
 export default function CreateNews() {
   const [activeStep, setActiveStep] = React.useState(0)
@@ -101,7 +101,7 @@ export default function CreateNews() {
             )
           })}
         </Stepper>
-        {activeStep === steps.length ? (
+        {activeStep === 2 ? (
           <React.Fragment>
             <Typography sx={{ mt: 2, mb: 1 }}>Đã hoàn thành các bước</Typography>
 
@@ -110,7 +110,7 @@ export default function CreateNews() {
 
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
-              <Button color='inherit' disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
+              <Button color='inherit'  onClick={handleBack} sx={{ mr: 1 }}>
                 Quay lại
               </Button>
               <Button onClick={handleSumit}>Đăng bài</Button>
