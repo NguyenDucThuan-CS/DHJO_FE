@@ -211,7 +211,7 @@ const PerInfo = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <InputMultipleOption
-              label='Kỹ năng cần thiết'
+              label='Kỹ năng'
               options={skills.map((item) => ({
                 id: item.id,
                 value: item.skillName
