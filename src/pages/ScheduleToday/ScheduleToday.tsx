@@ -10,6 +10,8 @@ import Room from '@mui/icons-material/Room'
 import PersonIcon from '@mui/icons-material/Person'
 import PhoneIcon from '@mui/icons-material/Phone'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import { numberWithCommas } from '../../utils/common'
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 
 
 const currentDate = dayjs(new Date()).format('YYYY-MM-DD')
@@ -81,7 +83,11 @@ const StyledPhoneIcon = styled(PhoneIcon)(({ theme: { palette } }) => ({
     color: palette.action.active
   }
 }))
-
+export const StyledAttachMoneyIcon = styled(AttachMoneyIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: palette.action.active
+  }
+}))
 
 const Header = ({ children, appointmentData, ...restProps }: any) => (
   <StyledAppointmentTooltipHeader {...restProps} appointmentData={appointmentData}>
@@ -133,6 +139,16 @@ const Content = ({ children, appointmentData, appointmentResources, ...restProps
           </StyledGrid>
           <Grid item xs={10}>
             <span>{appointmentData.ownerPhoneNum}</span>
+          </Grid>
+        </Grid>
+      )}
+      {appointmentData.fee && (
+        <Grid container alignItems='center'>
+          <StyledGrid item xs={2} className={classes.textCenter}>
+            <StyledAttachMoneyIcon className={classes.icon} />
+          </StyledGrid>
+          <Grid item xs={10}>
+            <span>{`${numberWithCommas(appointmentData.fee)}vnd`}</span>
           </Grid>
         </Grid>
       )}

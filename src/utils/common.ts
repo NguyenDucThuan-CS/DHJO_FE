@@ -84,3 +84,8 @@ export const renderHour = (startTime: { hour: number; minute: number; nano: numb
   const tag = startTime.hour > 12 ? 'pm' : 'am'
   return `${renderHourMinute(startTime.hour > 12 ? startTime.hour - 12 : startTime.hour)}:${renderHourMinute(startTime.minute)} ${tag}`
 }
+
+export const numberWithCommas = (x:any) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
