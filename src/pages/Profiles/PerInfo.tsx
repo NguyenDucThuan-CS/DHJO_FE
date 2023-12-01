@@ -52,23 +52,6 @@ const PerInfo = () => {
     Promise.all([
       updateProfileOwner({ ...data }),
       updateImgUser({id:null, base64String: await toBase64(img)})
-      // new Promise((resolve) => {
-      //   if (img) {
-      //     resolve(
-      //       fetch('http://localhost:8080/api/image', {
-      //         method: 'POST',
-      //         body: objToFormData({
-      //           profileImage: img
-      //         }),
-      //         headers: {
-      //           Authorization: `Bearer ${readCookie('tokenDHJO')}`
-      //         }
-      //       })
-      //     )
-      //   } else {
-      //     resolve(true)
-      //   }
-      // })
     ]).then(() => {
       setOpen(true)
       setText('Cập nhật thông tin thành công')
@@ -115,7 +98,6 @@ const PerInfo = () => {
           <EditIcon />
         </span>
         <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {disabled} handleSetInitImg = {handleSetInitImg} />
-        {/* <AvatarChooser setImg={setImg} imgInit={imgInit} disabled={disabled} /> */}
         <Input
           label='Họ tên'
           error={errors.name?.message ? true : false}

@@ -86,6 +86,6 @@ export const renderHour = (startTime: { hour: number; minute: number; nano: numb
 }
 
 export const numberWithCommas = (x:any) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 

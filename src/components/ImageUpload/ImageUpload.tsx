@@ -55,9 +55,6 @@ const UploadImage = ({ handleSetImg, initImg, disabled,handleSetInitImg }: any) 
       { (
         <Box {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
-          {/* <Typography>
-            Kéo và thả hình ảnh hoặc bấm vào đây để tải lên
-          </Typography> */}
           <Button disabled = {disabled} variant="outlined" type="button" onClick={open}>
             Chọn hình ảnh
           </Button>
