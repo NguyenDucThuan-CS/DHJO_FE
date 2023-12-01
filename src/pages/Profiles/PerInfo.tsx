@@ -48,7 +48,6 @@ const PerInfo = () => {
   }
 
   const onSubmit = handleSubmit(async (data) => {
-    //updateProfileOwner({...data})
     Promise.all([
       updateProfileOwner({ ...data }),
       updateImgUser({id:null, base64String: await toBase64(img)})
