@@ -75,17 +75,9 @@ export const StyledEventAvailableIcon = styled(EventAvailableIcon)(({ theme: { p
 }))
 const PreviewPost = ({
   post,
-  onClick,
-  isHideBtn,
-  listHelper,
-  choose,
-  isHideFooter,
-  clickRating,
-  isConfirmBtn,
-  onClickMarkPost
 }: any) => {
   if (post) {
-   
+    console.log('iii', post)
     return (
       <Box sx={{ background: 'white', padding: '15px', position: 'sticky', top: 0 }}>
         <Typography variant='h4' align='left'>
@@ -139,7 +131,7 @@ const PreviewPost = ({
                 <StyledWcIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={11}>
-                {post.preferredGender.id !== '0' ? `${post.preferredGender.name}` : 'Không yêu cầu'}
+                {post.preferredGender ? `${post.preferredGender.name}` : 'Không yêu cầu'}
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
@@ -147,7 +139,7 @@ const PreviewPost = ({
                 <StyledSchoolIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={11}>
-                {post.preferredEducation.id !== '0' ? post.preferredEducation.name : 'Không yêu cầu'}
+                {post.preferredEducation ? post.preferredEducation.name : 'Không yêu cầu'}
               </Grid>
             </Grid>
             {post.recurringPattern && (
