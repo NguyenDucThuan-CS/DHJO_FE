@@ -13,7 +13,7 @@ import Chip from '@mui/material/Chip'
 import { ReactNode } from 'react'
 import { renderDate } from '../../pages/ScheduleToday/ScheduleToday'
 import { timeSince, renderHour } from '../../utils/common'
-
+import { numberWithCommas } from '../../utils/common'
 const MySpan = styled('span')({
   //fontWeight: 'bolder',
   fontSize: '20px',
@@ -109,7 +109,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                 <StyledAttachMoneyIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{`${post?.fee}vnd`}</span>
+                <span>{`${numberWithCommas(post?.fee)} vnd`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>

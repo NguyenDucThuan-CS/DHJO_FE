@@ -17,6 +17,7 @@ import { renderHour, timeSince } from '../../utils/common'
 
 import RestoreIcon from '@mui/icons-material/Restore'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable'
+import { numberWithCommas } from '../../utils/common'
 // interface Props {
 //   post?: IPost
 //   onClick?: () => void
@@ -152,7 +153,7 @@ const DetailPost = ({
                 <StyledAttachMoneyIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{`${post?.fee}vnd`}</span>
+                <span>{`${numberWithCommas(post?.fee)}vnd`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
