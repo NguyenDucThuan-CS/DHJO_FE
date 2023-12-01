@@ -82,6 +82,9 @@ const AddAdress = () => {
       setIsLoading(false)
       setListProvince(res.data.data)
     })
+    .finally(() => {
+      setIsLoading(false)
+    })
   }, [])
 
   useEffect(() => {
