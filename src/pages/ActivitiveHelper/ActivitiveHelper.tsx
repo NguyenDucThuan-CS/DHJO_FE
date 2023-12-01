@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack'
 //import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import CardPost from '../../components/CardPost/CardPost'
 import Grid from '@mui/material/Grid'
-import DetailPost from './DetailPost'
+import DetailPost from '../Helpers/DetailPost'
 import Schedule from './Schedule/Schedule'
 import { useResposive } from '../../utils/hook'
 import { getActivePosts, filterActivePosts } from '../../apis/get-active-post'
@@ -231,7 +231,8 @@ const ActvitiveHelper = () => {
                   post={listPost.find((item) => item.id === activePost)}
                   onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
                   isHideFooter={true}
-                  contentBtn={renderTextForBtn(listPost.find((item) => item.id === activePost))}
+                  isHideBtn = {true}
+                  //contentBtn={renderTextForBtn(listPost.find((item) => item.id === activePost))}
                 />
               </Grid>
             )}

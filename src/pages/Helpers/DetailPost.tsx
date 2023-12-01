@@ -125,7 +125,7 @@ const DetailPost = ({
           }}
         >
           {renderTimeAgo()}
-          {post.applicantNumber !== undefined && <span>{` - ${post.applicantNumber} người ứng tuyển`}</span>}
+          {post.applicantNumber !== null && <span>{` - ${post.applicantNumber} người ứng tuyển`}</span>}
         </Box>
 
         {!isHideBtn && (
