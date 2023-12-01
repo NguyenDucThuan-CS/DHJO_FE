@@ -31,7 +31,7 @@ const resources = [
 ]
 
 export const renderDate = (date:any, time:any) => {
-    return `${date.year}-${date.month}-${date.day}T${renderHourMinute(time.hour)}:${renderHourMinute(time.minute)}`
+    return `${date.year}-${renderHourMinute(date.month)}-${renderHourMinute(date.day)}T${renderHourMinute(time.hour)}:${renderHourMinute(time.minute)}`
 }
 
 const renderEndTime = ( startTime:any,workTime:number) => {
@@ -142,7 +142,7 @@ const Content = ({ children, appointmentData, appointmentResources, ...restProps
 
 const ScheduleToday = () => {
   const [tasks, setTasks] = useState<any>([])
-
+  console.log("taskssssss", tasks)
   useEffect(() => {
     getTaskToday().then((res) => {
       if(res.data.data && res.data.data.length) setTasks(res.data.data.map((item:any) => ({
@@ -150,7 +150,6 @@ const ScheduleToday = () => {
         startDate: renderDate(item.startDate, item.startTime),
         endDate: renderDate(item.startDate, renderEndTime(item.startTime, item.workTime)),
         title: item.taskName,
-        id: item.postId,
         location: `${item.house.street} ${item.house.ward}, ${item.house.district}, ${item.house.province} `,
         type: item.isDraftTask ? 'draftTask' : 'realTask'
       })))
