@@ -21,6 +21,46 @@ import { toast } from 'react-toastify'
 const MySpan = styled('span')({
   marginLeft: '8px'
 })
+const PREFIX = 'Demo'
+const classes = {
+  icon: `${PREFIX}-icon`,
+  textCenter: `${PREFIX}-textCenter`,
+  firstRoom: `${PREFIX}-firstRoom`,
+  secondRoom: `${PREFIX}-secondRoom`,
+  thirdRoom: `${PREFIX}-thirdRoom`,
+  header: `${PREFIX}-header`,
+  commandButton: `${PREFIX}-commandButton`
+}
+
+const StyledGrid = styled(Grid)(() => ({
+  [`&.${classes.textCenter}`]: {
+    textAlign: 'center'
+  }
+}))
+
+export const StyledPersonIcon = styled(PersonIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledManIcon = styled(ManIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledCakeIcon = styled(CakeIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
+
+export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => ({
+  [`&.${classes.icon}`]: {
+    color: 'rgba(0, 0, 0, 0.54)'
+  }
+}))
 
 export default function HelperCard({
   name,
@@ -76,7 +116,7 @@ export default function HelperCard({
         </span>
       ) : (
         <span
-        style={{ position: 'absolute', top: '10px', right: '5px' }}
+          style={{ position: 'absolute', top: '10px', right: '5px' }}
           onClick={(e) => {
             e.stopPropagation()
             removeFavoriteHelper(helperId)
@@ -105,25 +145,41 @@ export default function HelperCard({
             </Grid>
 
             <Grid item xs={7} sm={7} md={7}>
-              <Stack direction={'row'} alignItems={'center'}>
-                <PersonIcon />
-                <MySpan>{name}</MySpan>
-              </Stack>
-              <Stack direction={'row'} alignItems={'center'}>
-                <ManIcon />
-                <MySpan>{gender.name}</MySpan>
-              </Stack>
-              <Stack direction={'row'} alignItems={'center'}>
-                <CakeIcon />
-                <MySpan> {`${birthday.day}/${birthday.month}/${birthday.year}`}</MySpan>
-              </Stack>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledPersonIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span style={{ fontSize: '14px' }}>{name}</span>
+                </Grid>
+              </Grid>
 
-              <Stack direction={'row'} alignItems={'center'}>
-                <SchoolIcon />
-                <MySpan> {education.name}</MySpan>
-              </Stack>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledManIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span style={{ fontSize: '14px' }}>{gender.name}</span>
+                </Grid>
+              </Grid>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledCakeIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span style={{ fontSize: '14px' }}>{`${birthday.day}/${birthday.month}/${birthday.year}`}</span>
+                </Grid>
+              </Grid>
+              <Grid container alignItems='center'>
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <StyledSchoolIcon className={classes.icon} />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span style={{ fontSize: '14px' }}>{education.name}</span>
+                </Grid>
+              </Grid>
 
-              <Stack direction={'row'} alignItems={'center'} sx = {{marginTop:'5px'}}>
+              <Stack direction={'row'} alignItems={'center'} sx={{ marginTop: '5px' }}>
                 <Stack direction='row' spacing={1}>
                   {skills.map((item: any) => (
                     <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />
