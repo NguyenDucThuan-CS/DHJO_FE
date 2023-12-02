@@ -1,6 +1,6 @@
 import ListHomeCard, { House } from './ListHomeCard/ListHomeCard'
 import { Box, Button } from '@mui/material'
-import { Modal } from '../../../components/Modal/Modal'
+//import { Modal } from '../../../components/Modal/Modal'
 import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { Input } from '../../../components/Input/Input'
@@ -15,6 +15,8 @@ import UploadImage from '../../../components/ImageUpload/ImageUpload'
 import { updateHouseImg } from '../../../apis/img.api'
 import { toast } from 'react-toastify'
 import { toBase64 } from '../../../utils/common'
+import Modal from '@mui/material/Modal'
+
 interface Province {
   code: string
   name: string
@@ -28,7 +30,16 @@ interface FormData {
   houseNo: string
   street: string
 }
-
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4
+}
 const HomeProfiles = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [openPopup, setOpenPopup] = useState<boolean>(false)
@@ -172,7 +183,8 @@ const HomeProfiles = () => {
         province: listProvince.find((item) => item.code === idProvince)
       })
         .then(async (res) => {
-          setIsLoading(false)
+          setIsLoading(false);
+          setOpen(false);
           if (!img) {
             toast.success('Cập nhật căn nhà thành công')
             getHousesOfOwer().then((res) => setListHouses(res.data.data))
@@ -187,7 +199,8 @@ const HomeProfiles = () => {
         })
         .catch((err) => {
           console.log(err)
-          setIsLoading(false)
+          setIsLoading(false);
+          setOpen(false);
           toast.error('Cập nhật căn nhà thất bại')
         })
     }
@@ -251,141 +264,141 @@ const HomeProfiles = () => {
     setInitImg(img)
   }
 
-  const ContentModal = () => {
-    return (
-      <Box>
-        <UploadImage
-          handleSetImg={handleSetImg}
-          initImg={initiImg}
-          disabled={false}
-          handleSetInitImg={handleSetInitImg}
-        />
-        <form>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4}>
-              <Input
-                label='Tên nhà'
-                value={houseName}
-                onChange={(e) => {
-                  setHouseName(e.target.value)
-                  setNameErr('')
-                }}
-                error={nameErr ? true : false}
-                helperText={nameErr}
-              ></Input>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <SelectDropdown
-                list={houseTypes}
-                id={idHouseType}
-                setId={(newValue) => {
-                  setIdHouseType(newValue)
-                  setHouseTypeErr('')
-                }}
-                name={'Loại nhà'}
-                error={houseTypeErr ? true : false}
-                helperText={houseTypeErr}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Input
-                label='Diện tích sàn (m2)'
-                value={floorArea}
-                onChange={(e) => {
-                  setFloorArea(e.target.value)
-                  setFloorAreaErr('')
-                }}
-                type='number'
-                error={floorAreaErr ? true : false}
-                helperText={floorAreaErr}
-              ></Input>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <SelectDropdown
-                list={listProvince?.map((item) => ({
-                  id: item.code,
-                  name: item.name
-                }))}
-                id={idProvince}
-                setId={(newValue) => {
-                  setIdProvince(newValue)
-                  setProvineErr('')
-                }}
-                name={'Tỉnh/Thành phố'}
-                error={provinceErr ? true : false}
-                helperText={provinceErr}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <SelectDropdown
-                list={listDistrict.map((item) => ({
-                  id: item.code,
-                  name: item.name
-                }))}
-                name={'Quận huyện'}
-                id={idDistrict}
-                setId={(newValue) => {
-                  setIdDistrict(newValue)
-                  setDistrictErr('')
-                }}
-                error={districtErr ? true : false}
-                helperText={districtErr}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <SelectDropdown
-                list={listWard.map((item) => ({
-                  id: item.code,
-                  name: item.name
-                }))}
-                name={'Phường/xã'}
-                id={idWard}
-                setId={(newValue) => {
-                  setIdWard(newValue)
-                  setWardErr('')
-                }}
-                error={wardErr ? true : false}
-                helperText={wardErr}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Input
-                label='Số nhà'
-                value={houseNo}
-                onChange={(e) => {
-                  setHouseNo(e.target.value)
-                  setHouseErr('')
-                }}
-                error={houseNoErr ? true : false}
-                helperText={houseNoErr}
-              ></Input>
-            </Grid>
+  // const ContentModal = () => {
+  //   return (
+  //     <Box>
+  //       <UploadImage
+  //         handleSetImg={handleSetImg}
+  //         initImg={initiImg}
+  //         disabled={false}
+  //         handleSetInitImg={handleSetInitImg}
+  //       />
+  //       <form>
+  //         <Grid container spacing={2}>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <Input
+  //               label='Tên nhà'
+  //               value={houseName}
+  //               onChange={(e) => {
+  //                 setHouseName(e.target.value)
+  //                 setNameErr('')
+  //               }}
+  //               error={nameErr ? true : false}
+  //               helperText={nameErr}
+  //             ></Input>
+  //           </Grid>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <SelectDropdown
+  //               list={houseTypes}
+  //               id={idHouseType}
+  //               setId={(newValue) => {
+  //                 setIdHouseType(newValue)
+  //                 setHouseTypeErr('')
+  //               }}
+  //               name={'Loại nhà'}
+  //               error={houseTypeErr ? true : false}
+  //               helperText={houseTypeErr}
+  //             />
+  //           </Grid>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <Input
+  //               label='Diện tích sàn (m2)'
+  //               value={floorArea}
+  //               onChange={(e) => {
+  //                 setFloorArea(e.target.value)
+  //                 setFloorAreaErr('')
+  //               }}
+  //               type='number'
+  //               error={floorAreaErr ? true : false}
+  //               helperText={floorAreaErr}
+  //             ></Input>
+  //           </Grid>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <SelectDropdown
+  //               list={listProvince?.map((item) => ({
+  //                 id: item.code,
+  //                 name: item.name
+  //               }))}
+  //               id={idProvince}
+  //               setId={(newValue) => {
+  //                 setIdProvince(newValue)
+  //                 setProvineErr('')
+  //               }}
+  //               name={'Tỉnh/Thành phố'}
+  //               error={provinceErr ? true : false}
+  //               helperText={provinceErr}
+  //             />
+  //           </Grid>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <SelectDropdown
+  //               list={listDistrict.map((item) => ({
+  //                 id: item.code,
+  //                 name: item.name
+  //               }))}
+  //               name={'Quận huyện'}
+  //               id={idDistrict}
+  //               setId={(newValue) => {
+  //                 setIdDistrict(newValue)
+  //                 setDistrictErr('')
+  //               }}
+  //               error={districtErr ? true : false}
+  //               helperText={districtErr}
+  //             />
+  //           </Grid>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <SelectDropdown
+  //               list={listWard.map((item) => ({
+  //                 id: item.code,
+  //                 name: item.name
+  //               }))}
+  //               name={'Phường/xã'}
+  //               id={idWard}
+  //               setId={(newValue) => {
+  //                 setIdWard(newValue)
+  //                 setWardErr('')
+  //               }}
+  //               error={wardErr ? true : false}
+  //               helperText={wardErr}
+  //             />
+  //           </Grid>
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <Input
+  //               label='Số nhà'
+  //               value={houseNo}
+  //               onChange={(e) => {
+  //                 setHouseNo(e.target.value)
+  //                 setHouseErr('')
+  //               }}
+  //               error={houseNoErr ? true : false}
+  //               helperText={houseNoErr}
+  //             ></Input>
+  //           </Grid>
 
-            <Grid item xs={12} sm={6} md={4}>
-              <Input
-                label='Tên đường'
-                value={street}
-                onChange={(e) => {
-                  setStreet(e.target.value)
-                  setStreetErr('')
-                }}
-                error={streetErr ? true : false}
-                helperText={streetErr}
-              ></Input>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-    )
-  }
+  //           <Grid item xs={12} sm={6} md={4}>
+  //             <Input
+  //               label='Tên đường'
+  //               value={street}
+  //               onChange={(e) => {
+  //                 setStreet(e.target.value)
+  //                 setStreetErr('')
+  //               }}
+  //               error={streetErr ? true : false}
+  //               helperText={streetErr}
+  //             ></Input>
+  //           </Grid>
+  //         </Grid>
+  //       </form>
+  //     </Box>
+  //   )
+  // }
 
-  const ActionsModal = () => {
-    return (
-      <Button variant='outlined' onClick={createNewHouse}>
-        {idHouse ? 'Cập nhật' : 'Tạo mới'}
-      </Button>
-    )
-  }
+  // const ActionsModal = () => {
+  //   return (
+  //     <Button variant='outlined' onClick={createNewHouse}>
+  //       {idHouse ? 'Cập nhật' : 'Tạo mới'}
+  //     </Button>
+  //   )
+  // }
 
   const editHome = async (id: string) => {
     const res = await getHouseById({ id })
@@ -427,14 +440,149 @@ const HomeProfiles = () => {
         Thêm mới +
       </Button>
       <ListHomeCard listHouses={listHouse} edit={editHome} remove={removeHome} />
-      <Modal
+      {/* <Modal
         open={open}
         handleClose={() => setOpen(false)}
         Content={<ContentModal></ContentModal>}
         Actions={<ActionsModal></ActionsModal>}
-      />
+      /> */}
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby='modal-modal-title'
+        aria-describedby='modal-modal-description'
+      >
+        <Box sx={style}>
+          <Box>
+            <UploadImage
+              handleSetImg={handleSetImg}
+              initImg={initiImg}
+              disabled={false}
+              handleSetInitImg={handleSetInitImg}
+            />
+            <form>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Input
+                    label='Tên nhà'
+                    value={houseName}
+                    onChange={(e) => {
+                      setHouseName(e.target.value)
+                      setNameErr('')
+                    }}
+                    error={nameErr ? true : false}
+                    helperText={nameErr}
+                  ></Input>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <SelectDropdown
+                    list={houseTypes}
+                    id={idHouseType}
+                    setId={(newValue) => {
+                      setIdHouseType(newValue)
+                      setHouseTypeErr('')
+                    }}
+                    name={'Loại nhà'}
+                    error={houseTypeErr ? true : false}
+                    helperText={houseTypeErr}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Input
+                    label='Diện tích sàn (m2)'
+                    value={floorArea}
+                    onChange={(e) => {
+                      setFloorArea(e.target.value)
+                      setFloorAreaErr('')
+                    }}
+                    type='number'
+                    error={floorAreaErr ? true : false}
+                    helperText={floorAreaErr}
+                  ></Input>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <SelectDropdown
+                    list={listProvince?.map((item) => ({
+                      id: item.code,
+                      name: item.name
+                    }))}
+                    id={idProvince}
+                    setId={(newValue) => {
+                      setIdProvince(newValue)
+                      setProvineErr('')
+                    }}
+                    name={'Tỉnh/Thành phố'}
+                    error={provinceErr ? true : false}
+                    helperText={provinceErr}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <SelectDropdown
+                    list={listDistrict.map((item) => ({
+                      id: item.code,
+                      name: item.name
+                    }))}
+                    name={'Quận huyện'}
+                    id={idDistrict}
+                    setId={(newValue) => {
+                      setIdDistrict(newValue)
+                      setDistrictErr('')
+                    }}
+                    error={districtErr ? true : false}
+                    helperText={districtErr}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <SelectDropdown
+                    list={listWard.map((item) => ({
+                      id: item.code,
+                      name: item.name
+                    }))}
+                    name={'Phường/xã'}
+                    id={idWard}
+                    setId={(newValue) => {
+                      setIdWard(newValue)
+                      setWardErr('')
+                    }}
+                    error={wardErr ? true : false}
+                    helperText={wardErr}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Input
+                    label='Số nhà'
+                    value={houseNo}
+                    onChange={(e) => {
+                      setHouseNo(e.target.value)
+                      setHouseErr('')
+                    }}
+                    error={houseNoErr ? true : false}
+                    helperText={houseNoErr}
+                  ></Input>
+                </Grid>
 
-      <Modal open={isLoading} Content={<Loading></Loading>} />
+                <Grid item xs={12} sm={6} md={4}>
+                  <Input
+                    label='Tên đường'
+                    value={street}
+                    onChange={(e) => {
+                      setStreet(e.target.value)
+                      setStreetErr('')
+                    }}
+                    error={streetErr ? true : false}
+                    helperText={streetErr}
+                  ></Input>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
+          <Button variant='outlined' onClick={createNewHouse}>
+            {idHouse ? 'Cập nhật' : 'Tạo mới'}
+          </Button>
+        </Box>
+      </Modal>
+
+      {/* <Modal open={isLoading} Content={<Loading></Loading>} /> */}
       <Popup open={openPopup} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
     </Box>
   )
