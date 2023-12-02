@@ -82,7 +82,7 @@ export default function HomeCard({
 }: HomeCardProps) {
   return (
     <Card>
-      <CardContent sx={{ padding: 0 }}>
+      <CardContent sx={{ padding: 0, height: '220px' }}>
         <Grid container spacing={2}>
           <Grid item xs={5} sm={5} md={5}>
             <Box

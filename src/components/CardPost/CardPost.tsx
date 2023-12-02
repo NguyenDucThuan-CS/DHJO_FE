@@ -3,15 +3,12 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import { styled } from '@mui/system'
 import { Box, Grid } from '@mui/material'
-import Stack from '@mui/material/Stack'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HomeIcon from '@mui/icons-material/Home'
 import WcIcon from '@mui/icons-material/Wc'
 import SchoolIcon from '@mui/icons-material/School'
-import Chip from '@mui/material/Chip'
 import { ReactNode } from 'react'
-import { renderDate } from '../../pages/ScheduleToday/ScheduleToday'
 import { timeSince, renderHour } from '../../utils/common'
 import { numberWithCommas } from '../../utils/common'
 const MySpan = styled('span')({
@@ -81,7 +78,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
       onClick={onClick}
     >
       <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>{CardAction}</Box>{' '}
-      <CardContent sx = {{padding:0}}>
+      <CardContent sx = {{padding:0, height: '200px'}}>
         <Grid container spacing={2}>
           <Grid item xs={5} sm={5} md={5}>
             <Box

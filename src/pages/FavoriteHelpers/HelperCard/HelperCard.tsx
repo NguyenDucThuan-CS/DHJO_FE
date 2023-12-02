@@ -137,7 +137,7 @@ export default function HelperCard({
         </span>
       )}
       <Card>
-        <CardContent>
+        <CardContent sx = {{height: '200px'}}>
           <Grid container spacing={2}>
             <Grid item xs={5} sm={5} md={5}>
               <Box
