@@ -18,6 +18,7 @@ import { RemoveFavorite } from '../../../assets/RemoveFavorite'
 import { addFavoriteHelper, removeFavoriteHelper } from '../../../apis/favaritehelper.api'
 import { toast } from 'react-toastify'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import { useState } from 'react'
 
 const MySpan = styled('span')({
   marginLeft: '8px'
@@ -84,10 +85,12 @@ export default function HelperCard({
   hideBtn,
   rating,
   clickRating,
-  isFavourite,
+  isFavourite: isFavouriteIn,
   img
 }: any) {
   const dispatch = useDispatch()
+  const [isFavourite, setIsFavourite] = useState<any>(isFavouriteIn)
+
   return (
     <Box
       sx={{ position: 'relative' }}
@@ -112,6 +115,7 @@ export default function HelperCard({
           style={{ position: 'absolute', top: '10px', right: '5px' }}
           onClick={(e) => {
             e.stopPropagation()
+            setIsFavourite(!isFavourite);
             addFavoriteHelper(helperId)
               .then((res) => {
                 toast.success('Thêm vào danh sách yêu thích thành công')
@@ -126,6 +130,7 @@ export default function HelperCard({
           style={{ position: 'absolute', top: '10px', right: '5px' }}
           onClick={(e) => {
             e.stopPropagation()
+            setIsFavourite(!isFavourite);
             removeFavoriteHelper(helperId)
               .then((res) => {
                 toast.success('Loại khỏi vào danh sách yêu thích thành công')

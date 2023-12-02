@@ -262,7 +262,7 @@ const DetailPost = ({
                     hideBtn={!post?.applied}
                     rating={post.finished}
                     clickRating={clickRating}
-                    isFavourite={post.isFavourite}
+                    isFavourite={item.isFavourite}
                     img={item.base64Image}
                     //isChosen={idChosen == item.id}
                   />

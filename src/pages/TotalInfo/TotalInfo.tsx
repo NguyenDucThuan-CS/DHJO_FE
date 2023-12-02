@@ -135,7 +135,7 @@ const TotalInfo = () => {
                 handleClick(item.id)
               }}>
                 <TableCell component='th' scope='row' align='center'>
-                  {item.content}
+                  {item.title}
                 </TableCell>
                 <TableCell align='center'>{item.house.houseName}</TableCell>
                 <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
@@ -167,7 +167,7 @@ const TotalInfo = () => {
                 handleClick(item.id)
               }}>
                 <TableCell component='th' scope='row' align='center'>
-                  {item.content}
+                  {item.title}
                 </TableCell>
                 <TableCell align='center'>{item.house.houseName}</TableCell>
                 <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
