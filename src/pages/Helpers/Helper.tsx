@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography'
 import Nofind from '../../components/NoFind/NoFind'
 import ScheduleToday from '../ScheduleToday/ScheduleToday'
 import { toast } from 'react-toastify'
+import { Pagination } from '@mui/material'
 export interface IPost {
   id: string
   createdAt: {
@@ -87,7 +88,11 @@ const Helper = () => {
   const [kindJob, setKindJob] = useState<string>('0')
   const [salaryOption, setSalaryOption] = useState<string>('0')
   const [distanceOption, setDistanceOption] = useState<string>('0')
+  
+  const [count, setCount] = useState<number>(1)
+  const [pageNum, setPageNum] = useState<number>(1)
 
+  
   const kindOfJobs = [
     {
       id: '1',
@@ -148,8 +153,11 @@ const Helper = () => {
 
   useEffect(() => {
     getActivePosts().then((res) => {
+      console.log("res.data.data", res.data.data)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
+      setCount(res.data.data.totalPage)
+      setPageNum(1);
     })
   }, [])
 
@@ -157,12 +165,19 @@ const Helper = () => {
     filterActivePosts({
       isRecurring: renderRecurring(kindJob),
       minFee: renderValueSalary(salaryOption),
-      maxDistance: renderValueDistance(distanceOption)
+      maxDistance: renderValueDistance(distanceOption),
+      pageNo: pageNum - 1
     }).then((res) => {
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
+      setCount(res.data.data.totalPage)
+      setPageNum(1);
     })
   }
+
+  useEffect(() => {
+    getFilterActivePost()
+  }, [pageNum])
   const { isFromLg } = useResposive()
 
   const helperApplyPost = () => {
@@ -250,6 +265,15 @@ const Helper = () => {
               </Grid>
             )}
           </Grid>
+          <Pagination
+            count={count}
+            defaultPage={pageNum}
+            siblingCount={0}
+            onChange={(event: React.ChangeEvent<unknown>, page: number) => {
+              setPageNum(page)
+            }}
+            sx = {{marginTop:'15px'}}
+          />
         </Grid>
       </Grid>
 
