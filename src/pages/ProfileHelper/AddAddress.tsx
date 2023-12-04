@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit'
 //import { AddBox } from '@mui/icons-material'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
+import ModalLoading from '@mui/material/Modal';
 
 interface Province {
   code: string
@@ -255,7 +256,9 @@ const AddAdress = () => {
           ></Input>
         </Grid>
 
-        <Modal open={isLoading} Content={<Loading></Loading>} />
+        <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
+          <Loading />
+      </ModalLoading>
         <Popup open={openPopup} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       </Grid>
       {!disabled && (

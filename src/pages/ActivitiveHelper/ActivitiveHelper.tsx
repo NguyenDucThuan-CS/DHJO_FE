@@ -17,6 +17,7 @@ import { Button } from '@mui/material'
 import Nofind from '../../components/NoFind/NoFind'
 import WorkingSchedule from '../WorkingSchedule/WorkingSchedule'
 import ScheduleToday from '../ScheduleToday/ScheduleToday'
+import ModalLoading from '@mui/material/Modal';
 import { toast } from 'react-toastify'
 export interface IPost {
   id: string
@@ -245,7 +246,9 @@ const ActvitiveHelper = () => {
         handleClose={() => setOpenTask(false)}
         Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
-      <Modal open={isLoading} Content={<Loading></Loading>} />
+      <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
+          <Loading />
+      </ModalLoading>
     </Box>
   )
 }

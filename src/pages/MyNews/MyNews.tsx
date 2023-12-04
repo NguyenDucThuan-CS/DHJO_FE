@@ -19,7 +19,7 @@ import { doUpdatePostRating } from '../../redux/slice/modalDetai'
 import { doOpenModalRating } from '../../redux/slice/modalDetai'
 import { markPostAsFinished } from '../../apis/post.api'
 import { toast } from 'react-toastify'
-
+import ModalLoading from '@mui/material/Modal';
 import AddIcon from '@mui/icons-material/Add';
 import Nofind from '../../components/NoFind/NoFind'
 import { doClearInfo } from '../../redux/slice'
@@ -296,7 +296,9 @@ const MyNews = () => {
         <Nofind />
       )}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      <Modal open={isLoading} Content={<Loading></Loading>} />
+      <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
+          <Loading />
+      </ModalLoading>
       <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent:'flex-end'}}  onClick={() => {
           dispatch(doClearInfo({}))
           history('/owner/create-news')

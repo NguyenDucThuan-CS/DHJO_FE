@@ -15,6 +15,7 @@ import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import { FilterIcon } from '../../assets/svg/FilterIcon'
 import Typography from '@mui/material/Typography'
 import  { toast } from 'react-toastify'
+import ModalLoading from '@mui/material/Modal';
 export interface IPost {
   id: string
   createdAt: {
@@ -274,7 +275,9 @@ const Helper = () => {
         handleClose={() => setOpenTask(false)}
         Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
-      <Modal open={isLoading} Content={<Loading></Loading>} />
+     <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
+          <Loading />
+      </ModalLoading>
     </Box>
   )
 }
