@@ -34,7 +34,7 @@ const UploadImage = ({ handleSetImg, initImg, disabled, handleSetInitImg }: any)
         })
       ])
   }, [initImg])
- console.log('difif', files)
+
   const thumbs = files.map((file: any, index: number) => (
     <Box className='thumb' key={index}>
       <Box className='thumb-inner'>

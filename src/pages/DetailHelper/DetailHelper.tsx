@@ -66,7 +66,7 @@ const DetailHelper = () => {
         </Stack>
       </p>
       <Grid container spacing={2}>
-        <Stack>
+        <Stack sx = {{width: '100%'}}>
           {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
           {helperInfo.overallRating.typicalRatings?.map((item: any, index: any) => (
             <Box

@@ -209,9 +209,6 @@ export default function HelperCard({
             </Grid>
           </Grid>
         </CardContent>
-        <Box sx={{ paddingLeft: '12px' , display: 'flex', justifyContent:'flex-end', paddingRight:'12px'}}>
-          <span style={{fontSize:'14px', fontStyle:'italic'}}>Điểm trung bình:</span><ListStar number={overallRating.avgScore + 1}></ListStar>
-        </Box>
         <CardActions>
           {remove && (
             <Button

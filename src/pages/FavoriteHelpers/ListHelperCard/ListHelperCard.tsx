@@ -26,7 +26,6 @@ import { Grid } from '@mui/material'
 // }
 
 export default function ListHelperCard({ listHelpers, choose, idChosen }: any) {
-  console.log("listHelpers", listHelpers)
   return (
     <div>
       <Grid container spacing={2}>
