@@ -123,7 +123,7 @@ export default function CardPost({ post, active, onClick, CardAction, CardNote }
                 <StyledHomeIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
+                <span>{`${post.house.houseNo} ${post.house.street}, ${post.house.ward}, ${post.house.district}, ${post.house.province}`}</span>
               </Grid>
             </Grid>
           </Grid>

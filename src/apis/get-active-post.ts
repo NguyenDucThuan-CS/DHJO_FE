@@ -1,7 +1,7 @@
 import http from '../utils/http'
 const url = 'api/post/active-posts'
-
-export const getActivePosts = (pageNo:number = 0, pageSize:number = 5) => {
+import { PAGE_SIZE } from '../utils/constants'
+export const getActivePosts = (pageNo:number = 0, pageSize:number = PAGE_SIZE) => {
   return http.get(url, {
     params: {
       pageNo: pageNo,
@@ -16,7 +16,7 @@ export const filterActivePosts = (rest:any) => {
   return http.get(url, {
     params: {
       pageNo: 0,
-      pageSize: 5,
+      pageSize: PAGE_SIZE,
       sortBy: 'created_at',
       sortDir: 'desc',
       ...rest

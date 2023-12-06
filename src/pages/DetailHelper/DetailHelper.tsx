@@ -9,6 +9,8 @@ import ManIcon from '@mui/icons-material/Man'
 import CakeIcon from '@mui/icons-material/Cake'
 import SchoolIcon from '@mui/icons-material/School'
 import { styled } from '@mui/system'
+import { Typography } from '@mui/material'
+import { timeSince } from '../../utils/common'
 const PREFIX = 'Demo'
 const classes = {
   icon: `${PREFIX}-icon`,
@@ -49,28 +51,44 @@ export const StyledSchoolIcon = styled(SchoolIcon)(({ theme: { palette } }) => (
   }
 }))
 const DetailHelper = () => {
- 
   const { helperInfo } = useSelector((state: any) => state.modalHelperReducer)
+  const renderTimeAgo = (arr: any) => {
+    const timeModified = new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4])
+    return timeSince(timeModified) + ' ago'
+  }
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='md' sx={{ paddingLeft: 0 }}>
+      <p style={{ marginBottom: '20px', fontSize: '26px', fontWeight: 'bold' }}>
+        Phản hồi từ chủ nhà
+        <Stack display={'flex'} direction={'row'}>
+          {helperInfo.overallRating.avgScore} <ListStar number={helperInfo.overallRating.avgScore + 1} />
+        </Stack>
+      </p>
       <Grid container spacing={2}>
         <Stack>
           {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
           {helperInfo.overallRating.typicalRatings?.map((item: any, index: any) => (
             <Box
               sx={{
-                background: '#F4FCFF',
+                background: '#d6e5eb',
                 marginTop: '10px',
-                width: '300px',
+                width: '100%',
                 padding: '10px',
-                borderRadius: '15px'
+                borderRadius: '4px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1
               }}
             >
-              <p style={{ color: 'black', fontWeight: 'bold' }}>Đánh giá {index + 1}</p>
-              <Stack direction={'row'}>
-                <span>{item.score}</span>
-                <ListStar number={item.score + 1} />
+              <p style={{ color: 'black', fontWeight: 'bold' }}>{item.name}</p>
+              <p style={{ color: 'black', fontSize: '22px' }}>{item.postTitle}</p>
+
+              <Stack direction={'row'} spacing={2}>
+                <ListStar number={item.score + 1} />{' '}
+                <span style={{ color: 'rgba(0, 0, 0, 0.54)', fontStyle: 'italic' }}>
+                  {renderTimeAgo(item.modifiedAt)}
+                </span>
               </Stack>
 
               <p>{item.comment}</p>

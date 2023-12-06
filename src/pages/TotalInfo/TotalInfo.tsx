@@ -23,7 +23,13 @@ import { toast } from 'react-toastify'
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
     <>
-      <div style = {{display: 'flex', alignItems:'center', justifyContent:'center'}}><img src = {`data:image;base64,${helper.base64Image}`} style={{marginRight:'5px',width:'50px', height: '50px'}}/>{helper.name}</div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img
+          src={`data:image;base64,${helper.base64Image}`}
+          style={{ marginRight: '5px', width: '50px', height: '50px' }}
+        />
+        {helper.name}
+      </div>
     </>
   ))
 }
@@ -34,10 +40,18 @@ export function WaitingNews(list: any) {
       <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
         <TableHead>
           <TableRow>
-            <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Tin đăng</TableCell>
-            <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Tên căn nhà</TableCell>
-            <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Ngày làm việc</TableCell>
-            <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Người giúp việc đăng kí</TableCell>
+            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+              Tin đăng
+            </TableCell>
+            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+              Tên căn nhà
+            </TableCell>
+            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+              Ngày làm việc
+            </TableCell>
+            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+              Người giúp việc đăng kí
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -71,7 +85,7 @@ export function FinishedNews(list: any) {
           </TableRow>
         </TableHead>
         <TableBody>
-        {list.list.map((item: any) => (
+          {list.list.map((item: any) => (
             <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component='th' scope='row' align='center'>
                 {item.content}
@@ -90,15 +104,15 @@ const TotalInfo = () => {
   const navigate = useNavigate()
   const [tab, setTab] = useState(0)
   const [dashboardInfo, setDasboardInfo] = useState<any>()
- const [openModalPost, setOpenModalPost] = useState<any>(false)
- const [post, setPost] = useState<any>()
+  const [openModalPost, setOpenModalPost] = useState<any>(false)
+  const [post, setPost] = useState<any>()
 
- const handleClick = (id: string) => {
-  ownerGetPostById(id).then((res) => {
-    setPost(res.data.data)
-    setOpenModalPost(true)
-  })
- }
+  const handleClick = (id: string) => {
+    ownerGetPostById(id).then((res) => {
+      setPost(res.data.data)
+      setOpenModalPost(true)
+    })
+  }
   const dispatch = useDispatch()
   useEffect(() => {
     getDashboardInfo().then((res) => {
@@ -114,7 +128,6 @@ const TotalInfo = () => {
         setOpenModalPost(false)
       })
   }
-  
 
   function WaitingNews(list: any) {
     if (!list.list?.length) return <Nofind />
@@ -123,17 +136,29 @@ const TotalInfo = () => {
         <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
           <TableHead>
             <TableRow>
-              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Tin đăng</TableCell>
-              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Tên căn nhà</TableCell>
-              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Ngày làm việc</TableCell>
-              <TableCell align='center' sx = {{fontSize: '17px', fontWeight: 'bold'}}>Người giúp việc đăng kí</TableCell>
+              <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+                Tin đăng
+              </TableCell>
+              <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+                Tên căn nhà
+              </TableCell>
+              <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+                Ngày làm việc
+              </TableCell>
+              <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+                Người giúp việc đăng kí
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {list.list.map((item: any) => (
-              <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} onClick = {() => {
-                handleClick(item.id)
-              }}>
+              <TableRow
+                key={''}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                onClick={() => {
+                  handleClick(item.id)
+                }}
+              >
                 <TableCell component='th' scope='row' align='center'>
                   {item.title}
                 </TableCell>
@@ -162,10 +187,14 @@ const TotalInfo = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {list.list.map((item: any) => (
-              <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} onClick = {() => {
-                handleClick(item.id)
-              }}>
+            {list.list.map((item: any) => (
+              <TableRow
+                key={''}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                onClick={() => {
+                  handleClick(item.id)
+                }}
+              >
                 <TableCell component='th' scope='row' align='center'>
                   {item.title}
                 </TableCell>
@@ -184,7 +213,12 @@ const TotalInfo = () => {
       <Box sx={{ width: '80%', margin: 'auto' }}>
         <Stack gap={'20px'} direction={'row'} flexWrap={'wrap'} justifyContent={'space-between'}>
           <CardInfo title={'Tổng số tin đăng trong tháng'} color='#fbc733' number={dashboardInfo?.totalPostNumber} />
-          <CardInfo title={'Tổng tiền đã chi trong tháng'} color='#4286f4' number={dashboardInfo?.totalFeeSpent} isMoney = {true}/>
+          <CardInfo
+            title={'Tổng tiền đã chi trong tháng'}
+            color='#4286f4'
+            number={dashboardInfo?.totalFeeSpent}
+            isMoney={true}
+          />
           <CardInfo title={'Tin chờ xác nhận'} color='#eb4235' number={dashboardInfo?.confirmingPostsNumber} />
           <CardInfo title={'Tin chờ đánh giá'} color='#59b76e' number={dashboardInfo?.finishedPostsNumber} />
           <CardInfo title={'Tin sắp quá hạn'} color='#6f3ad8' number={dashboardInfo?.expiringPostsNumber} />
@@ -206,19 +240,23 @@ const TotalInfo = () => {
         </Box>
 
         <Box sx={{ marginTop: '20px' }}>
-          <div style={{fontWeight: 'bold', fontSize:'20px', marginBottom:'10px'}}>Người giúp việc hàng đầu</div>
-          {dashboardInfo?.topRatedHelpers.length ? <ListHelperCard listHelpers = {dashboardInfo?.topRatedHelpers}/>:<Nofind />}
+          <div style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '10px' }}>Người giúp việc hàng đầu</div>
+          {dashboardInfo?.topRatedHelpers.length ? (
+            <ListHelperCard listHelpers={dashboardInfo?.topRatedHelpers} />
+          ) : (
+            <Nofind />
+          )}
         </Box>
       </Box>
-      <Box
-        sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent: 'flex-end' }}
-        onClick={() => {
-          navigate('/owner/create-news')
-          dispatch(doClearInfo({}))
-        }}
-      >
+      <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
         <Fab color='primary' aria-label='add'>
-          <AddIcon />
+          <AddIcon
+            onClick={(e) => {
+              e.stopPropagation()
+              dispatch(doClearInfo({}))
+              navigate('/owner/create-news')
+            }}
+          />
         </Fab>
       </Box>
 

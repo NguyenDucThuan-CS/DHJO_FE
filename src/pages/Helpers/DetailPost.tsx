@@ -112,6 +112,14 @@ const DetailPost = ({
       const timeModified = new Date(year, month - 1, day, hour, minute)
       return timeSince(timeModified) + ' ago'
     }
+
+    const checkHideBtn = () => {
+      if (post.conflictedPostId || post.finished || post.applied || post.confirmed || post.rejected) {
+        return true
+      }
+      return false
+    }
+
     return (
       <Box sx={{ background: 'white', padding: '15px', position: 'sticky', top: 0 }}>
         <Typography variant='h4' align='left'>
@@ -120,14 +128,21 @@ const DetailPost = ({
         <Box
           sx={{
             color: 'rgba(0, 0, 0, 0.54)',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            display: 'flex',
+            justifyContent: 'space-between'
           }}
         >
-          {renderTimeAgo()}
-          {post.applicantNumber !== null && post.applicantNumber !== undefined && <span>{` - ${post.applicantNumber} người ứng tuyển`}</span>}
+          <p>
+            {renderTimeAgo()}
+            {post.applicantNumber !== null && post.applicantNumber !== undefined && (
+              <span>{` - ${post.applicantNumber} người ứng tuyển`}</span>
+            )}
+          </p>
+          <span style={{color: 'red'}}>{post.conflictedPostId && 'Tin đăng trùng thời gian với 1 tin đăng đã ứng tuyển'}</span>
         </Box>
 
-        {!isHideBtn && (
+        {!isHideBtn && !checkHideBtn() && (
           <Button sx={{ width: '100%', marginTop: '20px' }} variant='contained' onClick={onClick}>
             Nhận việc ngay
           </Button>
@@ -169,7 +184,7 @@ const DetailPost = ({
                 <StyledHomeIcon className={classes.icon} />
               </StyledGrid>
               <Grid item xs={10}>
-                <span>{`${post.house.street} ${post.house.ward},${post.house.district},${post.house.province}`}</span>
+                <span>{`${post.house.houseNo} ${post.house.street} ${post.house.ward}, ${post.house.district}, ${post.house.province}`}</span>
               </Grid>
             </Grid>
             <Grid container alignItems='center'>
@@ -204,7 +219,7 @@ const DetailPost = ({
                     <StyledEventAvailableIcon className={classes.icon} />
                   </StyledGrid>
                   <Grid item xs={10}>
-                     {`${post.recurringPattern.endDate[2]}-${post.recurringPattern.endDate[1]}-${post.recurringPattern.endDate[0]}`}
+                    {`${post.recurringPattern.endDate[2]}-${post.recurringPattern.endDate[1]}-${post.recurringPattern.endDate[0]}`}
                   </Grid>
                 </Grid>
               </>
