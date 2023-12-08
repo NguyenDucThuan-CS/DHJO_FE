@@ -233,7 +233,7 @@ function Header() {
 
       <Box sx={{ flexGrow: 0 }}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt='Temy Sharp' src='/static/images/avatar/2.jpg' />
+          <Avatar alt='Temy Sharp' src='' />
         </IconButton>
         <MenuList
           sx={{ mt: '45px' }}

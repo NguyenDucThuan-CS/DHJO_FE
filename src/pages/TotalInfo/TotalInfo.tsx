@@ -20,6 +20,7 @@ import { Modal } from '../../components/Modal/Modal'
 import DetailPost from '../Helpers/DetailPost'
 import { chooseHelper, ownerGetPostById } from '../../apis/post.api'
 import { toast } from 'react-toastify'
+import { doOpenModalRating, doUpdatePostRating } from '../../redux/slice/modalDetai'
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
     <>
@@ -128,11 +129,10 @@ const TotalInfo = () => {
         setOpenModalPost(false)
       })
   }
-
   function WaitingNews(list: any) {
     if (!list.list?.length) return <Nofind />
     return (
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx = {{height: '255px'}}>
         <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
           <TableHead>
             <TableRow>
@@ -176,7 +176,7 @@ const TotalInfo = () => {
   function FinishedNews(list: any) {
     if (!list.list?.length) return <Nofind />
     return (
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx = {{ height: '255px'}}>
         <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
           <TableHead>
             <TableRow>
@@ -193,6 +193,7 @@ const TotalInfo = () => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 onClick={() => {
                   handleClick(item.id)
+                  dispatch(doUpdatePostRating(item.id))
                 }}
               >
                 <TableCell component='th' scope='row' align='center'>
@@ -270,6 +271,11 @@ const TotalInfo = () => {
             listHelper={post?.helpers}
             post={post}
             isHideFooter={false}
+            clickRating = {() => {
+                dispatch(doOpenModalRating({}))
+                // dispatch(doUpdatePostRating(listPost.find((item) => item.id === activePost)?.id))
+              }
+            }
           ></DetailPost>
         }
       />

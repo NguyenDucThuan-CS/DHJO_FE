@@ -17,6 +17,7 @@ const ModalRatingHelper = ({ open }: any) => {
   const { postRatingId } = useSelector((state: any) => {
     return state.modalHelperReducer
   })
+  console.log('postRatingId', postRatingId);
   const handleClose = () => {
     dispatch(doCloseModalRating({}))
   }
