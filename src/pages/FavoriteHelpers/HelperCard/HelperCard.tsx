@@ -69,6 +69,12 @@ export const StyledLocalPhoneIcon = styled(LocalPhoneIcon)(({ theme: { palette }
     color: 'rgba(0, 0, 0, 0.54)'
   }
 }))
+export const StyledStack = styled(Stack)(({ theme: { palette } }) => ({
+  '&::-webkit-scrollbar' :{
+    display: 'none',
+    overflow: 'scroll'
+  }
+}))
 
 export default function HelperCard({
   name,
@@ -211,11 +217,14 @@ export default function HelperCard({
               </Grid>
               
               <Stack direction={'row'} alignItems={'center'} sx={{ marginTop: '5px' }}>
-                <Stack direction='row' spacing={1}>
+                <StyledStack direction='row' spacing={1} style = {{overflow: 'scroll'}}>
                   {skills.map((item: any) => (
                     <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />
                   ))}
-                </Stack>
+                   {skills.map((item: any) => (
+                    <Chip key={item.skillName} label={item.skillName} sx={{ fontSize: '12px' }} />
+                  ))}
+                </StyledStack>
               </Stack>
             </Grid>
           </Grid>
