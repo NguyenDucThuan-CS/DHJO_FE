@@ -19,5 +19,6 @@ export default defineConfig({
         "devextreme/ui": 'devextreme/esm/ui'
     }
   },
+  
 
 })
