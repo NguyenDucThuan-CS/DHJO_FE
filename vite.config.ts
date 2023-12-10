@@ -11,7 +11,10 @@ export default defineConfig({
     devSourcemap: true
   },
 
-  build: {
-    outDir: "build"
-  }
+  resolve: {
+    alias: {
+        "devextreme/ui": 'devextreme/esm/ui'
+    }
+  },
+
 })
