@@ -247,7 +247,7 @@ const Helper = () => {
               </Box>
             </Stack>
             {
-              listPost.length === 0 && "chua co ti dang"
+              listPost.length === 0 && "chua co tin dang"
             }
             {listPost?.map((item, index) => (
               <CardPost

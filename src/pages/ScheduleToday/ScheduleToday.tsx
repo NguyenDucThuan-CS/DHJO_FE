@@ -12,6 +12,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import { numberWithCommas } from '../../utils/common'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import { ZaloIcon } from '../../assets/svg/Zalo'
 
 
 const currentDate = dayjs(new Date()).format('YYYY-MM-DD')
@@ -142,6 +143,18 @@ const Content = ({ children, appointmentData, appointmentResources, ...restProps
           </Grid>
         </Grid>
       )}
+      {appointmentData.ownerPhoneNum && (
+        <Grid container alignItems='center'>
+          <StyledGrid item xs={2} className={classes.textCenter}>
+            <ZaloIcon />
+          </StyledGrid>
+          <Grid item xs={10}>
+            <span onClick={() => {
+                window.open(`https://zalo.me/${appointmentData.ownerPhoneNum}`, "_blank");
+            }} style={{textDecoration:'underlined'}}>{'Chat zalo'}</span>
+          </Grid>
+        </Grid>
+      )}
       {appointmentData.fee && (
         <Grid container alignItems='center'>
           <StyledGrid item xs={2} className={classes.textCenter}>
@@ -158,7 +171,6 @@ const Content = ({ children, appointmentData, appointmentResources, ...restProps
 
 const ScheduleToday = () => {
   const [tasks, setTasks] = useState<any>([])
-  console.log("taskssssss", tasks)
   useEffect(() => {
     getTaskToday().then((res) => {
       if(res.data.data && res.data.data.length) setTasks(res.data.data.map((item:any) => ({

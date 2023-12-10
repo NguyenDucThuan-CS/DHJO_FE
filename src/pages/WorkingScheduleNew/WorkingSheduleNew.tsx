@@ -23,7 +23,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import PhoneIcon from '@mui/icons-material/Phone'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
-
+import { ZaloIcon } from '../../assets/svg/Zalo'
 
 
 import './style.css'
@@ -132,6 +132,18 @@ const Content = ({ children, appointmentData, appointmentResources, ...restProps
           </StyledGrid>
           <Grid item xs={10}>
             <span>{appointmentData.ownerPhoneNum}</span>
+          </Grid>
+        </Grid>
+      )}
+      {appointmentData.ownerPhoneNum && (
+        <Grid container alignItems='center'>
+          <StyledGrid item xs={2} className={classes.textCenter}>
+            <ZaloIcon />
+          </StyledGrid>
+          <Grid item xs={10}>
+            <span onClick={() => {
+                window.open(`https://zalo.me/${appointmentData.ownerPhoneNum}`, "_blank");
+            }} style={{textDecoration:'underlined'}}>{'Chat zalo'}</span>
           </Grid>
         </Grid>
       )}

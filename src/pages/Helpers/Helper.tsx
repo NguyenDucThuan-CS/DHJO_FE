@@ -154,7 +154,6 @@ const Helper = () => {
 
   useEffect(() => {
     getActivePosts().then((res) => {
-      console.log("res.data.data", res.data.data)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
       setCount(res.data.data.totalPage)

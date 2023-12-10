@@ -152,15 +152,74 @@ const ActvitiveHelper = () => {
       }
   }
 
-  const renderTextForBtn = (post: any) => {
-    if (post) {
-      if (post.finished) return 'Đã hoàn thành'
-      if (post.applied) return 'Đã nhận'
-      if (post.confirmed) return 'Đã được xác nhận'
-      if (post.rejected) return 'Đã được từ chối'
-      return 'Nhận việc'
+  // const renderTextForBtn = (post: any) => {
+  //   if (post) {
+  //     if (post.finished) return 'Đã hoàn thành'
+  //     if (post.applied) return 'Đã nhận'
+  //     if (post.confirmed) return 'Đã được xác nhận'
+  //     if (post.rejected) return 'Đã được từ chối'
+  //     return 'Nhận việc'
+  //   }
+  //   return '  '
+  // }
+
+  const renderNotePost = (post: any) => {
+    if (post.applied)
+      return (
+        <Box position={'absolute'} bottom={10} right={10} fontSize={'14px'} fontStyle={'italic'} color={'red'}>
+          Tin đã nhận
+        </Box>
+      )
+    if (post.confirmed) {
+      return (
+        <Box
+          position={'absolute'}
+          bottom={10}
+          right={10}
+          textAlign={'right'}
+          fontSize={'14px'}
+          fontStyle={'italic'}
+          color={'green'}
+        >
+          Tin đã được chấp nhận
+        </Box>
+      )
     }
-    return '  '
+    if (post.finished) {
+      return (
+        <Box
+          position={'absolute'}
+          bottom={10}
+          right={10}
+          textAlign={'right'}
+          fontSize={'14px'}
+          fontStyle={'italic'}
+          color={'orange'}
+        >
+          Tin đã hoàn thành
+        </Box>
+      )
+    }
+    if (post.rejected) {
+      return (
+        <Box
+          position={'absolute'}
+          bottom={10}
+          right={10}
+          textAlign={'right'}
+          fontSize={'14px'}
+          fontStyle={'italic'}
+          color={'blue'}
+        >
+          Tin bị từ chối
+        </Box>
+      )
+    }
+    return (
+      <Box position={'absolute'} bottom={10} right={10} textAlign={'right'} fontSize={'14px'} fontStyle={'italic'}>
+        Tin mới đăng
+      </Box>
+    )
   }
 
   const handleOnClick = (post: any) => {
@@ -186,7 +245,7 @@ const ActvitiveHelper = () => {
       setActivePost('')
     }
   }, [tab])
-
+  // console.log('post', listPost)
   return (
     <Box>
       <Grid container spacing={2}>
@@ -222,6 +281,7 @@ const ActvitiveHelper = () => {
                     post={item}
                     active={item.id === activePost}
                     onClick={() => setActivePost(item.id)}
+                    CardNote={renderNotePost(item)}
                   />
                 ))}
               </Stack>
@@ -233,7 +293,6 @@ const ActvitiveHelper = () => {
                   onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
                   isHideFooter={true}
                   isHideBtn = {true}
-                  //contentBtn={renderTextForBtn(listPost.find((item) => item.id === activePost))}
                 />
               </Grid>
             )}

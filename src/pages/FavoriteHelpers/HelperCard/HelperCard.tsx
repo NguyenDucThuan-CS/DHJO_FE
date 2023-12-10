@@ -19,7 +19,7 @@ import { addFavoriteHelper, removeFavoriteHelper } from '../../../apis/favariteh
 import { toast } from 'react-toastify'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import { useState } from 'react'
-
+import { ZaloIcon } from '../../../assets/svg/Zalo'
 const MySpan = styled('span')({
   marginLeft: '8px'
 })
@@ -86,7 +86,8 @@ export default function HelperCard({
   rating,
   clickRating,
   isFavourite: isFavouriteIn,
-  img
+  img,
+  isHideBtnChatZalo,
 }: any) {
   const dispatch = useDispatch()
   const [isFavourite, setIsFavourite] = useState<any>(isFavouriteIn)
@@ -142,7 +143,7 @@ export default function HelperCard({
         </span>
       )}
       <Card>
-        <CardContent sx = {{height: '200px'}}>
+        <CardContent sx = {{height: '230px'}}>
           <Grid container spacing={2}>
             <Grid item xs={5} sm={5} md={5}>
               <Box
@@ -198,7 +199,10 @@ export default function HelperCard({
                   <span style={{ fontSize: '14px' }}>{phone}</span>
                 </Grid>
               </Grid>
-
+              <Button onClick={() => {
+                 window.open(`https://zalo.me/${phone}`, "_blank");
+              }} sx = {{'textTransform': 'none'}}><ZaloIcon /><span style={{color:'rgba(0, 0, 0, 0.87)', paddingLeft:'1px'}}>Chat qua zalo</span></Button>
+              
               <Stack direction={'row'} alignItems={'center'} sx={{ marginTop: '5px' }}>
                 <Stack direction='row' spacing={1}>
                   {skills.map((item: any) => (
