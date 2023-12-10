@@ -199,9 +199,16 @@ export default function HelperCard({
                   <span style={{ fontSize: '14px' }}>{phone}</span>
                 </Grid>
               </Grid>
-              <Button onClick={() => {
+              <Grid container alignItems='center' onClick={() => {
                  window.open(`https://zalo.me/${phone}`, "_blank");
-              }} sx = {{'textTransform': 'none'}}><ZaloIcon /><span style={{color:'rgba(0, 0, 0, 0.87)', paddingLeft:'1px'}}>Chat qua zalo</span></Button>
+              }}> 
+                <StyledGrid item xs={2} className={classes.textCenter}>
+                  <ZaloIcon />
+                </StyledGrid>
+                <Grid item xs={10}>
+                  <span style={{ fontSize: '14px' }}>{phone}</span>
+                </Grid>
+              </Grid>
               
               <Stack direction={'row'} alignItems={'center'} sx={{ marginTop: '5px' }}>
                 <Stack direction='row' spacing={1}>

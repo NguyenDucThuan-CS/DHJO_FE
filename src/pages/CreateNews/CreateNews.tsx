@@ -103,8 +103,6 @@ export default function CreateNews() {
         </Stepper>
         {activeStep === 2 ? (
           <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>Đã hoàn thành các bước</Typography>
-
             <PreviewPost post = {post}/>
              
 
