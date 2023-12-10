@@ -1,29 +1,6 @@
 import HelperCard from '../HelperCard/HelperCard'
 import { Grid } from '@mui/material'
 
-// interface Props {
-//   listHelpers: {
-//     id: string
-//     name: string
-//     gender: {
-//       id: string
-//       name: string
-//     }
-//     birthday: any
-//     education: {
-//       id: string
-//       name: string
-//     }
-//     skills: {
-//       id: string
-//       skillName: string
-//     }[]
-//     phoneNum:string
-//     overallRating: any
-//   }[]
-//   choose?: (id: string, flag: boolean) => void
-//   idChosen?: string
-// }
 
 export default function ListHelperCard({ listHelpers, choose, idChosen }: any) {
   return (

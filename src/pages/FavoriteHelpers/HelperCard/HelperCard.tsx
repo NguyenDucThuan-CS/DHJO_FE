@@ -206,7 +206,7 @@ export default function HelperCard({
                   <ZaloIcon />
                 </StyledGrid>
                 <Grid item xs={10}>
-                  <span style={{ fontSize: '14px' }}>{phone}</span>
+                  <span style={{ fontSize: '14px' }}>{'Chat zalo'}</span>
                 </Grid>
               </Grid>
               

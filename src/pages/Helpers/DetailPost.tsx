@@ -257,9 +257,9 @@ const DetailPost = ({
 
         {!isHideFooter && (
           <Box>
-            {listHelper.length && <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
+            {listHelper.length ? <Typography variant='h6' sx={{ marginBottom: '20px', fontWeight: 'bold' }}>
               Người giúp việc {post?.applied ? 'đăng kí' : 'nhận việc'}
-            </Typography>}
+            </Typography>:''}
             <Grid container spacing={2}>
               {listHelper?.map((item: any) => (
                 <Grid item xs={6}>
