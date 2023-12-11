@@ -7,7 +7,10 @@ export default defineConfig({
   build:{
     outDir: "build",
     rollupOptions: {
-      external: ['@devexpress/dx-react-core']
+      external: [
+        '@devexpress/dx-react-core', 
+        '@devexpress/dx-core'
+      ]
     }
   },
   server: {
