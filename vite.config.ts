@@ -5,20 +5,21 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build:{
-    outDir: "build",
-    rollupOptions: {
-      external: [
-        '@devexpress/dx-react-core', 
-        '@devexpress/dx-core'
-      ]
-    }
+    outDir: 'build',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    // rollupOptions: {
+    //   external: [
+    //     '@devexpress/dx-react-core', 
+    //     '@devexpress/dx-core'
+    //   ]
+    // }
   },
   server: {
     port: 3000
   },
   css: {
     devSourcemap: true
-  },
-  
+  }
 
 })
