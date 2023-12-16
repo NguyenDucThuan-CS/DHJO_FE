@@ -8,6 +8,7 @@ import { updateAuthInfo, getAuthInfo } from '../../apis/auth.api'
 import useStyles from './style'
 import { Popup } from '../../components/Popup/Popup'
 import EditIcon from '@mui/icons-material/Edit'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 interface FormData {
   username?: string
   oldPassword?: string
@@ -31,6 +32,8 @@ const ChangePassword = () => {
 
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
+  
+  const [loading, setLoading] = useState<boolean>(false)
 
   const agree = () => {
     setOpen(false)
@@ -65,7 +68,9 @@ const ChangePassword = () => {
     }
   })
   useEffect(() => {
+    setLoading(true);
     getAuthInfo().then((res) => {
+      setLoading(false);
       setValue('username', res.data.data.username)
       setValue('email', res.data.data.email)
       setValue('oldPassword','123456')
@@ -73,10 +78,7 @@ const ChangePassword = () => {
   }, [])
   return (
     <Container sx={{ width: { xs: '100%', md: '50%' } }}>
-      {/* <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
-        Chinh sua
-      </Button> */}
-      <form className={classes.form} noValidate onSubmit={onSubmit}>
+      <form className={classes.form} noValidate onSubmit={onSubmit} >
       <span
           style={{ position: 'absolute', top: '10px', right: '10px' }}
           onClick={() => {
@@ -175,9 +177,11 @@ const ChangePassword = () => {
             </Button>
           </>
         )}
+        <ModalLoading isLoading = {loading}></ModalLoading>
       </form>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      
     </Container>
   )
 }

@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react'
 import { applyPost, Post } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
-import Loading from '../../components/Loading/Loading'
 import SelectDropdown from '../../components/SelectDropdown/SelectDown'
 import { FilterIcon } from '../../assets/svg/FilterIcon'
 import Typography from '@mui/material/Typography'
@@ -18,7 +17,7 @@ import Nofind from '../../components/NoFind/NoFind'
 import ScheduleToday from '../ScheduleToday/ScheduleToday'
 import { toast } from 'react-toastify'
 import { Pagination } from '@mui/material'
-import ModalLoading from '@mui/material/Modal';
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 export interface IPost {
   id: string
   createdAt: {
@@ -153,7 +152,9 @@ const Helper = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     getActivePosts().then((res) => {
+      setIsLoading(false);
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
       setCount(res.data.data.totalPage)
@@ -162,12 +163,14 @@ const Helper = () => {
   }, [])
 
   const getFilterActivePost = () => {
+    setIsLoading(true);
     filterActivePosts({
       isRecurring: renderRecurring(kindJob),
       minFee: renderValueSalary(salaryOption),
       maxDistance: renderValueDistance(distanceOption),
       pageNo: pageNum - 1
     }).then((res) => {
+      setIsLoading(false);
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
       setCount(res.data.data.totalPage)
@@ -283,9 +286,7 @@ const Helper = () => {
         handleClose={() => setOpenTask(false)}
         Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
-      <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
-          <Loading />
-      </ModalLoading>
+     <ModalLoading isLoading = {isLoading}></ModalLoading>
     </Box>
   )
 }

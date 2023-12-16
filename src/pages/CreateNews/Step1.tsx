@@ -5,10 +5,12 @@ import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { useImperativeHandle, useState, useEffect } from 'react'
 import { doUpdateInfoStep1 } from '../../redux/slice'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 
 const Step1 = React.forwardRef(function Step1(props, ref) {
   const [listHouse, setListHouse] = useState<House[]>([])
   const [idHouseChosen, setIdHouseChosen] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const dispatch = useDispatch()
 
@@ -21,7 +23,9 @@ const Step1 = React.forwardRef(function Step1(props, ref) {
     else setIdHouseChosen('')
   }
   useEffect(() => {
+    setIsLoading(true)
     getHousesOfOwer().then((res) => {
+      setIsLoading(false)
       setListHouse(res.data.data)
     })
   }, [])
@@ -78,6 +82,7 @@ const Step1 = React.forwardRef(function Step1(props, ref) {
   return (
     <Box>
       <ListHomeCard listHouses={listHouse} choose={choose} idChosen={idHouseChosen} />
+      <ModalLoading isLoading = {isLoading}/>
     </Box>
   )
 })

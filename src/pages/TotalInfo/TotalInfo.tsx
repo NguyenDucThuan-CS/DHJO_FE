@@ -21,6 +21,8 @@ import DetailPost from '../Helpers/DetailPost'
 import { chooseHelper, ownerGetPostById } from '../../apis/post.api'
 import { toast } from 'react-toastify'
 import { doOpenModalRating, doUpdatePostRating } from '../../redux/slice/modalDetai'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
+
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
     <>
@@ -34,89 +36,94 @@ const renderHelper = (helpers: any) => {
     </>
   ))
 }
-export function WaitingNews(list: any) {
-  if (!list.list?.length) return <Nofind />
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
-        <TableHead>
-          <TableRow>
-            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
-              Tin đăng
-            </TableCell>
-            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
-              Tên căn nhà
-            </TableCell>
-            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
-              Ngày làm việc
-            </TableCell>
-            <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
-              Người giúp việc đăng kí
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {list.list.map((item: any) => (
-            <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component='th' scope='row' align='center'>
-                {item.content}
-              </TableCell>
-              <TableCell align='center'>{item.house.houseName}</TableCell>
-              <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
-              <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  )
-}
+// export function WaitingNews(list: any) {
+//   if (!list.list?.length) return <Nofind />
+//   return (
+//     <TableContainer component={Paper}>
+//       <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
+//         <TableHead>
+//           <TableRow>
+//             <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+//               Tin đăng
+//             </TableCell>
+//             <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+//               Tên căn nhà
+//             </TableCell>
+//             <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+//               Ngày làm việc
+//             </TableCell>
+//             <TableCell align='center' sx={{ fontSize: '17px', fontWeight: 'bold' }}>
+//               Người giúp việc đăng kí
+//             </TableCell>
+//           </TableRow>
+//         </TableHead>
+//         <TableBody>
+//           {list.list.map((item: any) => (
+//             <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+//               <TableCell component='th' scope='row' align='center'>
+//                 {item.content}
+//               </TableCell>
+//               <TableCell align='center'>{item.house.houseName}</TableCell>
+//               <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
+//               <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
+//             </TableRow>
+//           ))}
+//         </TableBody>
+//       </Table>
+//     </TableContainer>
+//   )
+// }
 
-export function FinishedNews(list: any) {
-  if (!list.list?.length) return <Nofind />
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
-        <TableHead>
-          <TableRow>
-            <TableCell align='center'>Tin đăng</TableCell>
-            <TableCell align='center'>Tên căn nhà</TableCell>
-            <TableCell align='center'>Ngày làm việc</TableCell>
-            <TableCell align='center'>Người giúp việc đăng kí</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {list.list.map((item: any) => (
-            <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component='th' scope='row' align='center'>
-                {item.content}
-              </TableCell>
-              <TableCell align='center'>{item.house.houseName}</TableCell>
-              <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
-              <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  )
-}
+// export function FinishedNews(list: any) {
+//   if (!list.list?.length) return <Nofind />
+//   return (
+//     <TableContainer component={Paper}>
+//       <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
+//         <TableHead>
+//           <TableRow>
+//             <TableCell align='center'>Tin đăng</TableCell>
+//             <TableCell align='center'>Tên căn nhà</TableCell>
+//             <TableCell align='center'>Ngày làm việc</TableCell>
+//             <TableCell align='center'>Người giúp việc đăng kí</TableCell>
+//           </TableRow>
+//         </TableHead>
+//         <TableBody>
+//           {list.list.map((item: any) => (
+//             <TableRow key={''} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+//               <TableCell component='th' scope='row' align='center'>
+//                 {item.content}
+//               </TableCell>
+//               <TableCell align='center'>{item.house.houseName}</TableCell>
+//               <TableCell align='center'>{`${item.startDate.day}-${item.startDate.month}-${item.startDate.year}`}</TableCell>
+//               <TableCell align='center'>{renderHelper(item.helpers)}</TableCell>
+//             </TableRow>
+//           ))}
+//         </TableBody>
+//       </Table>
+//     </TableContainer>
+//   )
+// }
 const TotalInfo = () => {
   const navigate = useNavigate()
   const [tab, setTab] = useState(0)
   const [dashboardInfo, setDasboardInfo] = useState<any>()
   const [openModalPost, setOpenModalPost] = useState<any>(false)
   const [post, setPost] = useState<any>()
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleClick = (id: string) => {
+    setLoading(true);
     ownerGetPostById(id).then((res) => {
+      setLoading(false);
       setPost(res.data.data)
       setOpenModalPost(true)
     })
   }
   const dispatch = useDispatch()
   useEffect(() => {
+    setLoading(true);
     getDashboardInfo().then((res) => {
+      setLoading(false);
       setDasboardInfo(res.data.data)
     })
   }, [])
@@ -273,12 +280,13 @@ const TotalInfo = () => {
             isHideFooter={false}
             clickRating = {() => {
                 dispatch(doOpenModalRating({}))
-                // dispatch(doUpdatePostRating(listPost.find((item) => item.id === activePost)?.id))
               }
             }
           ></DetailPost>
         }
       />
+      <ModalLoading isLoading = {loading}/>
+
     </>
   )
 }

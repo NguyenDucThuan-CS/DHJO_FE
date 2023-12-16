@@ -17,6 +17,7 @@ import Box from '@mui/material/Box'
 import UploadImage from '../../components/ImageUpload/ImageUpload'
 import { toBase64 } from '../../utils/common'
 import { toast } from 'react-toastify'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 
 const PerInfo = () => {
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -36,7 +37,8 @@ const PerInfo = () => {
   const [gender, setGender] = useState<{ id: string; name: string }[]>([])
   const [idGender, setIdGender] = useState<string>('')
   const [doB, setDoB] = useState<string | number | Date | dayjs.Dayjs | null | undefined>(null)
-
+  
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const agree = () => {
     setOpen(false)
     setDisabled(true)
@@ -51,14 +53,11 @@ const PerInfo = () => {
     setOpen(false)
     setDisabled(true)
   }
-  const changeArrToDayjs = (arr: string[]) => {
-    return arr.toString().replace(',', '-')
-  }
+  
   const [nameErr, setNameErr] = useState('')
   const [phoneErr, setPhoneErr] = useState('')
   const [cccdErr, setCCCDErr] = useState('')
   const [eduErr, setEduErr] = useState('')
-  const [skillErr, setSkillErr] = useState('')
   const [genderErr, setGenderErr] = useState('')
   const [dobErr, setDobErr] = useState('')
   const [initiImg, setInitImg] = useState('')
@@ -132,8 +131,10 @@ const PerInfo = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     Promise.all([getProfileHelper(), getImg()])
       .then((values) => {
+        setIsLoading(false);
         const { data: dataImg } = values[1].data
         if (values[0].data.data) {
           setName(values[0].data.data.name)
@@ -243,6 +244,7 @@ const PerInfo = () => {
       </Box>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      <ModalLoading isLoading = {isLoading}></ModalLoading>
     </Container>
   )
 }

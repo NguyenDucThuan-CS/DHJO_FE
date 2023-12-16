@@ -4,21 +4,18 @@ import Stack from '@mui/material/Stack'
 import CardPost from '../../components/CardPost/CardPost'
 import Grid from '@mui/material/Grid'
 import DetailPost from '../Helpers/DetailPost'
-import Schedule from './Schedule/Schedule'
 import { useResposive } from '../../utils/hook'
-import { getActivePosts, filterActivePosts } from '../../apis/get-active-post'
 import { useEffect, useState } from 'react'
 import { applyPost, getPostById, Post } from '../../apis/post.api'
 import { Popup } from '../../components/Popup/Popup'
 import { Modal } from '../../components/Modal/Modal'
-import Loading from '../../components/Loading/Loading'
 import { getPostHelperAll } from '../../apis/post.api'
 import { Button } from '@mui/material'
 import Nofind from '../../components/NoFind/NoFind'
-import WorkingSchedule from '../WorkingSchedule/WorkingSchedule'
 import ScheduleToday from '../ScheduleToday/ScheduleToday'
-import ModalLoading from '@mui/material/Modal';
+
 import { toast } from 'react-toastify'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 export interface IPost {
   id: string
   createdAt: {
@@ -87,7 +84,6 @@ const ActvitiveHelper = () => {
   const [text, setText] = useState<string>('')
 
   const [tab, setTab] = useState<number>(0)
-
   const agree = () => {
     setOpen(false)
   }
@@ -101,7 +97,9 @@ const ActvitiveHelper = () => {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     getPostHelperAll().then((res) => {
+      setIsLoading(false);
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -151,17 +149,6 @@ const ActvitiveHelper = () => {
         recurringPattern: postForTask.recurringPattern
       }
   }
-
-  // const renderTextForBtn = (post: any) => {
-  //   if (post) {
-  //     if (post.finished) return 'Đã hoàn thành'
-  //     if (post.applied) return 'Đã nhận'
-  //     if (post.confirmed) return 'Đã được xác nhận'
-  //     if (post.rejected) return 'Đã được từ chối'
-  //     return 'Nhận việc'
-  //   }
-  //   return '  '
-  // }
 
   const renderNotePost = (post: any) => {
     if (post.applied)
@@ -245,7 +232,6 @@ const ActvitiveHelper = () => {
       setActivePost('')
     }
   }, [tab])
-  // console.log('post', listPost)
   return (
     <Box>
       <Grid container spacing={2}>
@@ -305,9 +291,7 @@ const ActvitiveHelper = () => {
         handleClose={() => setOpenTask(false)}
         Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
-      <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
-          <Loading />
-      </ModalLoading>
+      <ModalLoading isLoading = {isLoading} />
     </Box>
   )
 }

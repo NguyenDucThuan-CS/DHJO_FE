@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect } from 'react'
 import Header from '../components/Header/Header'
 import { readCookie } from '../utils/cookie'
 import { useNavigate } from 'react-router-dom'

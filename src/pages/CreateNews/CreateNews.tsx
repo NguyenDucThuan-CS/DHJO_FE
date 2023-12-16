@@ -4,7 +4,6 @@ import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import { Container } from '@mui/material'
 import Step1 from './Step1'
 import Step2 from './Step2'
@@ -17,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { doClearInfo } from '../../redux/slice'
 import { toast } from 'react-toastify'
 import PreviewPost from '../Helpers/Preview'
-import { Grid } from '@mui/material'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 
 const steps = ['Chọn nhà', 'Chi tiết', 'Xem trước']
 
@@ -25,10 +24,12 @@ export default function CreateNews() {
   const [activeStep, setActiveStep] = React.useState(0)
   const [open, setOpen] = useState<boolean>(false)
   const [text, setText] = useState<string>('')
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { post } = useSelector((state: RootState) => {
     return state.storeInfoReducer
   })
-  console.log('post nhaaaaa', post)
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
@@ -58,9 +59,7 @@ export default function CreateNews() {
     } else if (activeStep === 1) {
       if (refStep2.current.handlePassStep()) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
-      } /* else {
-        toast.error('Vui lòng nhập đầy đủ thông tin')
-      } */
+      } 
     }
   }
 
@@ -69,13 +68,16 @@ export default function CreateNews() {
   }
 
   const handleSumit = () => {
+    setIsLoading(true);
     return createPost(post)
       .then(() => {
+        setIsLoading(false);
         navigate('/owner/my-news')
         dispatch(doClearInfo({}))
         toast.success('Tạo bài post thành công')
       })
       .catch((err) => {
+        setIsLoading(false);
         toast.error(err.response.data.message)
       })
   }
@@ -104,8 +106,6 @@ export default function CreateNews() {
         {activeStep === 2 ? (
           <React.Fragment>
             <PreviewPost post = {post}/>
-             
-
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
               <Box sx={{ flex: '1 1 auto' }} />
               <Button color='inherit'  onClick={handleBack} sx={{ mr: 1 }}>
@@ -129,6 +129,7 @@ export default function CreateNews() {
       </Container>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      <ModalLoading isLoading = {isLoading}></ModalLoading>
     </Box>
   )
 }

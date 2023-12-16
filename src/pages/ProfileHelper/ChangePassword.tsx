@@ -8,6 +8,7 @@ import { updateAuthInfo, getAuthInfo } from '../../apis/auth.api'
 import useStyles from './style'
 import { Popup } from '../../components/Popup/Popup'
 import EditIcon from '@mui/icons-material/Edit'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 interface FormData {
   username?: string
   oldPassword?: string
@@ -20,7 +21,7 @@ const ChangePassword = () => {
   const classes = useStyles()
 
   const [disabled, setDisabled] = useState<boolean>(true)
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     register,
     setValue,
@@ -31,7 +32,7 @@ const ChangePassword = () => {
 
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
-
+  
   const agree = () => {
     setOpen(false)
     setDisabled(true)
@@ -65,7 +66,9 @@ const ChangePassword = () => {
     }
   })
   useEffect(() => {
+    setIsLoading(true);
     getAuthInfo().then((res) => {
+      setIsLoading(false);
       setValue('username', res.data.data.username)
       setValue('email', res.data.data.email)
       setValue('oldPassword','123456')
@@ -173,6 +176,7 @@ const ChangePassword = () => {
       </form>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      <ModalLoading isLoading = {isLoading}></ModalLoading>
     </Container>
   )
 }

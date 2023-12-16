@@ -10,7 +10,8 @@ import { Provider } from 'react-redux'
 import store from './redux/store/index.ts'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { Suspense } from 'react'
+import Loading from './components/Loading/Loading.tsx'
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,7 +28,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
+          <Suspense fallback={<Loading />}/>
           <App />
+          <Suspense/>
           <ToastContainer />
         </Provider>
       </ThemeProvider>

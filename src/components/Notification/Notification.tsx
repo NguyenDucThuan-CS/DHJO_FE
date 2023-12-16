@@ -10,10 +10,12 @@ import { doUpdateNumNoti } from '../../redux/slice/notification'
 import { useOnClickOutside } from '../../utils/useOnClickOutside'
 import { doCloseNoti } from '../../redux/slice/notification'
 import { helperGetPostById } from '../../apis/post.api'
+import Loading from '../Loading/Loading'
 
 const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalPostHelper }:any) => {
   const [list, setList] = useState<any>([])
   const [pageNo, setPageNo] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useDispatch()
 
   const handleClose = () => {
@@ -23,7 +25,9 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
 
   const ref = useOnClickOutside(handleClose);
   useEffect(() => {
+    setIsLoading(true);
     getNotification(pageNo).then((res) => {
+      setIsLoading(false);
       setList([...res.data.data.content[0]])
     })
   }, [pageNo])
@@ -93,6 +97,7 @@ const Notification = ({setPost, setOpenModalPost, setPostForHelper,setOpenModalP
               <div id='notification-list' className='list-group list-group-alt'>
                 <div>
                   <div className='noty-manager-list-item noty-manager-list-item-error'>
+                    {isLoading && <Loading />}
                     {list?.map((item: any, index: any) => {
                       return (
                         <div

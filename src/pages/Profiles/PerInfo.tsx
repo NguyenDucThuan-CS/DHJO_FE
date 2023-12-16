@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import UploadImage from '../../components/ImageUpload/ImageUpload'
 import { updateImgUser } from '../../apis/img.api'
 import { toBase64 } from '../../utils/common'
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 
 const PerInfo = () => {
   interface FormData {
@@ -30,6 +31,8 @@ const PerInfo = () => {
   const [open, setOpen] = useState(false)
   const [text, setText] = useState<string>('')
   const [img, setImg] = useState<File | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
+
   const classes = useStyles()
 
   const agree = () => {
@@ -48,18 +51,22 @@ const PerInfo = () => {
   }
 
   const onSubmit = handleSubmit(async (data) => {
+    setLoading(true);
     Promise.all([
       updateProfileOwner({ ...data }),
       updateImgUser({id:null, base64String: await toBase64(img)})
     ]).then(() => {
       setOpen(true)
       setText('Cập nhật thông tin thành công')
+      setLoading(false)
     })
   })
 
   useEffect(() => {
+    setLoading(true);
     Promise.all([getProfileOwner(), getImg()])
       .then((values) => {
+        setLoading(false);
         const { data } = values[0].data
         const { data: dataImg } = values[1].data
         if (values[0].data.data) {
@@ -142,9 +149,11 @@ const PerInfo = () => {
             Cập nhật
           </Button>
         )}
+        <ModalLoading isLoading = {loading}/>
       </form>
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
+      
     </Container>
   )
 }

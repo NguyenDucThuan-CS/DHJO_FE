@@ -19,12 +19,12 @@ import { doUpdatePostRating } from '../../redux/slice/modalDetai'
 import { doOpenModalRating } from '../../redux/slice/modalDetai'
 import { markPostAsFinished } from '../../apis/post.api'
 import { toast } from 'react-toastify'
-import ModalLoading from '@mui/material/Modal'
+// import ModalLoading from '@mui/material/Modal'
 import AddIcon from '@mui/icons-material/Add'
 import Nofind from '../../components/NoFind/NoFind'
 import { doClearInfo } from '../../redux/slice'
 import { useLocation } from 'react-router-dom'
-
+import { ModalLoading } from '../../components/Modal/ModalLoading'
 const MyNews = () => {
   const { isFromMd } = useResposive()
   const search = useLocation().search
@@ -76,13 +76,17 @@ const MyNews = () => {
     setOpen(false)
   }
   const getAllOwnerPosts = () => {
+    setIsLoading(true);
     getAllOwnerPost().then((res) => {
+      setIsLoading(false);
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
   }
   useEffect(() => {
+    setIsLoading(true);
     getAllOwnerPost().then((res) => {
+      setIsLoading(false);
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -339,8 +343,7 @@ const MyNews = () => {
         <Nofind />
       )}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
-        <Loading />
+      <ModalLoading isLoading={isLoading}>
       </ModalLoading>
       <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
         <Fab color='primary' aria-label='add'>

@@ -62,12 +62,12 @@ const DetailHelper = () => {
       <p style={{ marginBottom: '20px', fontSize: '26px', fontWeight: 'bold' }}>
         Phản hồi từ chủ nhà
         <Stack display={'flex'} direction={'row'}>
-          {helperInfo.overallRating.avgScore} <ListStar number={helperInfo.overallRating.avgScore + 1} />
+          {helperInfo.overallRating.avgScore == -1 ? 0 :helperInfo.overallRating.avgScore} <ListStar number={helperInfo.overallRating.avgScore + 1} />
         </Stack>
       </p>
       <Grid container spacing={2}>
         <Stack sx = {{width: '100%'}}>
-          {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá nha'}
+          {helperInfo.overallRating.typicalRatings.length === 0 && 'Chưa có đánh giá'}
           {helperInfo.overallRating.typicalRatings?.map((item: any, index: any) => (
             <Box
               sx={{
