@@ -28,6 +28,7 @@ import { ZaloIcon } from '../../assets/svg/Zalo'
 
 import './style.css'
 import { numberWithCommas } from '../../utils/common'
+import Loading from '../../components/Loading/Loading'
 const resources = [
   {
     fieldName: 'type',
@@ -170,12 +171,15 @@ class WorkingScheduleNew extends React.Component {
       currentView: 'Week',
       range: this.getRange(new Date(), 'Week'),
       postForHelper: undefined,
-      openModalPostHelper: false
+      openModalPostHelper: false,
+      isLoading: false
     }
   }
 
   componentDidMount(): void {
+    this.setState({isLoading: true})
     getAllTask().then((res) => {
+      this.setState({isLoading: false})
       this.setState({
         data: res.data.data.map((item: any) => ({
           ...item,
@@ -202,7 +206,8 @@ class WorkingScheduleNew extends React.Component {
     })
   }
   render() {
-    const { data, currentDate, currentView }: any = this.state
+    const { data, currentDate, currentView, isLoading }: any = this.state
+    if(isLoading) return <Loading />
     return (
       <Box>
         <Paper>

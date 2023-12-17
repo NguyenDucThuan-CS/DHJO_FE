@@ -280,7 +280,7 @@ const MyNews = () => {
         </Button>
       </Stack>
 
-      {filterPost(listPost).length ? (
+      {!isLoading ? <>{filterPost(listPost).length ? (
         <Grid container spacing={2}>
           <Grid item xs={12} md={5}>
             <Stack direction={'column'} gap={'10px'}>
@@ -341,10 +341,8 @@ const MyNews = () => {
         </Grid>
       ) : (
         <Nofind />
-      )}
+      )}</>:<Loading></Loading>}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      <ModalLoading isLoading={isLoading}>
-      </ModalLoading>
       <Box sx={{ position: 'sticky', bottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
         <Fab color='primary' aria-label='add'>
           <span

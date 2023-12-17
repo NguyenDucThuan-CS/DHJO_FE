@@ -17,6 +17,14 @@ function App() {
   return (
     <>
       <Routes>
+      <Route
+          path='/'
+          element={
+            <PublicRouter>
+              <Login />
+            </PublicRouter>
+          }
+        />
         <Route
           path='/owner'
           element={

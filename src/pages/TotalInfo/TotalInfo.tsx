@@ -22,6 +22,7 @@ import { chooseHelper, ownerGetPostById } from '../../apis/post.api'
 import { toast } from 'react-toastify'
 import { doOpenModalRating, doUpdatePostRating } from '../../redux/slice/modalDetai'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 
 const renderHelper = (helpers: any) => {
   return helpers.map((helper: any) => (
@@ -137,6 +138,7 @@ const TotalInfo = () => {
       })
   }
   function WaitingNews(list: any) {
+    if(loading) return <Loading></Loading>
     if (!list.list?.length) return <Nofind />
     return (
       <TableContainer component={Paper} sx = {{height: '255px'}}>
@@ -181,6 +183,7 @@ const TotalInfo = () => {
   }
 
   function FinishedNews(list: any) {
+    if(loading) return <Loading></Loading>
     if (!list.list?.length) return <Nofind />
     return (
       <TableContainer component={Paper} sx = {{ height: '255px'}}>
@@ -241,7 +244,7 @@ const TotalInfo = () => {
             </Button>
           </Stack>
           {tab === 0 ? (
-            <WaitingNews list={dashboardInfo?.posts?.filter((item: any) => item.applied === true)} />
+             <WaitingNews list={dashboardInfo?.posts?.filter((item: any) => item.applied === true)} />
           ) : (
             <FinishedNews list={dashboardInfo?.posts?.filter((item: any) => item.finished === true)} />
           )}
@@ -249,7 +252,7 @@ const TotalInfo = () => {
 
         <Box sx={{ marginTop: '20px' }}>
           <div style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '10px' }}>Người giúp việc hàng đầu</div>
-          {dashboardInfo?.topRatedHelpers.length ? (
+          { loading ? <Loading />: dashboardInfo?.topRatedHelpers.length ? (
             <ListHelperCard listHelpers={dashboardInfo?.topRatedHelpers} />
           ) : (
             <Nofind />
@@ -285,8 +288,7 @@ const TotalInfo = () => {
           ></DetailPost>
         }
       />
-      <ModalLoading isLoading = {loading}/>
-
+    
     </>
   )
 }

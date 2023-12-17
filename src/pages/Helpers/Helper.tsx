@@ -18,6 +18,7 @@ import ScheduleToday from '../ScheduleToday/ScheduleToday'
 import { toast } from 'react-toastify'
 import { Pagination } from '@mui/material'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 export interface IPost {
   id: string
   createdAt: {
@@ -244,7 +245,7 @@ const Helper = () => {
             </Box>
           </Stack>
           <Grid container spacing={2}>
-            <Grid item md={5}>
+            {!isLoading? <Grid item md={5}>
               <Stack direction={'column'} gap={'5px'}>
                 {listPost.length === 0 && <Nofind />}
                 {listPost?.map((item, index) => (
@@ -256,9 +257,9 @@ const Helper = () => {
                   />
                 ))}
               </Stack>
-            </Grid>
+            </Grid>:<Loading></Loading>}
 
-            {isFromLg && listPost.length && (
+            {isFromLg && listPost.length && !isLoading && (
               <Grid item md={7}>
                 <DetailPost
                   post={listPost.find((item) => item.id === activePost)}
@@ -268,7 +269,7 @@ const Helper = () => {
               </Grid>
             )}
           </Grid>
-          <Pagination
+          {!isLoading && <Pagination
             count={count}
             defaultPage={pageNum}
             siblingCount={0}
@@ -276,7 +277,7 @@ const Helper = () => {
               setPageNum(page)
             }}
             sx = {{marginTop:'15px'}}
-          />
+          />}
         </Grid>
       </Grid>
 
@@ -286,7 +287,7 @@ const Helper = () => {
         handleClose={() => setOpenTask(false)}
         Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
-     <ModalLoading isLoading = {isLoading}></ModalLoading>
+    
     </Box>
   )
 }

@@ -18,6 +18,7 @@ import UploadImage from '../../components/ImageUpload/ImageUpload'
 import { toBase64 } from '../../utils/common'
 import { toast } from 'react-toastify'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 
 const PerInfo = () => {
   const [disabled, setDisabled] = useState<boolean>(true)
@@ -103,7 +104,9 @@ const PerInfo = () => {
     return isValid
   }
   const onSubmit = async () => {
+   
     if(validate()) {
+      setIsLoading(true);
       Promise.all([
         updateProfileHelper({
           name: name,
@@ -121,8 +124,12 @@ const PerInfo = () => {
   
         
       ]).then(() => {
+        setIsLoading(false);
         toast.success('Cập nhật thông tin thành công')
         setDisabled(true)
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
     }
 
@@ -167,7 +174,7 @@ const PerInfo = () => {
 
   return (
     <Container sx={{ width: '820px' }}>
-      <Box sx = {{background:'white', position:'relative', padding:'20px', display:'flex', flexDirection: 'column'}}>
+      {!isLoading ? <Box sx = {{background:'white', position:'relative', padding:'20px', display:'flex', flexDirection: 'column'}}>
         <span
           style={{ position: 'absolute', top: '10px', right: '10px' }}
           onClick={() => {
@@ -241,10 +248,10 @@ const PerInfo = () => {
             Cập nhật
           </Button>
         )}
-      </Box>
+      </Box>:<Loading />}
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      <ModalLoading isLoading = {isLoading}></ModalLoading>
+      {/* <ModalLoading isLoading = {isLoading}></ModalLoading> */}
     </Container>
   )
 }

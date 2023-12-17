@@ -165,13 +165,14 @@ const AddAdress = () => {
     }
    
   }
-
+  if(isLoading) return <Loading></Loading>
   return (
     <Container sx={{ width: '788px', background: 'white', position: 'relative', padding: '20px' } }>
       {/* <Button variant='outlined' onClick={() => setDisabled(false)}>
         Chinh sua
       </Button> */}
-      <Grid container spacing={2}>
+      <>
+         <Grid container spacing={2}>
         <span
           style={{ position: 'absolute', top: '10px', right: '10px' }}
           onClick={() => {
@@ -256,9 +257,9 @@ const AddAdress = () => {
           ></Input>
         </Grid>
 
-        <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
+        {/* <ModalLoading open={isLoading} onClose={() => setIsLoading(false)}>
           <Loading />
-      </ModalLoading>
+      </ModalLoading> */}
         <Popup open={openPopup} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       </Grid>
       {!disabled && (
@@ -268,6 +269,8 @@ const AddAdress = () => {
           </Button>
         </Box>
       )}
+      </>
+     
     </Container>
   )
 }

@@ -4,6 +4,7 @@ import ListHelperCard from './ListHelperCard/ListHelperCard'
 import Box from '@mui/material/Box'
 import Nofind from '../../components/NoFind/NoFind'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 
 const FavorateHelpers = () => {
 
@@ -26,8 +27,7 @@ const FavorateHelpers = () => {
   }
   return (
     <Box sx={{width:'80%', margin: 'auto'}}>
-    {renderListHelper()}
-     <ModalLoading isLoading = {isLoading}></ModalLoading> 
+     {!isLoading? <>{renderListHelper()}</> :<Loading />}
     </Box>
   )
 }

@@ -16,6 +16,7 @@ import { toast } from 'react-toastify'
 import { toBase64 } from '../../../utils/common'
 import Modal from '@mui/material/Modal'
 import { ModalLoading } from '../../../components/Modal/ModalLoading'
+import Loading from '../../../components/Loading/Loading'
 interface Province {
   code: string
   name: string
@@ -265,7 +266,9 @@ const HomeProfiles = () => {
 
   
   const editHome = async (id: string) => {
+    setIsLoading(true);
     const res = await getHouseById({ id })
+    setIsLoading(false);
     const data = res.data.data
     setIdHouse(data.id)
     setIdProvince(data.province.code)
@@ -303,7 +306,7 @@ const HomeProfiles = () => {
       >
         Thêm mới +
       </Button>
-      <ListHomeCard listHouses={listHouse} edit={editHome} remove={removeHome} />
+      {!isLoading ?<ListHomeCard listHouses={listHouse} edit={editHome} remove={removeHome} />:<Loading></Loading>}
       {/* <Modal
         open={open}
         handleClose={() => setOpen(false)}
@@ -447,7 +450,6 @@ const HomeProfiles = () => {
       </Modal>
 
       <Popup open={openPopup} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      <ModalLoading isLoading = {isLoading}></ModalLoading>
     </Box>
   )
 }

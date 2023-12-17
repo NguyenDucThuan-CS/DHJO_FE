@@ -16,6 +16,7 @@ import ScheduleToday from '../ScheduleToday/ScheduleToday'
 
 import { toast } from 'react-toastify'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 export interface IPost {
   id: string
   createdAt: {
@@ -97,9 +98,9 @@ const ActvitiveHelper = () => {
   }
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoading(true)
     getPostHelperAll().then((res) => {
-      setIsLoading(false);
+      setIsLoading(false)
       setListPost(res.data.data.content[0])
       setActivePost(res.data.data.content[0][0].id)
     })
@@ -234,13 +235,13 @@ const ActvitiveHelper = () => {
   }, [tab])
   return (
     <Box>
-      <Grid container spacing={2}>
+      {isLoading ? <Loading />:<Grid container spacing={2}>
         <Grid item md={2}>
           <ScheduleToday />
         </Grid>
 
-        <Grid container md={10} direction={'column'} sx = {{paddingLeft:'20px'}}>
-          <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'} sx = {{paddingTop:'20px'}}>
+        {<Grid container md={10} direction={'column'} sx={{ paddingLeft: '20px' }}>
+          <Stack direction={'row'} mb={2} spacing={2} alignItems={'center'} sx={{ paddingTop: '20px' }}>
             <Button variant={`${tab === 0 ? 'contained' : 'outlined'}`} onClick={() => setTab(0)}>
               Tất cả
             </Button>
@@ -257,41 +258,42 @@ const ActvitiveHelper = () => {
               Đã hoàn thành
             </Button>
           </Stack>
-          <Grid container spacing={2}>
-            <Grid item md={5}>
-              {filterPost(listPost).length === 0 && <Nofind />}
-              <Stack direction={'column'} gap={'10px'}>
-                {filterPost(listPost)?.map((item: any, index: any) => (
-                  <CardPost
-                    key={`${index}${item.id}`}
-                    post={item}
-                    active={item.id === activePost}
-                    onClick={() => setActivePost(item.id)}
-                    CardNote={renderNotePost(item)}
-                  />
-                ))}
-              </Stack>
-            </Grid>
-            {isFromLg && listPost.length && (
-              <Grid item md={7}>
-                <DetailPost
-                  post={listPost.find((item) => item.id === activePost)}
-                  onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
-                  isHideFooter={true}
-                  isHideBtn = {true}
-                />
+          {
+            <Grid container spacing={2}>
+              <Grid item md={5}>
+                {filterPost(listPost).length === 0 && <Nofind />}
+                <Stack direction={'column'} gap={'10px'}>
+                  {filterPost(listPost)?.map((item: any, index: any) => (
+                    <CardPost
+                      key={`${index}${item.id}`}
+                      post={item}
+                      active={item.id === activePost}
+                      onClick={() => setActivePost(item.id)}
+                      CardNote={renderNotePost(item)}
+                    />
+                  ))}
+                </Stack>
               </Grid>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
+              {isFromLg && listPost.length && (
+                <Grid item md={7}>
+                  <DetailPost
+                    post={listPost.find((item) => item.id === activePost)}
+                    onClick={() => handleOnClick(listPost.find((item) => item.id === activePost))}
+                    isHideFooter={true}
+                    isHideBtn={true}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          }
+        </Grid>}
+      </Grid>}
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
       <Modal
         open={openTask}
         handleClose={() => setOpenTask(false)}
         Content={<DetailPost post={mapPost(postForTask as Post)} isHideBtn={true} isHideFooter={true}></DetailPost>}
       />
-      <ModalLoading isLoading = {isLoading} />
     </Box>
   )
 }

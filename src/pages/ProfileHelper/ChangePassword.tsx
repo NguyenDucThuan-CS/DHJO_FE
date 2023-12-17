@@ -9,6 +9,7 @@ import useStyles from './style'
 import { Popup } from '../../components/Popup/Popup'
 import EditIcon from '@mui/icons-material/Edit'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 interface FormData {
   username?: string
   oldPassword?: string
@@ -79,7 +80,7 @@ const ChangePassword = () => {
       {/* <Button variant='outlined' sx={{ marginBottom: '15px' }} onClick={() => setDisabled(false)}>
         Chinh sua
       </Button> */}
-      <form className={classes.form} noValidate onSubmit={onSubmit}>
+      {isLoading ? <Loading />:<form className={classes.form} noValidate onSubmit={onSubmit}>
       <span
           style={{ position: 'absolute', top: '10px', right: '10px' }}
           onClick={() => {
@@ -173,10 +174,10 @@ const ChangePassword = () => {
             </Button>
           </>
         )}
-      </form>
+      </form>}
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      <ModalLoading isLoading = {isLoading}></ModalLoading>
+      {/* <ModalLoading isLoading = {isLoading}></ModalLoading> */}
     </Container>
   )
 }

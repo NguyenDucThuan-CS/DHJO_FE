@@ -13,6 +13,7 @@ import UploadImage from '../../components/ImageUpload/ImageUpload'
 import { updateImgUser } from '../../apis/img.api'
 import { toBase64 } from '../../utils/common'
 import { ModalLoading } from '../../components/Modal/ModalLoading'
+import Loading from '../../components/Loading/Loading'
 
 const PerInfo = () => {
   interface FormData {
@@ -51,22 +52,21 @@ const PerInfo = () => {
   }
 
   const onSubmit = handleSubmit(async (data) => {
-    setLoading(true);
-    Promise.all([
-      updateProfileOwner({ ...data }),
-      updateImgUser({id:null, base64String: await toBase64(img)})
-    ]).then(() => {
-      setOpen(true)
-      setText('Cập nhật thông tin thành công')
-      setLoading(false)
-    })
+    setLoading(true)
+    Promise.all([updateProfileOwner({ ...data }), updateImgUser({ id: null, base64String: await toBase64(img) })]).then(
+      () => {
+        setOpen(true)
+        setText('Cập nhật thông tin thành công')
+        setLoading(false)
+      }
+    )
   })
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     Promise.all([getProfileOwner(), getImg()])
       .then((values) => {
-        setLoading(false);
+        setLoading(false)
         const { data } = values[0].data
         const { data: dataImg } = values[1].data
         if (values[0].data.data) {
@@ -94,66 +94,74 @@ const PerInfo = () => {
 
   return (
     <Container sx={{ width: { xs: '100%', md: '50%' } }}>
-      <form className={classes.form} noValidate onSubmit={onSubmit}>
-        <span
-          style={{ position: 'absolute', top: '10px', right: '10px' }}
-          onClick={() => {
-            setDisabled(false)
-          }}
-        >
-          <EditIcon />
-        </span>
-        <UploadImage handleSetImg={handleSetImg} initImg={initiImg} disabled = {disabled} handleSetInitImg = {handleSetInitImg} />
-        <Input
-          label='Họ tên'
-          error={errors.name?.message ? true : false}
-          helperText={errors.name?.message}
-          disabled={disabled}
-          register={{
-            ...register('name', {
-              required: {
-                value: true,
-                message: 'Họ tên không được để trống'
-              }
-            })
-          }}
-          width = {'60%'}
-        />
-        <Input
-          error={errors.phoneNum?.message ? true : false}
-          helperText={errors.phoneNum?.message}
-          label='Số điện thoại'
-          disabled={disabled}
-          register={{
-            ...register('phoneNum', rules.phone)
-          }}
-          width = {'60%'}
-        />
-        <Input
-          error={errors.identificationNum?.message ? true : false}
-          helperText={errors.identificationNum?.message}
-          label='CCCD'
-          disabled={disabled}
-          register={{
-            ...register('identificationNum', {
-              required: {
-                value: true,
-                message: 'CCCD không được để trống'
-              }
-            })
-          }}
-          width = {'60%'}
-        />
-        {!disabled && (
-          <Button type='submit' variant='outlined'>
-            Cập nhật
-          </Button>
-        )}
-        <ModalLoading isLoading = {loading}/>
-      </form>
+      {!loading ? (
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
+          <span
+            style={{ position: 'absolute', top: '10px', right: '10px' }}
+            onClick={() => {
+              setDisabled(false)
+            }}
+          >
+            <EditIcon />
+          </span>
+          <UploadImage
+            handleSetImg={handleSetImg}
+            initImg={initiImg}
+            disabled={disabled}
+            handleSetInitImg={handleSetInitImg}
+          />
+          <Input
+            label='Họ tên'
+            error={errors.name?.message ? true : false}
+            helperText={errors.name?.message}
+            disabled={disabled}
+            register={{
+              ...register('name', {
+                required: {
+                  value: true,
+                  message: 'Họ tên không được để trống'
+                }
+              })
+            }}
+            width={'60%'}
+          />
+          <Input
+            error={errors.phoneNum?.message ? true : false}
+            helperText={errors.phoneNum?.message}
+            label='Số điện thoại'
+            disabled={disabled}
+            register={{
+              ...register('phoneNum', rules.phone)
+            }}
+            width={'60%'}
+          />
+          <Input
+            error={errors.identificationNum?.message ? true : false}
+            helperText={errors.identificationNum?.message}
+            label='CCCD'
+            disabled={disabled}
+            register={{
+              ...register('identificationNum', {
+                required: {
+                  value: true,
+                  message: 'CCCD không được để trống'
+                }
+              })
+            }}
+            width={'60%'}
+          />
+          {!disabled && (
+            <Button type='submit' variant='outlined'>
+              Cập nhật
+            </Button>
+          )}
+          {/* <ModalLoading isLoading = {loading}/> */}
+        </form>
+      ) : (
+        <Loading></Loading>
+      )}
 
       <Popup open={open} handleAgree={agree} handleDisAgree={disagree} handleClose={close} text={text} />
-      
     </Container>
   )
 }
