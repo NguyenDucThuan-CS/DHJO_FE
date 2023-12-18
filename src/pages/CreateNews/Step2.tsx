@@ -244,7 +244,7 @@ const Step2 = React.forwardRef(function Step2(props, ref) {
       </Grid>
       <Grid item xs={12} sm={6} md={4}>
         <Input
-          label='Đơn giá (vnd/h)'
+          label='Tiền lương (vnd)'
           type='number'
           onChange={(e) => {
             setFee(e.target.value)

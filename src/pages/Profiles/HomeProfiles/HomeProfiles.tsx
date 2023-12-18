@@ -356,7 +356,7 @@ const HomeProfiles = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4}>
                   <Input
-                    label='Diện tích sàn (m2)'
+                    label='Diện tích sử dụng (m2)'
                     value={floorArea}
                     onChange={(e) => {
                       setFloorArea(e.target.value)

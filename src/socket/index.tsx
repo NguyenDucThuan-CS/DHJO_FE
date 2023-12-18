@@ -12,7 +12,7 @@ const Socket: React.FC = () => {
   let stompClient: any = null
 
   function connect(username: string) {
-    let socket = new SockJS('http://localhost:8080/notify')
+    let socket = new SockJS('https://dhjoapi.azurewebsites.net/notify')
     stompClient = over(socket)
     stompClient.connect({ username: username }, function () {
       console.log('Web Socket is connected')
