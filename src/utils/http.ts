@@ -1,12 +1,13 @@
 import axios, { type AxiosInstance } from 'axios'
 import { readCookie } from './cookie'
+import { ENV } from './constants'
 class Http {
   instance: AxiosInstance
   private accessToken: string
   constructor() {
     this.accessToken = readCookie('tokenDHJO')
     this.instance = axios.create({
-      baseURL: 'https://dhjoapi.azurewebsites.net/',
+      baseURL: ENV,
       timeout: 30000,
       headers: {
         'Content-Type': 'application/json',

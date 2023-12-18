@@ -6,13 +6,14 @@ import { getAuthInfo } from '../apis/auth.api'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { doIncreaseNotiNum } from '../redux/slice/notification'
+import { ENV } from '../utils/constants'
 const Socket: React.FC = () => {
 
   const dispatch = useDispatch()
   let stompClient: any = null
 
   function connect(username: string) {
-    let socket = new SockJS('https://dhjoapi.azurewebsites.net/notify')
+    let socket = new SockJS(`${ENV}notify`)
     stompClient = over(socket)
     stompClient.connect({ username: username }, function () {
       console.log('Web Socket is connected')
