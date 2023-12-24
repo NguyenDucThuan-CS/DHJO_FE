@@ -7,7 +7,7 @@ class Http {
     this.accessToken = readCookie('tokenDHJO')
     this.instance = axios.create({
       baseURL: 'https://dhjoapi.azurewebsites.net/',
-      timeout: 30000,
+      timeout: 60000,
       headers: {
         'Content-Type': 'application/json',
       }
